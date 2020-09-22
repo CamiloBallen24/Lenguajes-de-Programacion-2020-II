@@ -13,14 +13,5 @@ public class State {
         this.type_state = type_state;
         this.token_associate = token_associate;
         this.is_valide = is_valide;
-    }
-    
-    
-
-    
-    
-    
-    
-    
-    
+    }  
 }

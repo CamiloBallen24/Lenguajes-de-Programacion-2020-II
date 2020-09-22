@@ -7,28 +7,22 @@ import Lexer.State;
 import Lexer.Connection;
 import java.util.Arrays;
 
-public class BCCGraph {    
-    public State initial_state;
-    public ArrayList<State> states;
-    public ArrayList<Connection> connections;
+public class BCCGraph {
     
+    public static State initial_state;
+    public static ArrayList<State> states;
+    public static ArrayList<Connection> connections;
     
-    
-    
-    public BCCGraph(){
+    static{
         //Lista de estados
-        this.states = new ArrayList<State>();
+        states = new ArrayList<State>();
         
         //Lista de Conexiones
-        this.connections = new ArrayList<Connection>();
-        
+        connections = new ArrayList<Connection>();
         
         //Definiendo el estado inicial
         State state_initial = new State("initial", null, false);
-        this.initial_state =state_initial;
-        
-        
-        
+        initial_state =state_initial;
         
         //Creando estados  - new State(type_state, token_associate, is_valide)
         State state_indefinido_01   =   new State("indefinido_01", null, true);
@@ -63,42 +57,42 @@ public class BCCGraph {
         Connection connection_suma_increment = new Connection(state_suma, state_increment, new Character[]{'+'});
         
         //Anadir todos los estados a la lista
-        this.states.add(state_initial);
-        this.states.add(state_indefinido_01);
-        this.states.add(state_identificador);
-        this.states.add(state_number);
-        this.states.add(state_invalido_01);
-        this.states.add(state_number_decimal);
-        this.states.add(state_suma);
-        this.states.add(state_increment);
+        states.add(state_initial);
+        states.add(state_indefinido_01);
+        states.add(state_identificador);
+        states.add(state_number);
+        states.add(state_invalido_01);
+        states.add(state_number_decimal);
+        states.add(state_suma);
+        states.add(state_increment);
         
         
         //Anadiendo conexiones
-        this.connections.add(connection_initial_initial);
-        this.connections.add(connection_initial_indefinido_01);
-        this.connections.add(connection_initial_number);
-        this.connections.add(connection_initial_suma);
+        connections.add(connection_initial_initial);
+        connections.add(connection_initial_indefinido_01);
+        connections.add(connection_initial_number);
+        connections.add(connection_initial_suma);
         
-        this.connections.add(connection_indefinido_01_indefinido_01);
-        this.connections.add(connection_indefinido_01_identificador);
+        connections.add(connection_indefinido_01_indefinido_01);
+        connections.add(connection_indefinido_01_identificador);
         
-        this.connections.add(connection_identificador_identificador);
+        connections.add(connection_identificador_identificador);
         
-        this.connections.add(connection_number_invalido_01);
-        this.connections.add(connection_number_number);
+        connections.add(connection_number_invalido_01);
+        connections.add(connection_number_number);
         
-        this.connections.add(connection_invalido_01_number_decimal);
+        connections.add(connection_invalido_01_number_decimal);
         
-        this.connections.add(connection_suma_increment);
+        connections.add(connection_suma_increment);
         
-        this.connections.add(connection_number_decimal_number_decimal);
+        connections.add(connection_number_decimal_number_decimal);
     }
     
     
-    public ArrayList<Connection> connectionsByState(State state){
+    public static ArrayList<Connection> connectionsByState(State state){
         ArrayList<Connection> selected_connections = new ArrayList<Connection>();
         
-        for(Connection connection : this.connections) {
+        for(Connection connection : connections) {
             if(connection.origin_state.type_state.equals(state.type_state)){
                 selected_connections.add(connection);
             }
@@ -106,7 +100,5 @@ public class BCCGraph {
         
         return selected_connections;
     }
-    
-    
     
 }

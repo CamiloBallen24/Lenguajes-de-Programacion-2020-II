@@ -17,8 +17,4 @@ public class Connection {
         this.goal_state = goal_state;
         this.chars_options = new ArrayList<>(Arrays.asList(chars_options));;
     }
-
-    
-    
-    
 }

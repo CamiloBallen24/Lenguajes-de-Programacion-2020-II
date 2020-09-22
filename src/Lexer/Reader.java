@@ -25,8 +25,9 @@ public class Reader {
             if(caracter == 13)
                 caracter = fr.read();
             prevChar = (caracter == -1) ? 0 :(char) caracter;
-            column = (prevChar == '\n') ? 0 : column+1;
             line = (prevChar == '\n') ? line+1 : line;
+            column = (prevChar == '\n') ? 0 : column+1;
+            column = (prevChar == '\t') ? column+3 : column;
                 
         } catch (IOException e) {
             System.out.println("Error de lectura del archivo\n"+e.getMessage());
@@ -51,9 +52,7 @@ public class Reader {
             System.out.println("Error de lectura del archivo\n"+e.getMessage());
             }
         }
-        if(prevChar==0)
-            return prevChar;
-        return nextChar();
+        return prevChar;
     }
     
     public void closeFile() {

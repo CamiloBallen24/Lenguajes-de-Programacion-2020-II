@@ -19,8 +19,5 @@ public class BCCProperties {
         
         characters_line_comment = new ArrayList<>();
         characters_line_comment.add('#');
-    }
-    
-    
-    
+    }    
 }
