@@ -1,9 +1,21 @@
 package Lexer;
+import java.util.Random;
 
-/**
- *
- * @author Camilo
- */
+import Lexer.*;
+
 public class main {
-    
+    public static void main(String[] args) {
+        Processor procesador = new Processor();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+    }
 }
