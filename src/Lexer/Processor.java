@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import Lexer.State;
 import Lexer.Token;
 import Lexer.BCCGraph;
+import Lexer.BCCProperties;
 
 public class Processor {
     
@@ -19,7 +20,18 @@ public class Processor {
     public int initial_line;
     public int initial_column;
     
+    public State last_state_valide;
+    public String last_string_valide;
+    
+    public String buffer;
+    
+    public int cursor = 0; 
+    public  String cadena = "BA\n A21++A \t 33.01 #2.1";
+    
+    
+    
     public Processor(){
+        this.buffer = "";
         this.string_read = "";
         this.initial_column = 0;
         this.initial_line = 0;
@@ -30,30 +42,88 @@ public class Processor {
         this.current_state = graph.initial_state;
     }
     
+    
+    
     public String nextToken(){
-        Character current_char = lectorXD();
+        //Reiniciar Cosas
+        this.current_state = this.graph.initial_state;
+        this.string_read = "";
         
-        while(this.nextState(current_char) != null){
-            this.current_state  = nextState(current_char);
-            System.out.println(current_char + " " +current_state.type_state);
+        this.last_state_valide = null;
+        this.last_string_valide = "";
+        
+        
+        //Va leyendo el codigo fuente hasta finalizar el token
+        Character current_character = this.nextChar();
+        
+        while((current_character != null)){
             
-            current_char = lectorXD();
+            
+            this.current_state = nextState(current_character); 
+            
+            //Ignorar comentarios
+            if(BCCProperties.characters_line_comment.contains(current_character)){
+                //Hacer el santo de linea
+                this.saltarLineaFake();
+                
+            }
+            
+            //Ignorar espacio, tabulador, salto de linea y comentario pero contar estado
+            if(!BCCProperties.characters_to_ignore.contains(current_character)){
+                this.string_read = this.string_read + current_character;
+            }
+            
+            
+            
+            if(this.current_state == null){break;}
+            
+            if(this.current_state.is_valide == true){
+                this.last_state_valide = this.current_state;
+                this.last_string_valide = this.string_read;
+            }
+            current_character = this.nextChar();
         }
         
-        System.out.println(current_char + " " + null);
+        
+        //Define si existio algun estado valido (casi siempre el ultimo)
+        if(this.last_state_valide != null){
+            //Generar Token Para ese estado
+            this.generateToken(this.last_state_valide, this.last_string_valide, 0, 0);
+            
+            //Manda lo sobrante al buffer
+            this.buffer = this.string_read.substring(this.last_string_valide.length(), this.string_read.length());
+        }
+        
+        
+        
+        //Reportar error
+        else if (this.current_state == null){
+            this.generateError(this.string_read, 0, 0);
+        }
+        
+        else if(this.current_state.type_state.equals("initial")){
+        
+        }
+        
         
         return null;
     }
     
     
-    
-    
-    public Character lectorXD(){
-        Random r = new Random();
-        String alphabet = "AA11111222222222211AABBC";
-        Character s = alphabet.charAt(r.nextInt(alphabet.length()));
-        return s;
+    public Character nextChar(){
+        if(this.buffer.length() > 0){
+            Character character =  this.buffer.charAt(0);
+            this.buffer = this.buffer.substring(1, this.buffer.length());
+            return character;
+        }
+        else{
+            return lectorNextCharFake();
+        }
     }
+   
+
+    
+
     
     
     
@@ -70,5 +140,34 @@ public class Processor {
     }
     
     
+    public Token generateToken(State token_state, String token_string, int line, int column){
+        System.out.println(token_state.type_state + "  " + token_string);
+        return null;
+    }
+    
+    public void generateError(String error_string, int line, int column){    
+        System.out.println("ERROR" + "  " + error_string);
+    }
+    
+    
+    //COSAS FAKES
+    
+    //Simula el salto de linea
+    public void saltarLineaFake(){
+        this.cursor = 0;
+        this.cadena = "AAAABBABABAED 2.12";
+    }
+    
+    
+    public Character lectorNextCharFake(){
+        try{
+            Character character = this.cadena.charAt(cursor);
+            this.cursor++;
+            return character;
+        } 
+        catch(Exception e){
+            return  null;
+        }
+    }
     
 }
