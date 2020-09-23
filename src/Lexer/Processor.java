@@ -56,8 +56,14 @@ public class Processor {
         Character current_character;
         do{
             current_character = this.nextChar();
-            this.initial_column = reader.column;
+            this.initial_column = reader.column - buffer.length();
             this.initial_line = reader.line;
+            if(BCCProperties.characters_line_comment.contains(current_character)){
+                this.reader.nextLine();
+                current_character = this.nextChar();
+                this.initial_column = reader.column;
+                this.initial_line = reader.line;
+            }
         }while(BCCProperties.characters_to_ignore.contains(current_character));
         
         while((current_character != null)){
@@ -70,7 +76,7 @@ public class Processor {
             }
             
             //Ignorar espacio, tabulador, salto de linea y comentario pero contar estado
-            if(!BCCProperties.characters_to_ignore.contains(current_character)){
+            if(!BCCProperties.characters_to_ignore.contains(current_character) && !BCCProperties.characters_line_comment.contains(current_character)){
                 this.string_read = this.string_read + current_character;
             }
             
