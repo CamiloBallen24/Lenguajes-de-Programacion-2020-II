@@ -17,5 +17,8 @@ public class main {
         procesador.nextToken();
         procesador.nextToken();
         procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
+        procesador.nextToken();
     }
 }
