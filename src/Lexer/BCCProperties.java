@@ -14,6 +14,7 @@ public class BCCProperties {
         characters_to_ignore.add('\n');
         characters_to_ignore.add('\t');
         characters_to_ignore.add(' ');
+        characters_to_ignore.add('#');
         
         
         characters_line_comment = new ArrayList<>();

@@ -59,23 +59,19 @@ public class Processor {
             this.initial_column = reader.column - buffer.length();
             this.initial_line = reader.line;
             if(BCCProperties.characters_line_comment.contains(current_character)) this.reader.nextLine();
-        }while(BCCProperties.characters_to_ignore.contains(current_character) || BCCProperties.characters_line_comment.contains(current_character));
+        }while(BCCProperties.characters_to_ignore.contains(current_character));
+        
+        if(current_character==0){
+            System.out.println("Lectura de archivo finalizada");
+            return null;
+        }
         
         while((current_character != null)){
             
             this.current_state = nextState(current_character); 
+            this.string_read = this.string_read + current_character;   
             
-            //Ignorar comentarios
-            if(BCCProperties.characters_line_comment.contains(current_character)){
-                this.reader.nextLine();
-            }
-            
-            //Ignorar espacio, tabulador, salto de linea y comentario pero contar estado
-            if(!BCCProperties.characters_to_ignore.contains(current_character) && !BCCProperties.characters_line_comment.contains(current_character)){
-                this.string_read = this.string_read + current_character;
-            }
-            
-            if(this.current_state == null){break;}
+            if(this.current_state == null) break;
             
             if(this.current_state.is_valide == true){
                 this.last_state_valide = this.current_state;
