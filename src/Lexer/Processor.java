@@ -58,13 +58,8 @@ public class Processor {
             current_character = this.nextChar();
             this.initial_column = reader.column - buffer.length();
             this.initial_line = reader.line;
-            if(BCCProperties.characters_line_comment.contains(current_character)){
-                this.reader.nextLine();
-                current_character = this.nextChar();
-                this.initial_column = reader.column;
-                this.initial_line = reader.line;
-            }
-        }while(BCCProperties.characters_to_ignore.contains(current_character));
+            if(BCCProperties.characters_line_comment.contains(current_character)) this.reader.nextLine();
+        }while(BCCProperties.characters_to_ignore.contains(current_character) || BCCProperties.characters_line_comment.contains(current_character));
         
         while((current_character != null)){
             
