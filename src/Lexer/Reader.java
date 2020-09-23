@@ -9,7 +9,7 @@ public class Reader {
     public FileReader fr = null;
     public int line = 1;
     public int column = 0;
-    public char prevChar = '\n';
+    public char prevChar = 0;
 
     public Reader(String fileName) {
         try {
@@ -21,13 +21,13 @@ public class Reader {
 
     public char nextChar() {
         try {
+            line = (prevChar == '\n') ? line+1 : line;
+            column = (prevChar == '\n') ? 1 : column+1;
+            column = (prevChar == '\t') ? column+3 : column;
             int caracter = fr.read();
             if(caracter == 13)
                 caracter = fr.read();
             prevChar = (caracter == -1) ? 0 :(char) caracter;
-            line = (prevChar == '\n') ? line+1 : line;
-            column = (prevChar == '\n') ? 0 : column+1;
-            column = (prevChar == '\t') ? column+3 : column;
                 
         } catch (IOException e) {
             System.out.println("Error de lectura del archivo\n"+e.getMessage());
@@ -36,14 +36,12 @@ public class Reader {
     }
 
     public char prevChar() {
-        if(prevChar == '\n')
+        if(prevChar == '\n' || prevChar == 0)
             return nextChar();
         return prevChar;
     }
     
     public char nextLine(){
-        column = 0;
-        line = line+1;
         while(prevChar!='\n' && prevChar!=0){
             try{
                 int caracter = fr.read();

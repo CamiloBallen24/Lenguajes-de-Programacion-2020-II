@@ -61,6 +61,11 @@ public class Processor {
             if(BCCProperties.characters_line_comment.contains(current_character)) this.reader.nextLine();
         }while(BCCProperties.characters_to_ignore.contains(current_character) || BCCProperties.characters_line_comment.contains(current_character));
         
+        if(current_character==0){
+            System.out.println("Lectura de archivo finalizada");
+            return null;
+        }
+        
         while((current_character != null)){
             
             this.current_state = nextState(current_character); 
@@ -91,6 +96,7 @@ public class Processor {
             
             //Manda lo sobrante al buffer
             this.buffer = this.string_read.substring(this.last_string_valide.length());
+            this.buffer = (BCCProperties.characters_to_ignore.contains(current_character) || BCCProperties.characters_line_comment.contains(current_character)) ? this.buffer + current_character : this.buffer ;
         }
         
         //Reportar error
