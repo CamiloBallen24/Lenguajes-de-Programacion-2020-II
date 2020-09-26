@@ -6,8 +6,8 @@ import java.util.Scanner;
 import Lexer.*;
 
 
-public class main {
-    public static void main(String[] args) {
+public class Main {
+    public static void Main(String[] args) {
         
         Scanner entradaEscaner = new Scanner (System.in);
       
