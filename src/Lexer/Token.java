@@ -9,7 +9,7 @@ public class Token {
     public int row;
     public int column;
     
-    ArrayList<String> reservedWords = new ArrayList<String>( Arrays.asList("var", "num", "bool", "while", "when", "print", "end", "function", "if", "true", "false", "do", "return", "for", "input", "unless", "until", "loop", "repeat", "next", "break", "and", "or", "not"));
+    
 
     public Token(State token_state, String lexeme, int row, int column) {
         this.token_state = token_state;
@@ -21,7 +21,7 @@ public class Token {
     @Override
     public String toString() {
         if((token_state.type_state.equals("indefinido_01"))){
-            if(reservedWords.contains(this.lexeme)){
+            if(BCCProperties.reservedWords.contains(this.lexeme)){
                 return String.format("<" + this.lexeme + "," + this.row + "," + this.column + ">");
             }else{
                 return String.format("<" + this.token_state.token_associate + "," + this.lexeme + "," + this.row + "," + this.column + ">");

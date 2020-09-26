@@ -12,8 +12,14 @@ public class BCCGraph {
     public static State initial_state;
     public static ArrayList<State> states;
     public static ArrayList<Connection> connections;
+    public static final Character[] letterList = new Character[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'};
+    public static final Character[] numberList = new Character[]{'0', '1', '2', '3', '4', '5', '7', '8', '9'};
+    public static final Character[] letterNumberList = new Character[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '7', '8', '9'};
     
+
     static{
+        //Constantes
+
         //Lista de estados
         states = new ArrayList<State>();
         
@@ -63,51 +69,51 @@ public class BCCGraph {
                
         //Creando conexiones - new Connection(initial_state, initial_state, chars_options)
         
-        Connection connection_initial_initial              = new Connection(initial_state, initial_state, new Character[]{' ', '#', '\n', '\t'});
-        Connection connection_initial_indefinido_01        = new Connection(state_initial, state_indefinido_01, new Character[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'});
-        Connection connection_initial_number               = new Connection(state_initial, state_number, new Character[]{'0', '1', '2', '3', '4', '5', '7', '8', '9'});
-        Connection connection_initial_left_square_bracket  = new Connection(state_initial, state_left_square_bracket, new Character[]{'{'});
-        Connection connection_initial_right_square_bracket = new Connection(state_initial, state_right_square_bracket, new Character[]{'}'});
-        Connection connection_initial_left_bracket         = new Connection(state_initial, state_left_bracket, new Character[]{'('});
+        Connection connection_initial_initial               = new Connection(initial_state, initial_state, new Character[]{' ', '#', '\n', '\t'});
+        Connection connection_initial_indefinido_01         = new Connection(state_initial, state_indefinido_01, letterList);
+        Connection connection_initial_number                = new Connection(state_initial, state_number, numberList);
+        Connection connection_initial_left_square_bracket   = new Connection(state_initial, state_left_square_bracket, new Character[]{'{'});
+        Connection connection_initial_right_square_bracket  = new Connection(state_initial, state_right_square_bracket, new Character[]{'}'});
+        Connection connection_initial_left_bracket          = new Connection(state_initial, state_left_bracket, new Character[]{'('});
         Connection connection_initial_right_bracket         = new Connection(state_initial, state_right_bracket, new Character[]{')'});
         Connection connection_initial_comma                 = new Connection(state_initial, state_comma, new Character[]{','});
-        Connection connection_semicolon                 = new Connection(state_initial, state_semicolon, new Character[]{';'});
-        Connection connection_initial_invalido_02                 = new Connection(state_initial, state_invalido_02, new Character[]{'@'});
-        Connection connection_initial_invalido_03                 = new Connection(state_initial, state_invalido_03, new Character[]{'='});
-        Connection connection_initial_invalido_04                 = new Connection(state_initial, state_invalido_04, new Character[]{'!'});
+        Connection connection_semicolon                     = new Connection(state_initial, state_semicolon, new Character[]{';'});
+        Connection connection_initial_invalido_02           = new Connection(state_initial, state_invalido_02, new Character[]{'@'});
+        Connection connection_initial_invalido_03           = new Connection(state_initial, state_invalido_03, new Character[]{'='});
+        Connection connection_initial_invalido_04           = new Connection(state_initial, state_invalido_04, new Character[]{'!'});
         Connection connection_initial_menor                 = new Connection(state_initial, state_menor, new Character[]{'<'});
-        Connection connection_menor_menor_igual            = new Connection(state_menor, state_menor_igual, new Character[]{'='});
+        Connection connection_menor_menor_igual             = new Connection(state_menor, state_menor_igual, new Character[]{'='});
         Connection connection_initial_mayor                 = new Connection(state_initial, state_mayor, new Character[]{'>'});
-        Connection connection_mayor_mayor_igual            = new Connection(state_mayor, state_mayor_igual, new Character[]{'='});
-        Connection connection_initial_mas                 = new Connection(state_initial, state_mas, new Character[]{'+'});
+        Connection connection_mayor_mayor_igual             = new Connection(state_mayor, state_mayor_igual, new Character[]{'='});
+        Connection connection_initial_mas                   = new Connection(state_initial, state_mas, new Character[]{'+'});
         Connection connection_initial_menos                 = new Connection(state_initial, state_menos, new Character[]{'-'});
-        Connection connection_initial_dos_puntos                 = new Connection(state_initial, state_dos_puntos, new Character[]{':'});
-        Connection connection_initial_multiplicacion                 = new Connection(state_initial, state_multiplicacion, new Character[]{'*'});
-        Connection connection_multiplicacion_mul_asignacion                 = new Connection(state_multiplicacion, state_mul_asignacion, new Character[]{'='});
-        Connection connection_initial_division                 = new Connection(state_initial, state_division, new Character[]{'/'});
-        Connection connection_division_div_asignacion                 = new Connection(state_division, state_div_asignacion, new Character[]{'='});
-        Connection connection_initial_modulo                 = new Connection(state_initial, state_modulo, new Character[]{'%'});
-        Connection connection_modulo_mod_asignacion                 = new Connection(state_modulo, state_mod_asignacion, new Character[]{'='});
+        Connection connection_initial_dos_puntos            = new Connection(state_initial, state_dos_puntos, new Character[]{':'});
+        Connection connection_initial_multiplicacion        = new Connection(state_initial, state_multiplicacion, new Character[]{'*'});
+        Connection connection_multiplicacion_mul_asignacion = new Connection(state_multiplicacion, state_mul_asignacion, new Character[]{'='});
+        Connection connection_initial_division              = new Connection(state_initial, state_division, new Character[]{'/'});
+        Connection connection_division_div_asignacion       = new Connection(state_division, state_div_asignacion, new Character[]{'='});
+        Connection connection_initial_modulo                = new Connection(state_initial, state_modulo, new Character[]{'%'});
+        Connection connection_modulo_mod_asignacion         = new Connection(state_modulo, state_mod_asignacion, new Character[]{'='});
 
-        Connection connection_indefinido_01_indefinido_01  = new Connection(state_indefinido_01, state_indefinido_01, new Character[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'});
-        Connection connection_indefinido_01_identificador  = new Connection(state_indefinido_01, state_identificador_num, new Character[]{'0', '1', '2', '3', '4', '5', '7', '8', '9'});
+        Connection connection_indefinido_01_indefinido_01  = new Connection(state_indefinido_01, state_indefinido_01, letterList);
+        Connection connection_indefinido_01_identificador  = new Connection(state_indefinido_01, state_identificador_num, numberList);
         
-        Connection connection_identificador_num_identificador_num = new Connection(state_identificador_num, state_identificador_num, new Character[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '7', '8', '9' });
+        Connection connection_identificador_num_identificador_num = new Connection(state_identificador_num, state_identificador_num, letterNumberList);
         
-        Connection connection_number_number         = new Connection(state_number, state_number, new Character[]{'0', '1', '2', '3', '4', '5', '7', '8', '9'});
+        Connection connection_number_number         = new Connection(state_number, state_number, numberList);
         Connection connection_number_invalido_01    = new Connection(state_number, state_invalido_01 , new Character[]{'.'});
         
-        Connection connection_invalido_01_number_decimal = new Connection(state_invalido_01, state_number_decimal, new Character[]{'0', '1', '2', '3', '4', '5', '7', '8', '9'});
+        Connection connection_invalido_01_number_decimal = new Connection(state_invalido_01, state_number_decimal, numberList);
         
-        Connection connection_invalido_02_function = new Connection(state_invalido_02, state_function, new Character[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'});
+        Connection connection_invalido_02_function = new Connection(state_invalido_02, state_function, letterList);
 
         Connection connection_invalido_03_igualdad = new Connection(state_invalido_03, state_igualdad, new Character[]{'='});
 
         Connection connection_invalido_04_diferente = new Connection(state_invalido_04, state_diferente, new Character[]{'='});
 
-        Connection connection_number_decimal_number_decimal = new Connection(state_number_decimal, state_number_decimal, new Character[]{'0', '1', '2', '3', '4', '5', '7', '8', '9'});
+        Connection connection_number_decimal_number_decimal = new Connection(state_number_decimal, state_number_decimal, numberList);
         
-        Connection connection_function_function = new Connection(state_function, state_function, new Character[]{'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '7', '8', '9' });
+        Connection connection_function_function = new Connection(state_function, state_function, letterNumberList);
 
         Connection connection_mas_sum_asignacion = new Connection(state_mas, state_sum_asignacion, new Character[]{'='});
         Connection connection_mas_increment = new Connection(state_mas, state_incremento, new Character[]{'+'});
