@@ -62,7 +62,6 @@ public class Processor {
         }while(BCCProperties.characters_to_ignore.contains(current_character));
         
         if(current_character==0){
-            this.generateTokenReport();
             System.out.println("Lectura de archivo finalizada");
             return null;
         }
@@ -124,12 +123,11 @@ public class Processor {
     
     public Token generateToken(State token_state, String token_string, int line, int column){
         this.tokens.add(new Token(token_state, token_string, line, column));
-        return null;
+        return new Token(token_state, token_string, line, column);
     }
     
     public void generateError(String error_string, int line, int column){
         Error error = new Error(error_string, line, column);
-        this.generateTokenReport();
         System.out.println(error.toString());
     }
 
