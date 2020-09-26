@@ -2,7 +2,9 @@ package Lexer;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import Lexer.*;
+
 
 public class main {
     public static void main(String[] args) {
