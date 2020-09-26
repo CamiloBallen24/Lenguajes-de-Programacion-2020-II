@@ -62,6 +62,7 @@ public class Processor {
         }while(BCCProperties.characters_to_ignore.contains(current_character));
         
         if(current_character==0){
+            this.generateTokenReport();
             System.out.println("Lectura de archivo finalizada");
             return null;
         }
@@ -91,7 +92,7 @@ public class Processor {
         
         //Reportar error
         else if (this.current_state == null){
-            this.generateError(this.string_read, this.initial_line, this.initial_column);
+            this.generateError("Error léxico", this.initial_line, this.initial_column);
         }
         
         else if(this.current_state.type_state.equals("initial")){
@@ -122,11 +123,17 @@ public class Processor {
     }
     
     public Token generateToken(State token_state, String token_string, int line, int column){
-        System.out.println(token_state.type_state + "  " + token_string+"\nLine: "+line+"   Column: "+column);
+        this.tokens.add(new Token(token_state, token_string, line, column));
         return null;
     }
     
     public void generateError(String error_string, int line, int column){
-        System.out.println("ERROR " + error_string + "\nIn line: "+line+"\nIn column: "+column);
+        Error error = new Error(error_string, line, column);
+        this.generateTokenReport();
+        System.out.println(error.toString());
+    }
+
+    public void generateTokenReport(){
+        this.tokens.forEach(x -> System.out.println(x));
     }
 }
