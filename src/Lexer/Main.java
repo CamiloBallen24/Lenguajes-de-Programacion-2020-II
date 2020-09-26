@@ -3,11 +3,10 @@ package Lexer;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
-import Lexer.*;
 
 
 public class Main {
-    public static void Main(String[] args) {
+    public static void main(String[] args) {
         
         Scanner entradaEscaner = new Scanner (System.in);
       
