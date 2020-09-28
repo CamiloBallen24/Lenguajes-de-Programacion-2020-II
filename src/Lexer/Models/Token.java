@@ -1,5 +1,6 @@
-package Lexer;
+package Lexer.Models;
 
+import Lexer.BCC.BCCProperties;
 import java.util.ArrayList;
 import java.util.Arrays;
 

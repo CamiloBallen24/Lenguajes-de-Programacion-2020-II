@@ -1,7 +1,6 @@
-package Lexer;
+package Lexer.Models;
 
 import java.util.ArrayList; 
-import Lexer.Connection;
 
 
 public class State {

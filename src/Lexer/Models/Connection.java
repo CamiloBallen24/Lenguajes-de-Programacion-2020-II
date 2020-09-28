@@ -1,10 +1,10 @@
-package Lexer;
+package Lexer.Models;
 
 import java.util.ArrayList; 
 
 import java.util.ArrayList; 
-import Lexer.Connection;
-import Lexer.State;
+import Lexer.Models.Connection;
+import Lexer.Models.State;
 import java.util.Arrays;
 
 public class Connection {
