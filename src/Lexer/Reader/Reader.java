@@ -1,4 +1,4 @@
-package Lexer;
+package Lexer.Reader;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;

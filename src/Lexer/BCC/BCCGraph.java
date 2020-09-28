@@ -1,10 +1,12 @@
-package Lexer;
+package Lexer.BCC;
 import java.util.HashMap;
 import java.util.ArrayList; 
 
-import Lexer.State;
+import Lexer.Models.State;
 
-import Lexer.Connection;
+import Lexer.Models.Connection;
+import Lexer.Models.Connection;
+import Lexer.Models.State;
 import java.util.Arrays;
 
 public class BCCGraph {
@@ -27,41 +29,41 @@ public class BCCGraph {
         initial_state = state_initial;
         
         //Creando estados  - new State(type_state, token_associate, is_valide)
-        State state_indefinido_01        =   new State("indefinido_01", "id", true, false);
-        State state_identificador_num    =   new State("identificador", "id", true, false);
-        State state_number               =   new State("number", "tk_num", true, true);
-        State state_number_decimal       =   new State("number_decimal", "tk_num", true, true);
-        State state_invalido_01          =   new State("invalido_01", null, false, false);
-        State state_left_square_bracket  =   new State("left_square_bracket", "tk_llave_izq", true, false);
-        State state_right_square_bracket =   new State("right_square_bracket", "tk_llave_der", true, false);
-        State state_left_bracket =   new State("left_bracket", "tk_par_izq", true, false);
-        State state_right_bracket =   new State("right_bracket", "tk_par_der", true, false);
-        State state_comma =   new State("comma", "tk_coma", true, false);
-        State state_semicolon =   new State("semicolon", "tk_puntoycoma", true, false);
-        State state_invalido_02          =   new State("invalido_02", null, false, false);
-        State state_function          =   new State("function", "fid", true, true);
-        State state_invalido_03          =   new State("invalido_03", null, false, false);
-        State state_igualdad                 =   new State("igualdad", "tk_igualdad", true, false);
-        State state_invalido_04          =   new State("invalido_04", null, false, false);
-        State state_diferente                 =   new State("diferente", "tk_diferente", true, false);
-        State state_menor                 =   new State("menor", "tk_menor", true, false);
-        State state_menor_igual                 =   new State("menor_igual", "tk_menor_igual", true, false);
-        State state_mayor                 =   new State("mayor", "tk_mayor", true, false);
-        State state_mayor_igual                 =   new State("mayor_igual", "tk_mayor_igual", true, false);
-        State state_mas                 =   new State("mas", "tk_mas", true, false);
-        State state_sum_asignacion                 =   new State("sum_asignacion", "tk_sum_asig", true, false);
-        State state_incremento            =   new State("incremento", "tk_incremento", true, false);
-        State state_menos                 =   new State("menos", "tk_menos", true, false);
-        State state_decremento            =   new State("decremento", "tk_decremento", true, false);
-        State state_res_asignacion                 =   new State("res_asignacion", "tk_res_asig", true, false);
-        State state_dos_puntos          = new State("dos_puntos", "tk_dospuntos", true, false);
-        State state_asignacion          = new State("asignacion", "tk_asignacion", true, false);
-        State state_multiplicacion          = new State("multiplicacion", "tk_mul", true, false);
-        State state_mul_asignacion          = new State("mul_asignacion", "tk_mul_asig", true, false);
-        State state_division          = new State("division", "tk_div", true, false);
-        State state_div_asignacion          = new State("div_asignacion", "tk_div_asig", true, false);
-        State state_modulo          = new State("modulo", "tk_mod", true, false);
-        State state_mod_asignacion          = new State("mod_asignacion", "tk_mod_asig", true, false);
+        State state_indefinido_01           =   new State("indefinido_01", "id", true, false);
+        State state_identificador_num       =   new State("identificador", "id", true, true);
+        State state_number                  =   new State("number", "tk_num", true, true);
+        State state_number_decimal          =   new State("number_decimal", "tk_num", true, true);
+        State state_invalido_01             =   new State("invalido_01", null, false, false);
+        State state_left_square_bracket     =   new State("left_square_bracket", "tk_llave_izq", true, false);
+        State state_right_square_bracket    =   new State("right_square_bracket", "tk_llave_der", true, false);
+        State state_left_bracket            =   new State("left_bracket", "tk_par_izq", true, false);
+        State state_right_bracket           =   new State("right_bracket", "tk_par_der", true, false);
+        State state_comma                   =   new State("comma", "tk_coma", true, false);
+        State state_semicolon               =   new State("semicolon", "tk_puntoycoma", true, false);
+        State state_invalido_02             =   new State("invalido_02", null, false, false);
+        State state_function                =   new State("function", "fid", true, true);
+        State state_invalido_03             =   new State("invalido_03", null, false, false);
+        State state_igualdad                =   new State("igualdad", "tk_igualdad", true, false);
+        State state_invalido_04             =   new State("invalido_04", null, false, false);
+        State state_diferente               =   new State("diferente", "tk_diferente", true, false);
+        State state_menor                   =   new State("menor", "tk_menor", true, false);
+        State state_menor_igual             =   new State("menor_igual", "tk_menor_igual", true, false);
+        State state_mayor                   =   new State("mayor", "tk_mayor", true, false);
+        State state_mayor_igual             =   new State("mayor_igual", "tk_mayor_igual", true, false);
+        State state_mas                     =   new State("mas", "tk_mas", true, false);
+        State state_sum_asignacion          =   new State("sum_asignacion", "tk_sum_asig", true, false);
+        State state_incremento              =   new State("incremento", "tk_incremento", true, false);
+        State state_menos                   =   new State("menos", "tk_menos", true, false);
+        State state_decremento              =   new State("decremento", "tk_decremento", true, false);
+        State state_res_asignacion          =   new State("res_asignacion", "tk_res_asig", true, false);
+        State state_dos_puntos              =   new State("dos_puntos", "tk_dospuntos", true, false);
+        State state_asignacion              =   new State("asignacion", "tk_asignacion", true, false);
+        State state_multiplicacion          =   new State("multiplicacion", "tk_mul", true, false);
+        State state_mul_asignacion          =   new State("mul_asignacion", "tk_mul_asig", true, false);
+        State state_division                =   new State("division", "tk_div", true, false);
+        State state_div_asignacion          =   new State("div_asignacion", "tk_div_asig", true, false);
+        State state_modulo                  =   new State("modulo", "tk_mod", true, false);
+        State state_mod_asignacion          =   new State("mod_asignacion", "tk_mod_asig", true, false);
                
         //Creando conexiones - new Connection(initial_state, initial_state, chars_options)
         

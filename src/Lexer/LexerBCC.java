@@ -1,14 +1,19 @@
 package Lexer;
 
+import Lexer.Communication.LexerResponse;
+import Lexer.Models.Connection;
+import Lexer.Models.Error;
+import Lexer.Reader.Reader;
+
 import java.util.ArrayList; 
- import java.util.Random;
+import java.util.Random;
 
-import Lexer.State;
-import Lexer.Token;
-import Lexer.BCCGraph;
-import Lexer.BCCProperties;
+import Lexer.Models.State;
+import Lexer.Models.Token;
+import Lexer.BCC.BCCGraph;
+import Lexer.BCC.BCCProperties;
 
-public class Processor {
+public class LexerBCC {
     
     public ArrayList<Token> tokens;
     
@@ -25,11 +30,12 @@ public class Processor {
     
     public String buffer;
     
-    public int cursor = 0; 
-    public  String cadena = "BA\n A21++A \t 33.01 #2.1";
+    public Boolean is_active;
     
     
-    public Processor(String fileName){
+    
+    
+    public LexerBCC(String fileName){
         this.reader = new Reader(fileName);
         
         this.buffer = "";
@@ -41,9 +47,15 @@ public class Processor {
         
         this.graph = new BCCGraph();
         this.current_state = BCCGraph.initial_state;
+        
+        this.is_active = Boolean.TRUE;
     }
     
-    public String nextToken(){
+    public LexerResponse nextToken(){
+        if(!this.is_active){
+            return  new LexerResponse("lexer_end");
+        }
+        
         //Reiniciar Cosas
         this.current_state = BCCGraph.initial_state;
         this.string_read = "";
@@ -61,9 +73,10 @@ public class Processor {
             if(BCCProperties.characters_line_comment.contains(current_character)) this.reader.nextLine();
         }while(BCCProperties.characters_to_ignore.contains(current_character));
         
+        
         if(current_character==0){
-            System.out.println("Lectura de archivo finalizada");
-            return null;
+            this.is_active = Boolean.FALSE;
+            return  new LexerResponse("file_end");
         }
         
         while((current_character != null)){
@@ -83,32 +96,29 @@ public class Processor {
         //Define si existio algun estado valido (casi siempre el ultimo)
         if(this.last_state_valide != null){
             //Generar Token Para ese estado
-            this.generateToken(this.last_state_valide, this.last_string_valide, this.initial_line, this.initial_column);
+            Token token = this.generateToken(this.last_state_valide, this.last_string_valide, this.initial_line, this.initial_column);
             
             //Manda lo sobrante al buffer
             this.buffer = this.string_read.substring(this.last_string_valide.length());
+            
+            return new LexerResponse(token);
         }
         
         //Reportar error
         else if (this.current_state == null){
-            this.generateError("Error léxico", this.initial_line, this.initial_column);
+            this.is_active = Boolean.FALSE;
+            Error error = this.generateError("Error léxico", this.initial_line, this.initial_column);
+            return new LexerResponse(error);
         }
         
         else if(this.current_state.type_state.equals("initial")){
         
         }
-        return null;
+        this.is_active = Boolean.FALSE;
+        return new LexerResponse("other_case");
     }
     
-    public Character nextChar(){
-        if(this.buffer.length() > 0){
-            Character character =  this.buffer.charAt(0);
-            this.buffer = this.buffer.substring(1);
-            return character;
-        }else{
-            return reader.nextChar();
-        }
-    }
+
     
     public State nextState(Character character){
         ArrayList<Connection> connections_current_state = BCCGraph.connectionsByState(this.current_state);
@@ -121,17 +131,29 @@ public class Processor {
         return null;
     }
     
+    public Character nextChar(){
+        if(this.buffer.length() > 0){
+            Character character =  this.buffer.charAt(0);
+            this.buffer = this.buffer.substring(1);
+            return character;
+        }else{
+            return reader.nextChar();
+        }
+    }
     public Token generateToken(State token_state, String token_string, int line, int column){
         this.tokens.add(new Token(token_state, token_string, line, column));
         return new Token(token_state, token_string, line, column);
     }
     
-    public void generateError(String error_string, int line, int column){
+    public Error generateError(String error_string, int line, int column){
         Error error = new Error(error_string, line, column);
-        System.out.println(error.toString());
+        return error;
     }
 
     public void generateTokenReport(){
         this.tokens.forEach(x -> System.out.println(x));
     }
+
+
+    
 }

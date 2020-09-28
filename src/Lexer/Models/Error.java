@@ -1,4 +1,4 @@
-package Lexer;
+package Lexer.Models;
 
 public class Error {
     public String error_type;
