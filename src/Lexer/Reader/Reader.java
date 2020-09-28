@@ -4,6 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
+
 public class Reader {
 
     public FileReader fr = null;

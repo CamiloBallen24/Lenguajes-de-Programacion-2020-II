@@ -11,6 +11,13 @@ import java.io.IOException;
 import java.util.Scanner;
 
 
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
+
 public class Main {
     public static void main(String[] args) {
         
