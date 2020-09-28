@@ -2,10 +2,19 @@ package Lexer.Models;
 
 import java.util.ArrayList; 
 
+
+
 import java.util.ArrayList; 
 import Lexer.Models.Connection;
 import Lexer.Models.State;
 import java.util.Arrays;
+
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
 
 public class Connection {
     public State origin_state;

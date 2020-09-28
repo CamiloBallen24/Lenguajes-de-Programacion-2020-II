@@ -4,6 +4,13 @@ import Lexer.BCC.BCCProperties;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
+
 public class Token {
     public State token_state;
     public String lexeme;

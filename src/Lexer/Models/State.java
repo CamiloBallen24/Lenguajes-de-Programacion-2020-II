@@ -3,6 +3,13 @@ package Lexer.Models;
 import java.util.ArrayList; 
 
 
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
+
 public class State {
     public String type_state;
     public String token_associate;
