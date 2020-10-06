@@ -1,0 +1,20 @@
+#Estados
+initial null false false
+number number true true
+punto null false false
+number_decimal number true true
+
+
+
+#Conexiones
+initial number numbers
+number number numbers
+number punto punto
+punto number_decimal numbers
+number_decimal number_decimal numbers
+
+
+
+#Referencias
+numbers:1,2,3,4,5,6,7,8,9
+punto:.

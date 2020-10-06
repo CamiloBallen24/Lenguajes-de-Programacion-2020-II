@@ -3,7 +3,7 @@ package Lexer;
 import Lexer.Communication.LexerResponse;
 import Lexer.Models.Connection;
 import Lexer.Models.Error;
-import Lexer.Reader.Reader;
+import Lexer.Reader.SourceCodeReader;
 
 import java.util.ArrayList; 
 import java.util.Random;
@@ -17,7 +17,7 @@ public class LexerBCC {
     
     public ArrayList<Token> tokens;
     
-    public Reader reader;
+    public SourceCodeReader reader;
     public State current_state;
     public BCCGraph graph;
     
@@ -36,7 +36,7 @@ public class LexerBCC {
     
     
     public LexerBCC(String fileName){
-        this.reader = new Reader(fileName);
+        this.reader = new SourceCodeReader(fileName);
         
         this.buffer = "";
         this.string_read = "";
