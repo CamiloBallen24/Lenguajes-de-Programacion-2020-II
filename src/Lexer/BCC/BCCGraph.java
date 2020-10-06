@@ -45,7 +45,7 @@ public class BCCGraph {
         HashMap<String, State> states_aux = new HashMap<>(); 
         
         //Creando Estados
-        for (String[] data_state : graphReader.estados) {
+        for (String[] data_state : graphReader.getEstados()) {
             String type_state       = data_state[0];
             String token_associate  = (data_state[1].equals("null"))? null : data_state[1];
             boolean is_valide       = (data_state[2].equals("true"))? true : false;
@@ -62,10 +62,10 @@ public class BCCGraph {
         
         
         //Creando conexiones - new Connection(initial_state, initial_state, chars_options)
-        for (String[] data_connection : graphReader.conexiones) {
+        for (String[] data_connection : graphReader.getConexiones()) {
             String actual_state                 = data_connection[0];
             String goal_state                   = data_connection[1];
-            ArrayList<Character> char_options   = graphReader.referencias.get(data_connection[2]);
+            ArrayList<Character> char_options   = graphReader.getReferencias().get(data_connection[2]);
             
             Connection connection = new Connection(states_aux.get(actual_state), 
                                                    states_aux.get(goal_state), 

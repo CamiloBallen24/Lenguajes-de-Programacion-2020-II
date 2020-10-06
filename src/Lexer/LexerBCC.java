@@ -70,8 +70,8 @@ public class LexerBCC {
             current_character = this.nextChar();
             this.initial_column = reader.getColumn() - buffer.length();
             this.initial_line = reader.getLine();
-            if(BCCProperties.characters_line_comment.contains(current_character)) this.reader.nextLine();
-        }while(BCCProperties.characters_to_ignore.contains(current_character));
+            if(BCCProperties.getCharactersLineComment().contains(current_character)) this.reader.nextLine();
+        }while(BCCProperties.getCharactersToIgnore().contains(current_character));
         
         
         if(current_character==0){

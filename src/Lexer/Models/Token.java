@@ -29,7 +29,7 @@ public class Token {
     @Override
     public String toString() {
         if((token_state.getTypeState().equals("indefinido_01"))){
-            if(BCCProperties.reservedWords.contains(this.lexeme)){
+            if(BCCProperties.getReserverWords().contains(this.lexeme)){
                 return String.format("<" + this.lexeme + "," + this.row + "," + this.column + ">");
             }else{
                 return String.format("<" + this.token_state.getTokenAssociate() + "," + this.lexeme + "," + this.row + "," + this.column + ">");
