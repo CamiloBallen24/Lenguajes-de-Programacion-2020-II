@@ -11,10 +11,10 @@ import java.util.ArrayList;
 */
 
 public class State {
-    public String type_state;
-    public String token_associate;
-    public Boolean is_valide;
-    public Boolean use_lexeme;
+    private String type_state;
+    private String token_associate;
+    private Boolean is_valide;
+    private Boolean use_lexeme;
 
     public State(String type_state, String token_associate, Boolean is_valide, Boolean use_lexeme) {
         this.type_state = type_state;
@@ -22,4 +22,20 @@ public class State {
         this.is_valide = is_valide;
         this.use_lexeme = use_lexeme;
     }  
+
+    public String getTypeState(){
+        return type_state;
+    }
+
+    public String getTokenAssociate(){
+        return token_associate;
+    }
+
+    public Boolean getIsValide(){
+        return is_valide;
+    }
+
+    public Boolean getUseLexeme(){
+        return use_lexeme;
+    }
 }

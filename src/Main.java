@@ -1,5 +1,3 @@
-
-
 import Lexer.*;
 import Lexer.Communication.LexerResponse;
 
@@ -42,12 +40,12 @@ public class Main {
         LexerBCC procesador = new LexerBCC("src/codigo.txt");
         LexerResponse response = procesador.nextToken();
         
-        while(response.type_response.equals("token")){
-            System.out.println(response.token.toString());
+        while(response.getTypeResponse().equals("token")){
+            System.out.println(response.getToken().toString());
             response = procesador.nextToken();
         }
-        if(response.type_response.equals("error")){
-            System.out.println(response.error.toString());
+        if(response.getTypeResponse().equals("error")){
+            System.out.println(response.getError().toString());
         }
         
         

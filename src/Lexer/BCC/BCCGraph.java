@@ -18,9 +18,9 @@ import java.util.Arrays;
 
 public class BCCGraph {
     
-    public static State initial_state;
-    public static ArrayList<State> states;
-    public static ArrayList<Connection> connections;
+    private static State initial_state;
+    private static ArrayList<State> states;
+    private static ArrayList<Connection> connections;
 
     static{
         //Constantes
@@ -227,12 +227,23 @@ public class BCCGraph {
         connections.add(connection_modulo_mod_asignacion);
     }
     
+    public static State getInitialState(){
+        return initial_state;
+    }
+
+    public static ArrayList<State> getStates(){
+        return states;
+    }
+
+    public static ArrayList<Connection> getConnections(){
+        return connections;
+    }
     
     public static ArrayList<Connection> connectionsByState(State state){
         ArrayList<Connection> selected_connections = new ArrayList<Connection>();
         
         for(Connection connection : connections) {
-            if(connection.origin_state.type_state.equals(state.type_state)){
+            if(connection.getOriginState().getTypeState().equals(state.getTypeState())){
                 selected_connections.add(connection);
             }
         }

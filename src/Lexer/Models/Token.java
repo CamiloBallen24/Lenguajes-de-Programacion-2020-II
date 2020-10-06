@@ -12,10 +12,10 @@ import java.util.Arrays;
 */
 
 public class Token {
-    public State token_state;
-    public String lexeme;
-    public int row;
-    public int column;
+    private State token_state;
+    private String lexeme;
+    private int row;
+    private int column;
     
     
 
@@ -28,18 +28,18 @@ public class Token {
 
     @Override
     public String toString() {
-        if((token_state.type_state.equals("indefinido_01"))){
+        if((token_state.getTypeState().equals("indefinido_01"))){
             if(BCCProperties.reservedWords.contains(this.lexeme)){
                 return String.format("<" + this.lexeme + "," + this.row + "," + this.column + ">");
             }else{
-                return String.format("<" + this.token_state.token_associate + "," + this.lexeme + "," + this.row + "," + this.column + ">");
+                return String.format("<" + this.token_state.getTokenAssociate() + "," + this.lexeme + "," + this.row + "," + this.column + ">");
             }
         }
         
-        if(this.token_state.use_lexeme){
-            return String.format("<" + this.token_state.token_associate + "," + this.lexeme + "," + this.row + "," + this.column + ">"); 
+        if(this.token_state.getUseLexeme()){
+            return String.format("<" + this.token_state.getTokenAssociate() + "," + this.lexeme + "," + this.row + "," + this.column + ">"); 
         }else{
-            return String.format("<" + this.token_state.token_associate + "," + this.row + "," + this.column + ">");
+            return String.format("<" + this.token_state.getTokenAssociate() + "," + this.row + "," + this.column + ">");
         }
         
     } 

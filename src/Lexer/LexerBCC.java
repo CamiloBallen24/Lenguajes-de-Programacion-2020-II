@@ -15,22 +15,22 @@ import Lexer.BCC.BCCProperties;
 
 public class LexerBCC {
     
-    public ArrayList<Token> tokens;
+    private ArrayList<Token> tokens;
     
-    public Reader reader;
-    public State current_state;
-    public BCCGraph graph;
+    private Reader reader;
+    private State current_state;
+    private BCCGraph graph;
     
-    public String string_read;
-    public int initial_line;
-    public int initial_column;
+    private String string_read;
+    private int initial_line;
+    private int initial_column;
     
-    public State last_state_valide;
-    public String last_string_valide;
+    private State last_state_valide;
+    private String last_string_valide;
     
-    public String buffer;
+    private String buffer;
     
-    public Boolean is_active;
+    private Boolean is_active;
     
     
     
@@ -46,7 +46,7 @@ public class LexerBCC {
         this.tokens = new ArrayList<>();
         
         this.graph = new BCCGraph();
-        this.current_state = BCCGraph.initial_state;
+        this.current_state = BCCGraph.getInitialState();
         
         this.is_active = Boolean.TRUE;
     }
@@ -57,7 +57,7 @@ public class LexerBCC {
         }
         
         //Reiniciar Cosas
-        this.current_state = BCCGraph.initial_state;
+        this.current_state = BCCGraph.getInitialState();
         this.string_read = "";
         
         this.last_state_valide = null;
@@ -68,8 +68,8 @@ public class LexerBCC {
         Character current_character;
         do{
             current_character = this.nextChar();
-            this.initial_column = reader.column - buffer.length();
-            this.initial_line = reader.line;
+            this.initial_column = reader.getColumn() - buffer.length();
+            this.initial_line = reader.getLine();
             if(BCCProperties.characters_line_comment.contains(current_character)) this.reader.nextLine();
         }while(BCCProperties.characters_to_ignore.contains(current_character));
         
@@ -86,7 +86,7 @@ public class LexerBCC {
             
             if(this.current_state == null) break;
             
-            if(this.current_state.is_valide == true){
+            if(this.current_state.getIsValide() == true){
                 this.last_state_valide = this.current_state;
                 this.last_string_valide = this.string_read;
             }
@@ -111,7 +111,7 @@ public class LexerBCC {
             return new LexerResponse(error);
         }
         
-        else if(this.current_state.type_state.equals("initial")){
+        else if(this.current_state.getTypeState().equals("initial")){
         
         }
         this.is_active = Boolean.FALSE;
@@ -124,8 +124,8 @@ public class LexerBCC {
         ArrayList<Connection> connections_current_state = BCCGraph.connectionsByState(this.current_state);
         
         for (Connection connection : connections_current_state) {
-            if(connection.chars_options.contains(character)){
-                return connection.goal_state;
+            if(connection.getCharOptions().contains(character)){
+                return connection.getGoalState();
             }
         }    
         return null;
