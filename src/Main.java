@@ -22,14 +22,14 @@ public class Main {
         Scanner entradaEscaner = new Scanner (System.in);
       
         try {
-            FileWriter escritorArchivo = new FileWriter("src/codigo.txt");
-            while(entradaEscaner.hasNext()) {
+            FileWriter escritorArchivo = new FileWriter("src/Files/codigo.txt");
+//            while(entradaEscaner.hasNext()) {
+//                escritorArchivo.write(entradaEscaner.nextLine()+"\n");
+//            }
+//            
+            for (int i = 0; i < 1; i++) {
                 escritorArchivo.write(entradaEscaner.nextLine()+"\n");
             }
-            
-            //for (int i = 0; i < 5; i++) {
-            //    escritorArchivo.write(entradaEscaner.nextLine()+"\n");
-            //}
             
             escritorArchivo.close();
         } catch (IOException e) {
@@ -37,7 +37,7 @@ public class Main {
             e.printStackTrace();
         }
         
-        LexerBCC procesador = new LexerBCC("src/codigo.txt");
+        LexerBCC procesador = new LexerBCC("src/Files/codigo.txt");
         LexerResponse response = procesador.nextToken();
         
         while(response.getTypeResponse().equals("token")){

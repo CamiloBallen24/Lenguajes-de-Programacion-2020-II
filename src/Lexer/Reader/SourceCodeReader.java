@@ -11,14 +11,14 @@ import java.io.IOException;
  * Camilo Andres Gil Ballen - cgilb@unal.edu.co
 */
 
-public class Reader {
+public class SourceCodeReader {
 
     private FileReader fr = null;
     private int line = 1;
     private int column = 0;
     private char prevChar = 0;
 
-    public Reader(String fileName) {
+    public SourceCodeReader(String fileName) {
         try {
             fr = new FileReader(fileName);
         } catch (FileNotFoundException e) {
