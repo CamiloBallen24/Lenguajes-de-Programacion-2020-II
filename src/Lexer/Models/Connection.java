@@ -21,9 +21,9 @@ public class Connection {
     public State goal_state;
     public ArrayList<Character> chars_options;
 
-    public Connection(State origin_state, State goal_state, Character[] chars_options) {
+    public Connection(State origin_state, State goal_state, ArrayList<Character> chars_options) {
         this.origin_state = origin_state;
         this.goal_state = goal_state;
-        this.chars_options = new ArrayList<>(Arrays.asList(chars_options));;
+        this.chars_options = chars_options;
     }
 }
