@@ -1,0 +1,105 @@
+#Estados
+initial null false false
+indefinido_01 id true false
+identificador_num id true true
+number tk_num true true
+number_decimal tk_num true true
+invalido_01 null false false
+left_square_bracket tk_llave_izq true false
+right_square_bracket tk_llave_der true false
+left_bracket tk_par_izq true false
+right_bracket tk_par_der true false
+comma tk_coma true false
+semicolon tk_puntoycoma true false
+invalido_02 null false false
+function fid true true
+invalido_03 null false false
+igualdad tk_igualdad true false
+invalido_04 null false false
+diferente tk_diferente true false
+menor tk_menor true false
+menor_igual tk_menor_igual true false
+mayor tk_mayor true false
+mayor_igual tk_mayor_igual true false
+mas tk_mas true false
+sum_asignacion tk_sum_asig true false
+incremento tk_incremento true false
+menos tk_menos true false
+decremento tk_decremento true false
+res_asignacion tk_res_asig true false
+dos_puntos tk_dospuntos true false
+asignacion tk_asignacion true false
+multiplicacion tk_mul true false
+mul_asignacion tk_mul_asig true false
+division tk_div true false
+div_asignacion tk_div_asig true false
+modulo tk_mod true false
+mod_asignacion tk_mod_asig true false
+
+
+#Conexiones
+initial indefinido_01 letter
+initial number number
+initial left_square_bracket leftsquarebracket
+initial right_square_bracket rightsquarebracket
+initial left_bracket leftbracket
+initial right_bracket rightbracket
+initial comma coma
+initial semicolon semi_colon
+initial invalido_02 arroba
+initial invalido_03 equal
+initial invalido_04 exclamation
+initial menor menor
+menor menor_igual equal
+initial mayor mayor
+mayor mayor_igual equal
+initial mas mas
+initial menos menos
+initial dos_puntos dos_puntos
+initial multiplicacion asterisco
+multiplicacion mul_asignacion equal
+initial division division
+division div_asignacion equal
+initial modulo modulo
+modulo mod_asignacion equal
+indefinido_01 indefinido_01 letter
+indefinido_01 identificador_num number
+identificador_num identificador_num letternumber
+number number number
+number invalido_01 punto
+invalido_01 number_decimal number
+invalido_02 function letter
+invalido_03 igualdad equal
+invalido_04 diferente equal
+number_decimal number_decimal number
+function function letternumber
+mas sum_asignacion equal
+mas incremento mas
+menos res_asignacion equal
+menos decremento menos
+dos_puntos asignacion equal
+
+
+
+#Referencias
+letter~_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z
+number~0|1|2|3|4|5|6|7|8|9
+letternumber~_|A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z|a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z|0|1|2|3|4|5|6|7|8|9
+leftsquarebracket~{
+rightsquarebracket~}
+leftbracket~(
+rightbracket~)
+coma~,
+semi_colon~;
+arroba~@
+equal~=
+exclamation~!
+menor~<
+mayor~>
+mas~+
+menos~-
+dos_puntos~:
+asterisco~*
+division~/
+modulo~%
+punto~.
