@@ -13,10 +13,10 @@ import java.io.IOException;
 
 public class SourceCodeReader {
 
-    public FileReader fr = null;
-    public int line = 1;
-    public int column = 0;
-    public char prevChar = 0;
+    private FileReader fr = null;
+    private int line = 1;
+    private int column = 0;
+    private char prevChar = 0;
 
     public SourceCodeReader(String fileName) {
         try {
@@ -24,6 +24,14 @@ public class SourceCodeReader {
         } catch (FileNotFoundException e) {
             System.out.println("Error: Archivo no encontrado\n"+e.getMessage());
         }
+    }
+
+    public int getLine() {
+        return line;
+    }
+
+    public int getColumn() {
+        return column;
     }
 
     public char nextChar() {

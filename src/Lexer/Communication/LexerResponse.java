@@ -13,9 +13,9 @@ import Lexer.*;
 
 
 public class LexerResponse {
-    public Token token;
-    public Error error; 
-    public String type_response; 
+    private Token token;
+    private Error error; 
+    private String type_response; 
 
     public LexerResponse(Error error) {
         this.error = error;
@@ -30,5 +30,16 @@ public class LexerResponse {
     public LexerResponse(String type_response) {
         this.type_response = type_response;
     }
-    
+
+    public Token getToken(){
+        return token;
+    }
+
+    public Error getError(){
+        return error;
+    }
+
+    public String getTypeResponse(){
+        return type_response;
+    }
 }

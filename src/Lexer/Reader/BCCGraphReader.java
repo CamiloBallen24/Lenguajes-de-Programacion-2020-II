@@ -9,11 +9,11 @@ import java.util.Scanner;
 public class BCCGraphReader {
     enum lectura{Estados,Conexiones,Referencias,Error}
     
-    public ArrayList<String[]> estados;
-    public ArrayList<String[]> conexiones;
-    public Hashtable<String, ArrayList<Character>> referencias;
+    private ArrayList<String[]> estados;
+    private ArrayList<String[]> conexiones;
+    private Hashtable<String, ArrayList<Character>> referencias;
     
-    public String url_file;
+    private String url_file;
     
     public BCCGraphReader(){
         this.estados     = new ArrayList<>();
@@ -24,7 +24,6 @@ public class BCCGraphReader {
         
         this.readerFile();
     }
-        
     
     private void readerFile(){
        try{
@@ -60,11 +59,11 @@ public class BCCGraphReader {
                                 break;
                                 
                             case Referencias:
-                                if(line.split(":").length==1) continue;
-                                else if(line.split(":").length>2) throw new FileNotFoundException("Hubo un error en la lectura de referencias");
-                                String referencia = line.split(":")[0];
+                                if(line.split("~").length==1) continue;
+                                else if(line.split("~").length>2) throw new FileNotFoundException("Hubo un error en la lectura de referencias");
+                                String referencia = line.split("~")[0];
                                 ArrayList<Character> characters = new ArrayList<>();
-                                for (String caracter_string : (line.split(":")[1]).split(",")) characters.add(caracter_string.charAt(0));
+                                for (String caracter_string : (line.split("~")[1]).split("|")) characters.add(caracter_string.charAt(0));
                                 this.referencias.put(referencia, characters);
                                 break;
                                 
@@ -78,5 +77,15 @@ public class BCCGraphReader {
         } 
     }
     
+    public ArrayList<String[]> getEstados(){
+        return estados;
+    }
     
+    public ArrayList<String[]> getConexiones(){
+        return conexiones;
+    }
+
+    public Hashtable<String, ArrayList<Character>> getReferencias(){
+        return referencias;
+    }
 }

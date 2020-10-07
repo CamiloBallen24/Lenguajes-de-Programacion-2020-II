@@ -8,9 +8,9 @@ package Lexer.Models;
 */
 
 public class Error {
-    public String error_type;
-    public int row;
-    public int column;
+    private String error_type;
+    private int row;
+    private int column;
 
     public Error(String error_type, int row, int column) {
         this.error_type = error_type;
