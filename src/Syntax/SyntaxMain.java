@@ -82,7 +82,7 @@ public class SyntaxMain {
         
         //Grammar
         Grammar gramatica_chida = new Grammar(rules, epsilon);
-        HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> primeros = gramatica_chida.findFirsts();
+        HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> primeros = gramatica_chida.getAllFirsts();
         for (Map.Entry<GrammarNoTerminal, HashSet<GrammarTerminal>> entry : primeros.entrySet()) {
             GrammarNoTerminal key = entry.getKey();
             HashSet<GrammarTerminal> value = entry.getValue();

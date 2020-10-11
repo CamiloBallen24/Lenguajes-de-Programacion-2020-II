@@ -6,23 +6,23 @@ import java.util.HashSet;
 
 public class Grammar {
     ArrayList<GrammarRule> rules;
-    HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> firsts;
     GrammarTerminal epsilon;
 
     public Grammar(ArrayList<GrammarRule> rules, GrammarTerminal epsilon) {
         this.rules  = rules;
-        this.firsts = new HashMap<>();
         this.epsilon = epsilon ;
+        this.getAllFirsts();
     }
     
     
     //Se asegura que existan los primeros para todos y cada uno de los No terminales en la gramatica 
-    public HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> findFirsts(){
+    public HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> getAllFirsts(){
         HashSet<GrammarNoTerminal> no_terminals = this.getNoTerminals();
+        HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> firsts = new HashMap<>();
         for (GrammarNoTerminal no_terminal : no_terminals) {
-            this.getFirstsNoTerminal(no_terminal);
+            firsts.put(no_terminal, this.getFirstsNoTerminal(no_terminal));
         }
-        return this.firsts;
+        return firsts;
     }
     
     
@@ -85,10 +85,10 @@ public class Grammar {
     //Obtiene todos los primeros de un terminal dado
     //Si no se ha calculado los primeros para un terminal dado, lo calcula y guarda XD
     public HashSet<GrammarTerminal> getFirstsNoTerminal(GrammarNoTerminal no_terminal){
-        if(this.firsts.get(no_terminal) == null){
-            this.firsts.put(no_terminal, this.findFirsts(no_terminal));
+        if(no_terminal.firsts == null){
+            no_terminal.firsts = this.findFirsts(no_terminal);
         }
-        return this.firsts.get(no_terminal);
+        return no_terminal.firsts;
     }
     
 
@@ -118,7 +118,4 @@ public class Grammar {
         return noTerminals;
         
     }
-
-   
-    
 }
