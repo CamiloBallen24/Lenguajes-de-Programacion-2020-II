@@ -20,14 +20,14 @@ public class BCCGraphReader {
         this.conexiones  = new ArrayList<>();
         this.referencias = new Hashtable<>();
         
-        this.url_file = "src/prueba.txt";
+        this.url_file = "src//Files//lexemas.txt";
         
         this.readerFile();
     }
     
     private void readerFile(){
        try{
-            Scanner lector = new Scanner(new File("src//Files//prueba.txt"));
+            Scanner lector = new Scanner(new File(this.url_file));
             lectura leyendo = lectura.Error;
             while(lector.hasNextLine()){
                 String line = lector.nextLine();
