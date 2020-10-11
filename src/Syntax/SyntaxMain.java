@@ -5,6 +5,9 @@
  */
 package Syntax;
 
+import Syntax.GrammarServices.GrammarFirstsGenerator;
+import Syntax.GrammarServices.GrammarNextsGenerator;
+import Syntax.GrammarServices.GrammarTools;
 import Syntax.Models.Grammar;
 import Syntax.Models.GrammarNoTerminal;
 import Syntax.Models.GrammarRule;
@@ -82,7 +85,16 @@ public class SyntaxMain {
         
         //Grammar
         Grammar gramatica_chida = new Grammar(rules, epsilon);
-        HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> primeros = gramatica_chida.getAllFirsts();
+        HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> primeros = GrammarFirstsGenerator.getAllFirsts(gramatica_chida);
+        HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> siguientes = GrammarNextsGenerator.getAllNexts(gramatica_chida);
+        HashSet<GrammarTerminal> primerosRegla = GrammarFirstsGenerator.findFirstExpression(gramatica_chida, new ArrayList<>(Arrays.asList(new GrammarSymbol[]{A,B,C})));
+        
+        System.out.println("Primeros de una sola regla:\n");
+        for (GrammarTerminal grammarTerminal : primerosRegla) {
+            System.out.println(grammarTerminal.name);
+        }
+        
+        System.out.println("\n\nPrimeros de toda la gramática:\n");
         for (Map.Entry<GrammarNoTerminal, HashSet<GrammarTerminal>> entry : primeros.entrySet()) {
             GrammarNoTerminal key = entry.getKey();
             HashSet<GrammarTerminal> value = entry.getValue();
@@ -92,7 +104,18 @@ public class SyntaxMain {
                 System.out.print(grammarTerminal.name + "   ");
             }
             System.out.println("");
+        }
+        
+        System.out.println("\n\nSegundos de toda la gramática:\n");
+        for (Map.Entry<GrammarNoTerminal, HashSet<GrammarTerminal>> entry : siguientes.entrySet()) {
+            GrammarNoTerminal key = entry.getKey();
+            HashSet<GrammarTerminal> value = entry.getValue();
             
+            System.out.print(key.name+ ":    ");
+            for (GrammarTerminal grammarTerminal : value) {
+                System.out.print(grammarTerminal.name + "   ");
+            }
+            System.out.println("");
         }
         
 
