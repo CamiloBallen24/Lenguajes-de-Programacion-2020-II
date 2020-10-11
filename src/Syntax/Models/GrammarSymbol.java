@@ -1,5 +1,11 @@
 package Syntax.Models;
 
 public class GrammarSymbol {
-    String name;
+    public String name;
+
+    public GrammarSymbol(String name) {
+        this.name = name;
+    }
+    
+    
 }
