@@ -1,0 +1,1 @@
+Preguntar que pasa cuando el valor a cuantizar se encuentra en la linea intermedia entre dos deltas (si ms=0 por ejemplo, ¿a que delta se mapea ms?)
