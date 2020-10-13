@@ -2,6 +2,7 @@ package Syntax.Models;
 
 import Syntax.GrammarServices.GrammarFirstsGenerator;
 import Syntax.GrammarServices.GrammarNextsGenerator;
+import Syntax.GrammarServices.GrammarPredictionGenerator;
 import Syntax.GrammarServices.GrammarTools;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,5 +19,6 @@ public class Grammar {
         this.epsilon = epsilon ;
         GrammarFirstsGenerator.getAllFirsts(this);
         GrammarNextsGenerator.getAllNexts(this);
+        GrammarPredictionGenerator.getAllPredictions(this);
     }
 }

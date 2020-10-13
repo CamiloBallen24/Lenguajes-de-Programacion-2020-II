@@ -7,6 +7,7 @@ package Syntax;
 
 import Syntax.GrammarServices.GrammarFirstsGenerator;
 import Syntax.GrammarServices.GrammarNextsGenerator;
+import Syntax.GrammarServices.GrammarPredictionGenerator;
 import Syntax.GrammarServices.GrammarTools;
 import Syntax.Models.Grammar;
 import Syntax.Models.GrammarNoTerminal;
@@ -18,7 +19,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
-import static javafx.scene.input.KeyCode.T;
 
 
 public class SyntaxMain {
@@ -87,6 +87,7 @@ public class SyntaxMain {
         Grammar gramatica_chida = new Grammar(rules, epsilon);
         HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> primeros = GrammarFirstsGenerator.getAllFirsts(gramatica_chida);
         HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> siguientes = GrammarNextsGenerator.getAllNexts(gramatica_chida);
+        HashMap<GrammarRule, HashSet<GrammarTerminal>> predicciones = GrammarPredictionGenerator.getAllPredictions(gramatica_chida);
         HashSet<GrammarTerminal> primerosRegla = GrammarFirstsGenerator.findFirstExpression(gramatica_chida, new ArrayList<>(Arrays.asList(new GrammarSymbol[]{A,B,C})));
         
         System.out.println("Primeros de una sola regla:\n");
@@ -118,13 +119,21 @@ public class SyntaxMain {
             System.out.println("");
         }
         
-
-
-
-
-
-
-
-        
+        System.out.println("\n\n Predicciones de toda la gramática:\n");
+        for (Map.Entry<GrammarRule, HashSet<GrammarTerminal>> entry : predicciones.entrySet()) {
+            GrammarRule key = entry.getKey();
+            HashSet<GrammarTerminal> value = entry.getValue();
+            
+            System.out.print(key.left_part.name + " -> " + ":    ");
+            for (GrammarSymbol grammarSymbol : key.right_part) {
+                System.out.print(grammarSymbol.name + "   ");
+            }
+            System.out.print(" | ");
+            for (GrammarSymbol grammarTerminal : value) {
+                System.out.print(grammarTerminal.name + "   ");
+            }
+            System.out.println("");
+        }
+  
     }
 }
