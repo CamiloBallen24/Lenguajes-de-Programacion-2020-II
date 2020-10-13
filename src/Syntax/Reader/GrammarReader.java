@@ -1,9 +1,15 @@
 package Syntax.Reader;
 
+import Syntax.Models.Grammar;
+import Syntax.Models.GrammarNoTerminal;
+import Syntax.Models.GrammarRule;
+import Syntax.Models.GrammarSymbol;
+import Syntax.Models.GrammarTerminal;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
@@ -19,14 +25,14 @@ public class GrammarReader {
     
     private String url_file;
     
-    public GrammarReader(){
+    public GrammarReader(String ulr_file){
         this.initialNoTerminal = null;
-        noTerminals = new ArrayList<>();
-        epsilonTerminal = null;
-        terminals = new ArrayList<>();
-        rules = new Hashtable<>();
+        this.noTerminals = new ArrayList<>();
+        this.epsilonTerminal = null;
+        this.terminals = new ArrayList<>();
+        this.rules = new Hashtable<>();
         
-        this.url_file = "src//Files//gramatica.txt";
+        this.url_file = ulr_file;
         
         this.readerFile();
     }
@@ -96,7 +102,9 @@ public class GrammarReader {
             System.err.println(ex.getMessage());
         }
         
-        /*System.out.println("-----------------------------");
+
+        
+        System.out.println("-----------------------------");
         System.out.println(initialNoTerminal);
         System.out.println("-----------------------------");
         
@@ -122,6 +130,51 @@ public class GrammarReader {
                 System.out.println();
             }
         }
-        System.out.println("-----------------------------");*/
+        System.out.println("-----------------------------");
+    }
+    
+    
+    public Grammar getGrammar(){
+        
+        //Guarda todos los symbolos es este diccionario
+        HashMap<String, GrammarSymbol> symbols = new HashMap<>();
+        
+        //Guarda el epsiolon y el no terminal inicial
+        symbols.put(this.initialNoTerminal, new GrammarNoTerminal(this.initialNoTerminal));
+        symbols.put(this.epsilonTerminal, new GrammarTerminal(this.epsilonTerminal));
+        
+        //Guarda los no terminales
+        for (String noTerminal : this.noTerminals) 
+            symbols.put(noTerminal, new GrammarNoTerminal(noTerminal));
+        
+        //guarda los terminales
+        for (String terminal : this.terminals) 
+            symbols.put(terminal, new GrammarTerminal(terminal));
+        
+        
+        //Guarda las reglas
+        ArrayList<GrammarRule> grammar_rules = new ArrayList<GrammarRule>();
+        
+        //Recorre las reglas para cada terminal
+        for (Map.Entry<String, ArrayList<ArrayList<String>>> entry : this.rules.entrySet()) {
+            String left_part_string = entry.getKey();
+            GrammarNoTerminal left_part_symbol = (GrammarNoTerminal) symbols.get(left_part_string);
+            
+            //guarda la reglas del terminal actual una por una
+            for (ArrayList<String> right_part_strings : entry.getValue()) {
+                ArrayList<GrammarSymbol> right_part_symbols = new ArrayList<>();
+                
+                for (String right_part_string : right_part_strings) {
+                    right_part_symbols.add(symbols.get(right_part_string));
+                }
+                
+                grammar_rules.add(new GrammarRule(left_part_symbol, right_part_symbols));
+            }
+            
+            
+        }
+        
+        return new Grammar(grammar_rules, (GrammarTerminal)symbols.get(this.epsilonTerminal), (GrammarNoTerminal)symbols.get(this.initialNoTerminal));
+                
     }
 }

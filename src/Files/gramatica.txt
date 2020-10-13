@@ -1,1 +1,23 @@
-Preguntar que pasa cuando el valor a cuantizar se encuentra en la linea intermedia entre dos deltas (si ms=0 por ejemplo, ¿a que delta se mapea ms?)
+No Terminal Inicial
+S
+
+No terminales
+A
+B
+
+
+Terminal Epsilon
+epsilon
+
+
+Terminales
+pepe
+pp
+
+
+Reglas
+
+S	->	A
+A	->	pp
+A	->	pepe
+A	->	epsilon

@@ -13,9 +13,9 @@ public class Grammar {
     public GrammarNoTerminal firstNoTerminal;
     public GrammarTerminal epsilon;
 
-    public Grammar(ArrayList<GrammarRule> rules, GrammarTerminal epsilon) {
+    public Grammar(ArrayList<GrammarRule> rules, GrammarTerminal epsilon, GrammarNoTerminal firstNoTerminal) {
         this.rules  = rules;
-        this.firstNoTerminal = rules.get(0).left_part;
+        this.firstNoTerminal = firstNoTerminal;
         this.epsilon = epsilon ;
         GrammarFirstsGenerator.getAllFirsts(this);
         GrammarNextsGenerator.getAllNexts(this);
