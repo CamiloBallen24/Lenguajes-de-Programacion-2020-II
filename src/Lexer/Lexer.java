@@ -13,7 +13,7 @@ import Lexer.Models.Token;
 import Lexer.BCC.BCCGraph;
 import Lexer.BCC.BCCProperties;
 
-public class LexerBCC {
+public class Lexer {
     
     private ArrayList<Token> tokens;
 
@@ -35,7 +35,7 @@ public class LexerBCC {
     
     
     
-    public LexerBCC(String fileName){
+    public Lexer(String fileName){
         this.reader = new SourceCodeReader(fileName);
         
         this.buffer = "";
@@ -53,7 +53,7 @@ public class LexerBCC {
     
     public LexerResponse nextToken(){
         if(!this.is_active){
-            return  new LexerResponse("lexer_end");
+            return  new LexerResponse(new Token("$", null, initial_line, initial_column, false, false), "lexer_end");
         }
         
         //Reiniciar Cosas
@@ -76,7 +76,7 @@ public class LexerBCC {
         
         if(current_character==0){
             this.is_active = Boolean.FALSE;
-            return  new LexerResponse("file_end");
+            return  new LexerResponse(new Token("$", null, initial_line, initial_column, false, false), "lexer_end");
         }
         
         while((current_character != null)){

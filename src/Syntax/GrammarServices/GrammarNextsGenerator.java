@@ -21,11 +21,11 @@ public class GrammarNextsGenerator {
     
     public static HashSet<GrammarTerminal> findNexts(Grammar grammar, GrammarNoTerminal no_terminal){
         
-        ArrayList<GrammarRule> rules_no_terminal = GrammarTools.getRulesByNoTerminalRight(grammar, no_terminal.name);
+        ArrayList<GrammarRule> rules_no_terminal = GrammarTools.getRulesByNoTerminalRight(grammar, no_terminal);
         HashSet<GrammarTerminal> nexts_no_terminal = new HashSet<>();
         
-        if(no_terminal.name.equals(grammar.firstNoTerminal.name))
-            nexts_no_terminal.add(new GrammarTerminal("$"));
+        if(no_terminal.equals(grammar.firstNoTerminal))
+            nexts_no_terminal.add(grammar.endString);
         
         for (GrammarRule rule : rules_no_terminal) {
             nexts_no_terminal = findNextExpression(grammar, rule, nexts_no_terminal, no_terminal);

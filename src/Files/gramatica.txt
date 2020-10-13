@@ -1,23 +1,27 @@
 No Terminal Inicial
-S
+prog
 
 No terminales
-A
-B
+fn_decl_list
+main_prog
 
 
 Terminal Epsilon
-epsilon
+e
 
 
 Terminales
-pepe
-pp
-
+function
+fid
+tk_par_izq
+tk_par_der
+end
+tk_puntoycoma
 
 Reglas
 
-S	->	A
-A	->	pp
-A	->	pepe
-A	->	epsilon
+prog	->	fn_decl_list main_prog
+prog	->	e
+fn_decl_list	->	function fid tk_par_izq tk_par_der tk_puntoycoma
+main_prog	->	end tk_puntoycoma
+main_prog	->	e

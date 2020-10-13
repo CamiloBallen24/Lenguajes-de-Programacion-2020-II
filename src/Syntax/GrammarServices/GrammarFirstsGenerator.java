@@ -26,7 +26,7 @@ public class GrammarFirstsGenerator {
     public static HashSet<GrammarTerminal> findFirsts(Grammar grammar, GrammarNoTerminal no_terminal){
         
         //Obtiene todos las reglas asociadas a un no terminal
-        ArrayList<GrammarRule> rules_no_terminal = GrammarTools.getRulesByNoTerminal(grammar, no_terminal.name);
+        ArrayList<GrammarRule> rules_no_terminal = GrammarTools.getRulesByNoTerminal(grammar, no_terminal);
         
         //Conjunto donde se guardaran los primeros, el set evita que se repitan
         HashSet<GrammarTerminal> firsts_no_terminal = new HashSet<>();

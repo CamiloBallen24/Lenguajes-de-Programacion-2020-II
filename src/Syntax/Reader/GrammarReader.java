@@ -15,11 +15,12 @@ import java.util.Map;
 import java.util.Scanner;
 
 public class GrammarReader {
-    enum lectura{InitialNoTerminal,NoTerminals,EpsilonTerminal,Terminals,Rules,Error}
+    enum lectura{InitialNoTerminal,NoTerminals,EpsilonTerminal,FinCadenaTerminal,Terminals,Rules,Error}
     
     private String initialNoTerminal;
     private ArrayList<String> noTerminals;
     private String epsilonTerminal;
+    private String finCadena;
     private ArrayList<String> terminals;
     private Hashtable<String, ArrayList<ArrayList<String>>> rules;
     
@@ -29,6 +30,7 @@ public class GrammarReader {
         this.initialNoTerminal = null;
         this.noTerminals = new ArrayList<>();
         this.epsilonTerminal = null;
+        this.finCadena = null;
         this.terminals = new ArrayList<>();
         this.rules = new Hashtable<>();
         
@@ -53,6 +55,9 @@ public class GrammarReader {
                     case "Terminal Epsilon":
                         leyendo = lectura.EpsilonTerminal;
                         break;
+                    case "Terminal Fin de Cadena":
+                        leyendo = lectura.FinCadenaTerminal;
+                        break;
                     case "Terminales":
                         leyendo = lectura.Terminals;
                         break;
@@ -72,6 +77,10 @@ public class GrammarReader {
                             case EpsilonTerminal:
                                 if(!line.equals(""))
                                     epsilonTerminal = line;
+                                break;
+                            case FinCadenaTerminal:
+                                if(!line.equals(""))
+                                    finCadena = line;
                                 break;
                             case Terminals:
                                 if(!line.equals(""))
@@ -104,33 +113,33 @@ public class GrammarReader {
         
 
         
-        System.out.println("-----------------------------");
-        System.out.println(initialNoTerminal);
-        System.out.println("-----------------------------");
-        
-        for(int i=0; i<noTerminals.size(); i++){
-            System.out.println(noTerminals.get(i));
-        }
-        
-        System.out.println("-----------------------------");
-        System.out.println(epsilonTerminal);
-        System.out.println("-----------------------------");
-        
-        for(int i=0; i<terminals.size(); i++){
-            System.out.println(terminals.get(i));
-        }
-        
-        System.out.println("-----------------------------");
-        for (Map.Entry<String, ArrayList<ArrayList<String>>> entry : rules.entrySet()) {
-            for (ArrayList<String> rule : entry.getValue()) {
-                System.out.print(entry.getKey() + " -> ");
-                for (String symbol : rule) {
-                    System.out.print(symbol + " ");
-                }
-                System.out.println();
-            }
-        }
-        System.out.println("-----------------------------");
+//        System.out.println("-----------------------------");
+//        System.out.println(initialNoTerminal);
+//        System.out.println("-----------------------------");
+//        
+//        for(int i=0; i<noTerminals.size(); i++){
+//            System.out.println(noTerminals.get(i));
+//        }
+//        
+//        System.out.println("-----------------------------");
+//        System.out.println(epsilonTerminal);
+//        System.out.println("-----------------------------");
+//        
+//        for(int i=0; i<terminals.size(); i++){
+//            System.out.println(terminals.get(i));
+//        }
+//        
+//        System.out.println("-----------------------------");
+//        for (Map.Entry<String, ArrayList<ArrayList<String>>> entry : rules.entrySet()) {
+//            for (ArrayList<String> rule : entry.getValue()) {
+//                System.out.print(entry.getKey() + " -> ");
+//                for (String symbol : rule) {
+//                    System.out.print(symbol + " ");
+//                }
+//                System.out.println();
+//            }
+//        }
+//        System.out.println("-----------------------------");
     }
     
     
@@ -142,6 +151,7 @@ public class GrammarReader {
         //Guarda el epsiolon y el no terminal inicial
         symbols.put(this.initialNoTerminal, new GrammarNoTerminal(this.initialNoTerminal));
         symbols.put(this.epsilonTerminal, new GrammarTerminal(this.epsilonTerminal));
+        symbols.put(this.finCadena, new GrammarTerminal(this.finCadena));
         
         //Guarda los no terminales
         for (String noTerminal : this.noTerminals) 
@@ -174,7 +184,7 @@ public class GrammarReader {
             
         }
         
-        return new Grammar(grammar_rules, (GrammarTerminal)symbols.get(this.epsilonTerminal), (GrammarNoTerminal)symbols.get(this.initialNoTerminal));
+        return new Grammar(grammar_rules, (GrammarTerminal)symbols.get(this.epsilonTerminal), (GrammarNoTerminal)symbols.get(this.initialNoTerminal), (GrammarTerminal) symbols.get(this.finCadena));
                 
     }
 }

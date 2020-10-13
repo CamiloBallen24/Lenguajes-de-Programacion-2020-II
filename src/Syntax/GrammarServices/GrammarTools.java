@@ -21,10 +21,10 @@ public class GrammarTools {
     }
     
     //Obtiene todas Reglas asociadas a un NoTerminal
-    public static ArrayList<GrammarRule> getRulesByNoTerminal(Grammar grammar, String nameNoTerminal){
+    public static ArrayList<GrammarRule> getRulesByNoTerminal(Grammar grammar, GrammarNoTerminal no_terminal){
         ArrayList<GrammarRule> no_terminal_rules = new ArrayList<>();
         for (GrammarRule rule : grammar.rules) {
-            if(nameNoTerminal.equals(rule.left_part.name)){
+            if(no_terminal.equals(rule.left_part)){
                 no_terminal_rules.add(rule);
             }
         }
@@ -32,7 +32,7 @@ public class GrammarTools {
     }
     
     //Obtiene todas Reglas en las que hay un noTerminal en la parte derecha
-    public static ArrayList<GrammarRule> getRulesByNoTerminalRight (Grammar grammar, String nameNoTerminal){
+    public static ArrayList<GrammarRule> getRulesByNoTerminalRight (Grammar grammar, GrammarNoTerminal no_terminal){
         
         ArrayList<GrammarRule> rules = new ArrayList<>();
         ArrayList<GrammarSymbol> right_part;
@@ -42,7 +42,7 @@ public class GrammarTools {
             right_part = rule.right_part;
             
             for (int i = 0; i < right_part.size(); i++) {
-                if(nameNoTerminal.equals(right_part.get(i).name)){
+                if(no_terminal.equals(right_part.get(i))){
                     GrammarRule newRule;
                     if(i+1<right_part.size()){
                         newRule = new GrammarRule(rule.left_part, new ArrayList<>(right_part.subList(i+1, right_part.size())));
