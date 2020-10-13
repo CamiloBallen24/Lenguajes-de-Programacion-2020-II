@@ -1,0 +1,23 @@
+No Terminal Inicial
+S
+
+No terminales
+A
+B
+
+
+Terminal Epsilon
+epsilon
+
+
+Terminales
+pepe
+pp
+
+
+Reglas
+
+S	->	A
+A	->	pp
+A	->	pepe
+A	->	epsilon
