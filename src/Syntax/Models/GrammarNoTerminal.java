@@ -4,9 +4,8 @@ import java.util.HashSet;
 
 public class GrammarNoTerminal extends GrammarSymbol{
     
-    HashSet<GrammarTerminal> firsts;
-    HashSet<GrammarTerminal> nexts;
-
+    public HashSet<GrammarTerminal> firsts;
+    public HashSet<GrammarTerminal> nexts;
     
     public GrammarNoTerminal(String name) {
         super(name);
