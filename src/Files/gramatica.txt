@@ -11,12 +11,12 @@ e
 
 
 Terminales
-function
-fid
-tk_par_izq
-tk_par_der
-end
-tk_puntoycoma
+function~function
+fid~identificador de funcion
+tk_par_izq~(
+tk_par_der~)
+end~end
+tk_puntoycoma~;
 
 Reglas
 

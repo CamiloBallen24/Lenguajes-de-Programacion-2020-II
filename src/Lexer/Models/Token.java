@@ -37,7 +37,7 @@ public class Token {
         this.lexeme = lexeme;
         
         this.row = row;
-        this.column = column;   
+        this.column = column;
         
     }
 
@@ -69,8 +69,20 @@ public class Token {
     public String getName() {
         return name;
     }
-
     
+    public String getLexeme(){
+        return lexeme;
+    }
     
+    public String getRow() {
+        return Integer.toString(row);
+    }
     
+    public String getColumn() {
+        return Integer.toString(column);
+    }
+    
+    public Boolean isReservedWord() {
+        return reserved_word;
+    }
 }
