@@ -24,6 +24,7 @@ funct_args
 funct_args_prime
 stmt
 operation
+datatype
 
 
 Terminal Epsilon
@@ -91,14 +92,16 @@ Reglas
 
 prog			->	fn_decl_list main_prog
 prog			->	e
-fn_decl_list 		-> 	function fid tk_dospuntos DATATYPE tk_par_izq var_decl tk_par_der var_decl_global stmt_block fn_decl_list 
+datatype        ->  bool
+datatype        ->  num
+fn_decl_list 		-> 	function fid tk_dospuntos datatype tk_par_izq var_decl tk_par_der var_decl_global stmt_block fn_decl_list 
 fn_decl_list		-> 	e
 main_prog 		-> 	var_decl_global stmt_prime end
-var_decl_global		-> 	var id tk_dospuntos DATATYPE var_decl_prime tk_puntoycoma	
+var_decl_global		-> 	var id tk_dospuntos datatype var_decl_prime tk_puntoycoma	
 var_decl_global		-> 	e
-var_decl		-> 	id tk_dospuntos DATATYPE var_decl_prime
+var_decl		-> 	id tk_dospuntos datatype var_decl_prime
 var_decl		-> 	e
-var_decl_prime		-> 	tk_coma id tk_dospuntos DATATYPE var_decl_prime
+var_decl_prime		-> 	tk_coma id tk_dospuntos datatype var_decl_prime
 var_decl_prime		-> 	e
 stmt_block 		->	stmt
 stmt_block		-> 	tk_llave_izq stmt stmt_prime tk_llave_der
