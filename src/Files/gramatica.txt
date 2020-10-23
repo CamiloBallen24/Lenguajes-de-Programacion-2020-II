@@ -89,84 +89,82 @@ not~not
 
 
 Reglas
-
-prog			->	fn_decl_list main_prog
-prog			->	e
-datatype        ->  bool
-datatype        ->  num
-fn_decl_list 		-> 	function fid tk_dospuntos datatype tk_par_izq var_decl tk_par_der var_decl_global stmt_block fn_decl_list 
-fn_decl_list		-> 	e
-main_prog 		-> 	var_decl_global stmt_prime end
-var_decl_global		-> 	var id tk_dospuntos datatype var_decl_prime tk_puntoycoma	
-var_decl_global		-> 	e
-var_decl		-> 	id tk_dospuntos datatype var_decl_prime
-var_decl		-> 	e
-var_decl_prime		-> 	tk_coma id tk_dospuntos datatype var_decl_prime
-var_decl_prime		-> 	e
-stmt_block 		->	stmt
-stmt_block		-> 	tk_llave_izq stmt stmt_prime tk_llave_der
-stmt_prime		->	stmt stmt_prime
-stmt_prime		-> 	e
-lexpr			->	nexpr lexpr_prime
-lexpr_prime		->	and nexpr lexpr_prime
-lexpr_prime		->	or nexpr lexpr_prime
-lexpr_prime		->	e
-nexpr			-> 	not tk_par_izq lexpr tk_par_der
-nexpr			-> 	rexpr
-rexpr			->	simple_expr rexpr_prime
-rexpr_prime		->	tk_menor simple_expr
-rexpr_prime		->	tk_igualdad simple_expr
-rexpr_prime		->	tk_menor_igual simple_expr
-rexpr_prime		->	tk_mayor simple_expr
-rexpr_prime		->	tk_mayor_igual simple_expr
-rexpr_prime		->	tk_diferente simple_expr
-simple_expr		->	term simple_expr_prime
-simple_expr_prime	->	tk_mas term simple_expr_prime
-simple_expr_prime	->	tk_menos term simple_expr_prime
-simple_expr_prime	->	e 
-term			->	factor term_prime
-term_prime		->	tk_mul factor term_prime
-term_prime		->	tk_div factor term_prime
-term_prime		->	tk_mod factor term_prime
-term_prime		-> 	e
-post_inc		->	tk_incremento
-post_inc		->	tk_decremento
-post_inc		->	e
-factor			->	num
-factor			->	bool
-factor			->	id post_inc
-factor			->	tk_incremento id
-factor			->	tk_decremento id
-factor			->	tk_par_izq lexpr tk_par_der 
-factor			->	fid tk_par_izq  funct_args tk_par_der
-funct_args		->	lexpr funct_args_prime
-funct_args		->	e
-funct_args_prime	-> 	tk_coma lexpr funct_args_prime
-funct_args_prime 	-> 	e	
-stmt			->	print lexpr tk_puntoycoma
-stmt			->	input id tk_puntoycoma
-stmt			->	when tk_par_izq lexpr tk_par_der do stmt_block
-stmt			-> 	if tk_par_izq lexpr tk_par_der do stmt_block else stmt_block
-stmt			->	unless tk_par_izq lexpr tk_par_der do stmt_block
-stmt			->	while tk_par_izq lexpr tk_par_der do stmt_block 
-stmt			->	return lexpr tk_puntoycoma 
-stmt			->	until tk_par_izq lexpr tk_par_der do stmt_block
-stmt			->	loop stmt_block
-stmt			->	do stmt_block while tk_par_izq lexpr tk_par_der
-stmt			->	do stmt_block until tk_par_izq lexpr tk_par_der
-stmt			->	repeat num tk_puntoycoma stmt_block
-stmt			->	for tk_par_izq lexpr tk_puntoycoma lexpr tk_puntoycoma lexpr tk_par_der do stmt_block
-stmt			->	next tk_puntoycoma
-stmt			->	break tk_puntoycoma
-stmt			->	tk_incremento id tk_puntoycoma
-stmt			->	tk_decremento id tk_puntoycoma
-stmt			->	id operation tk_puntoycoma
-operation		->	tk_asignacion lexpr
-operation		->	tk_sum_asig lexpr
-operation		->	tk_res_asig lexpr
-operation		->	tk_mul_asig lexpr
-operation		->	tk_div_asig lexpr
-operation		->	tk_mod_asig lexpr
-operation		->	tk_incremento
-operation		->	tk_decremento
-
+prog->fn_decl_list main_prog
+prog->e
+datatype->bool
+datatype->num
+fn_decl_list->function fid tk_dospuntos datatype tk_par_izq var_decl tk_par_der var_decl_global stmt_block fn_decl_list
+fn_decl_list->e
+main_prog->var_decl_global stmt_prime end
+var_decl_global->var id tk_dospuntos datatype var_decl_prime tk_puntoycoma
+var_decl_global->e
+var_decl->id tk_dospuntos datatype var_decl_prime
+var_decl->e
+var_decl_prime->tk_coma id tk_dospuntos datatype var_decl_prime
+var_decl_prime->e
+stmt_block->stmt
+stmt_block->tk_llave_izq stmt stmt_prime tk_llave_der
+stmt_prime->stmt stmt_prime
+stmt_prime->e
+lexpr->nexpr lexpr_prime
+lexpr_prime->and nexpr lexpr_prime
+lexpr_prime->or nexpr lexpr_prime
+lexpr_prime->e
+nexpr->not tk_par_izq lexpr tk_par_der
+nexpr->rexpr
+rexpr->simple_expr rexpr_prime
+rexpr_prime->tk_menor simple_expr
+rexpr_prime->tk_igualdad simple_expr
+rexpr_prime->tk_menor_igual simple_expr
+rexpr_prime->tk_mayor simple_expr
+rexpr_prime->tk_mayor_igual simple_expr
+rexpr_prime->tk_diferente simple_expr
+simple_expr->term simple_expr_prime
+simple_expr_prime->tk_mas term simple_expr_prime
+simple_expr_prime->tk_menos term simple_expr_prime
+simple_expr_prime->e
+term->factor term_prime
+term_prime->tk_mul factor term_prime
+term_prime->tk_div factor term_prime
+term_prime->tk_mod factor term_prime
+term_prime->e
+post_inc->tk_incremento
+post_inc->tk_decremento
+post_inc->e
+factor->num
+factor->bool
+factor->id post_inc
+factor->tk_incremento id
+factor->tk_decremento id
+factor->tk_par_izq lexpr tk_par_der
+factor->fid tk_par_izq  funct_args tk_par_der
+funct_args->lexpr funct_args_prime
+funct_args->e
+funct_args_prime->tk_coma lexpr funct_args_prime
+funct_args_prime->e
+stmt->print lexpr tk_puntoycoma
+stmt->input id tk_puntoycoma
+stmt->when tk_par_izq lexpr tk_par_der do stmt_block
+stmt->if tk_par_izq lexpr tk_par_der do stmt_block else stmt_block
+stmt->unless tk_par_izq lexpr tk_par_der do stmt_block
+stmt->while tk_par_izq lexpr tk_par_der do stmt_block
+stmt->return lexpr tk_puntoycoma
+stmt->until tk_par_izq lexpr tk_par_der do stmt_block
+stmt->loop stmt_block
+stmt->do stmt_block while tk_par_izq lexpr tk_par_der
+stmt->do stmt_block until tk_par_izq lexpr tk_par_der
+stmt->repeat num tk_puntoycoma stmt_block
+stmt->for tk_par_izq lexpr tk_puntoycoma lexpr tk_puntoycoma lexpr tk_par_der do stmt_block
+stmt->next tk_puntoycoma
+stmt->break tk_puntoycoma
+stmt->tk_incremento id tk_puntoycoma
+stmt->tk_decremento id tk_puntoycoma
+stmt->id operation tk_puntoycoma
+operation->tk_asignacion lexpr
+operation->tk_sum_asig lexpr
+operation->tk_res_asig lexpr
+operation->tk_mul_asig lexpr
+operation->tk_div_asig lexpr
+operation->tk_mod_asig lexpr
+operation->tk_incremento
+operation->tk_decremento

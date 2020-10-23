@@ -20,7 +20,7 @@ import java.util.Scanner;
 */
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         
 //        Scanner entradaEscaner = new Scanner (System.in);
 //      
@@ -46,8 +46,10 @@ public class Main {
         GrammarReader grammar_reader = new GrammarReader("src//Files//gramatica.txt");
         Grammar my_grammar = grammar_reader.getGrammar();
         
+        System.out.println("hola");
+        
         SyntaxAnalyzer analyzer = new SyntaxAnalyzer(lexerBCC, my_grammar);
-        System.out.println(analyzer.analyze());
+        //System.out.println(analyzer.analyze());
         
         
         

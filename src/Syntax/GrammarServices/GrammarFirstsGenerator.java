@@ -16,6 +16,7 @@ public class GrammarFirstsGenerator {
         HashSet<GrammarNoTerminal> no_terminals = GrammarTools.getNoTerminals(grammar);
         HashMap<GrammarNoTerminal, HashSet<GrammarTerminal>> firsts = new HashMap<>();
         for (GrammarNoTerminal no_terminal : no_terminals) {
+            System.out.println(no_terminal.name);
             firsts.put(no_terminal, getFirstsNoTerminal(grammar, no_terminal));
         }
         return firsts;

@@ -19,6 +19,7 @@ public class Grammar {
         this.firstNoTerminal = firstNoTerminal;
         this.epsilon = epsilon ;
         this.endString = endString;
+        System.out.println("primeros");
         GrammarFirstsGenerator.getAllFirsts(this);
         GrammarNextsGenerator.getAllNexts(this);
         GrammarPredictionGenerator.getAllPredictions(this);

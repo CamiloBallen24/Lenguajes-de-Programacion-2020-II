@@ -87,13 +87,13 @@ public class GrammarReader {
                                     terminals.put(line.split("~")[0],line.split("~")[1]);
                                 break;
                             case Rules:
-                                if(line.split("\t->\t").length==1)
+                                if(line.split("->").length==1)
                                     continue;
-                                else if(line.split("\t->\t").length>2) 
+                                else if(line.split("->").length>2) 
                                     throw new FileNotFoundException("Hubo un error en la lectura de las reglas");
-                                String leftPart = line.split("\t->\t")[0];
+                                String leftPart = line.split("->")[0];
                                 ArrayList<ArrayList<String>> ActualRules = rules.get(leftPart);
-                                ArrayList<String> rightPart = new ArrayList<>(Arrays.asList((line.split("\t->\t")[1]).split(" ")));
+                                ArrayList<String> rightPart = new ArrayList<>(Arrays.asList((line.split("->")[1]).split(" ")));
                                 
                                 if(ActualRules==null){
                                     rules.put(leftPart, new ArrayList<ArrayList<String>>(){{add(rightPart);}});

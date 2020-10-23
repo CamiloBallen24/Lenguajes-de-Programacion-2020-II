@@ -116,7 +116,7 @@ public class SyntaxAnalyzer {
         GrammarRule next_rule = null;
         for (GrammarRule no_terminal_rule : no_terminal_rules) {
             for (GrammarTerminal prediction : no_terminal_rule.predictions) {
-                if(!symbols.contains(prediction)){
+                if(!symbols.contains(prediction.getSymbol())){
                     symbols.add(prediction.getSymbol());
                 }
             }
@@ -124,7 +124,7 @@ public class SyntaxAnalyzer {
         
         //Se puede hacer un arreglo de Terminales, organizarlo por orden alfabético del nombre del token asociado y luego hacer otro arreglo, esta vez 
         //de las strings de los simbolos asociados
-        //Collections.sort(symbols); 
+        Collections.sort(symbols);
         return symbols;
     }
 }
