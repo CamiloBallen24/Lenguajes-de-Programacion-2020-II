@@ -92,7 +92,7 @@ public class SyntaxAnalyzer {
     }
     
     private void throwError(GrammarSymbol symbol) throws Exception{
-        String errorMessage = "<"+this.current_token.getColumn()+":"+this.current_token.getRow()+"> Error sintactico: se encontro: '";
+        String errorMessage = "<"+this.current_token.getRow()+":"+this.current_token.getColumn()+"> Error sintactico: se encontro: '";
         errorMessage += (this.current_token.isReservedWord()) ? this.current_token.getName(): this.current_token.getLexeme();
         errorMessage += "'; se esperaba: ";
         

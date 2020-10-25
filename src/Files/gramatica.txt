@@ -119,6 +119,7 @@ rexpr_prime->tk_menor_igual simple_expr
 rexpr_prime->tk_mayor simple_expr
 rexpr_prime->tk_mayor_igual simple_expr
 rexpr_prime->tk_diferente simple_expr
+rexpr_prime->e
 simple_expr->term simple_expr_prime
 simple_expr_prime->tk_mas term simple_expr_prime
 simple_expr_prime->tk_menos term simple_expr_prime
@@ -133,6 +134,8 @@ post_inc->tk_decremento
 post_inc->e
 factor->num
 factor->bool
+factor->true
+factor->false
 factor->id post_inc
 factor->tk_incremento id
 factor->tk_decremento id
