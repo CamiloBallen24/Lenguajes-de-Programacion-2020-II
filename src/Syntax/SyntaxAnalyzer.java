@@ -14,7 +14,12 @@ import Syntax.Models.GrammarTerminal;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
-
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
 public class SyntaxAnalyzer {
     Lexer lexer;
     Grammar grammar;
@@ -34,7 +39,17 @@ public class SyntaxAnalyzer {
         } catch (Exception ex) {
             return new SyntaxResponse("error", ex.getMessage());
         }
-        return new SyntaxResponse("success","El analisis sintactico ha finalizado correctamente.");
+        if(this.current_token.getName().equals(this.grammar.endString.name)){
+            return new SyntaxResponse("success","El analisis sintactico ha finalizado correctamente.");
+        }
+        else{
+            String errorMessage = "<"+this.current_token.getRow()+":"+this.current_token.getColumn()+"> Error sintactico: se encontro: '";
+            errorMessage += (this.current_token.isReservedWord()) ? this.current_token.getName(): this.current_token.getLexeme();
+            errorMessage += "'; se esperaba: 'final de archivo'";
+            return new SyntaxResponse("error", errorMessage);
+           
+        }
+        
     }
     
     public void processNoTerminal(GrammarNoTerminal no_terminal) throws Exception{
@@ -47,7 +62,7 @@ public class SyntaxAnalyzer {
                 break;
             }
         }
-        
+//        System.out.println(no_terminal.name);
         if(next_rule == null){
             throwError(no_terminal);
         }
@@ -152,6 +167,14 @@ public class SyntaxAnalyzer {
         //Se puede hacer un arreglo de Terminales, organizarlo por orden alfabético del nombre del token asociado y luego hacer otro arreglo, esta vez 
         //de las strings de los simbolos asociados
         Collections.sort(symbols);
+        
+        
+        if(symbols.contains("identificador")&& symbols.contains("identificador de funcion")){
+            int aux = symbols.indexOf("identificador de funcion");
+            symbols.set(symbols.indexOf("identificador"), "identificador de funcion");
+            symbols.set(aux, "identificador");
+        }
+        
         return symbols;
     }
 }

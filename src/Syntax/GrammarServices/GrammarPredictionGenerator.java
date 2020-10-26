@@ -6,7 +6,12 @@ import java.util.HashSet;
 import Syntax.Models.Grammar;
 import Syntax.Models.GrammarRule;
 import Syntax.Models.GrammarTerminal;
-
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
 public class GrammarPredictionGenerator {
 
     public static HashMap<GrammarRule, HashSet<GrammarTerminal>> getAllPredictions(Grammar grammar){

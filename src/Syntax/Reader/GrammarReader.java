@@ -13,7 +13,12 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Scanner;
-
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
 public class GrammarReader {
     enum lectura{InitialNoTerminal,NoTerminals,EpsilonTerminal,FinCadenaTerminal,Terminals,Rules,Error}
     

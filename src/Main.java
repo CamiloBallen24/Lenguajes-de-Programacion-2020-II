@@ -22,20 +22,20 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws Exception {
         
-//        Scanner entradaEscaner = new Scanner (System.in);
-//      
-//        try {
-//            FileWriter escritorArchivo = new FileWriter("src/Files/codigo.txt");
-//            while(entradaEscaner.hasNext()) {
-//                escritorArchivo.write(entradaEscaner.nextLine()+"\n");
-//            }
-//            
-//            escritorArchivo.close();
-//        } catch (IOException e) {
-//            System.out.println("An error occurred.");
-//            e.printStackTrace();
-//        }
-//        
+        Scanner entradaEscaner = new Scanner (System.in);
+      
+        try {
+            FileWriter escritorArchivo = new FileWriter("src/Files/codigo.txt");
+            while(entradaEscaner.hasNextLine()) {
+                escritorArchivo.write(entradaEscaner.nextLine()+"\n");
+            }
+            
+            escritorArchivo.close();
+        } catch (IOException e) {
+            System.out.println("An error occurred.");
+            e.printStackTrace();
+        }
+        
 
 
         Lexer lexerBCC = new Lexer("src/Files/codigo.txt");
