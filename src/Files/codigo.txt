@@ -1,6 +1,5 @@
-loop{
-    repeat 10:
-    {    print(100);
+var flag:bool;
 
-}
-
+flag:=true;
+flag := not (flag and (not(false) or true)) + ;
+end

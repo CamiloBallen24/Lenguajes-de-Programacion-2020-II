@@ -51,7 +51,7 @@ public class SyntaxAnalyzer {
         if(next_rule == null){
             throwError(no_terminal);
         }
-
+        
         for (GrammarSymbol symbol : next_rule.right_part) {
             if(symbol.equals(this.grammar.epsilon)) break;
             else if(symbol.getClass().equals(GrammarNoTerminal.class)){
@@ -99,7 +99,7 @@ public class SyntaxAnalyzer {
     
     private void throwError(GrammarSymbol symbol) throws Exception{
         String errorMessage;
-        if(current_token.getName().equals("$")){
+        if((current_token.getName().equals("$"))){
             errorMessage = "<"+this.current_token.getRow()+":"+this.current_token.getColumn()+"> Error sintactico: se encontro final de archivo; se esperaba 'end'.";
         }
         else{

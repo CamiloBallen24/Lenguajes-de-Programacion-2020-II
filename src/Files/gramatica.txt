@@ -1,6 +1,7 @@
 No Terminal Inicial
 prog
 
+
 No terminales
 fn_decl_list
 main_prog
@@ -8,9 +9,11 @@ var_decl_global
 var_decl
 var_decl_prime
 stmt_block
-stmt_prime
+stmt_block_prime
 lexpr
 lexpr_prime
+lexpr_puntoycoma
+lexpr_puntoycoma_prime
 nexpr
 rexpr
 rexpr_prime
@@ -25,13 +28,18 @@ funct_args_prime
 stmt
 operation
 datatype
+stmt_prime_main
 
 
 Terminal Epsilon
 e
 
+
+
 Terminal Fin de Cadena
 $
+
+
 
 Terminales
 function~function
@@ -90,14 +98,14 @@ or~or
 not~not
 
 
+
 Reglas
 prog->fn_decl_list main_prog
-prog->e
 datatype->bool
 datatype->num
 fn_decl_list->function fid tk_dospuntos datatype tk_par_izq var_decl tk_par_der var_decl_global stmt_block fn_decl_list
 fn_decl_list->e
-main_prog->var_decl_global stmt_prime end
+main_prog->var_decl_global stmt_prime_main end
 var_decl_global->var id tk_dospuntos datatype var_decl_prime tk_puntoycoma
 var_decl_global->e
 var_decl->id tk_dospuntos datatype var_decl_prime
@@ -105,13 +113,19 @@ var_decl->e
 var_decl_prime->tk_coma id tk_dospuntos datatype var_decl_prime
 var_decl_prime->e
 stmt_block->stmt
-stmt_block->tk_llave_izq stmt stmt_prime tk_llave_der
-stmt_prime->stmt stmt_prime
-stmt_prime->e
+stmt_block->tk_llave_izq stmt stmt_block_prime tk_llave_der
+stmt_block_prime->stmt stmt_block_prime
+stmt_block_prime->e
+stmt_prime_main->stmt stmt_prime_main
+stmt_prime_main->e
 lexpr->nexpr lexpr_prime
 lexpr_prime->and nexpr lexpr_prime
 lexpr_prime->or nexpr lexpr_prime
 lexpr_prime->e
+lexpr_puntoycoma->nexpr lexpr_puntoycoma_prime
+lexpr_puntoycoma_prime->and nexpr lexpr_puntoycoma_prime
+lexpr_puntoycoma_prime->or nexpr lexpr_puntoycoma_prime
+lexpr_puntoycoma_prime->e
 nexpr->not tk_par_izq lexpr tk_par_der
 nexpr->rexpr
 rexpr->simple_expr rexpr_prime
@@ -165,11 +179,11 @@ stmt->break tk_puntoycoma
 stmt->tk_incremento id tk_puntoycoma
 stmt->tk_decremento id tk_puntoycoma
 stmt->id operation tk_puntoycoma
-operation->tk_asignacion lexpr
-operation->tk_sum_asig lexpr
-operation->tk_res_asig lexpr
-operation->tk_mul_asig lexpr
-operation->tk_div_asig lexpr
-operation->tk_mod_asig lexpr
+operation->tk_asignacion lexpr_puntoycoma
+operation->tk_sum_asig lexpr_puntoycoma
+operation->tk_res_asig lexpr_puntoycoma
+operation->tk_mul_asig lexpr_puntoycoma
+operation->tk_div_asig lexpr_puntoycoma
+operation->tk_mod_asig lexpr_puntoycoma
 operation->tk_incremento
 operation->tk_decremento

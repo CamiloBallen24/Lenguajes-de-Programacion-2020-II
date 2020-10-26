@@ -53,8 +53,6 @@ public class GrammarNextsGenerator {
         }
 
         if (nexts.contains(grammar.epsilon) && !calculating.contains(rule.left_part)) {
-            nexts_no_terminal.remove(grammar.epsilon);
-
             if (!rule.left_part.equals(calledBy)) {
                 HashSet<GrammarTerminal> finalNexts = getNextsNoTerminal(grammar, rule.left_part);
 
@@ -62,6 +60,7 @@ public class GrammarNextsGenerator {
                     nexts_no_terminal.add(next);
                 }
             }
+            nexts_no_terminal.remove(grammar.epsilon);
         }
         
         return nexts_no_terminal;
