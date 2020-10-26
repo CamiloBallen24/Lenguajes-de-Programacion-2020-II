@@ -30,10 +30,6 @@ public class Main {
 //                escritorArchivo.write(entradaEscaner.nextLine()+"\n");
 //            }
 //            
-//            for (int i = 0; i < 1; i++) {
-//                escritorArchivo.write(entradaEscaner.nextLine()+"\n");
-//            }
-//            
 //            escritorArchivo.close();
 //        } catch (IOException e) {
 //            System.out.println("An error occurred.");
@@ -48,7 +44,7 @@ public class Main {
         
         
         SyntaxAnalyzer analyzer = new SyntaxAnalyzer(lexerBCC, my_grammar);
-        System.out.println(analyzer.analyze());
+        System.out.println(analyzer.analyze().response);
         
         
         

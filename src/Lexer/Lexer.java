@@ -76,6 +76,8 @@ public class Lexer {
         
         if(current_character==0){
             this.is_active = Boolean.FALSE;
+            this.initial_column = reader.getColumn() - buffer.length();
+            this.initial_line = reader.getLine();
             return  new LexerResponse(new Token("$", null, initial_line, initial_column, false, false), "lexer_end");
         }
         

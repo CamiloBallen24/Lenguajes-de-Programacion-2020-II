@@ -30,6 +30,8 @@ datatype
 Terminal Epsilon
 e
 
+Terminal Fin de Cadena
+$
 
 Terminales
 function~function
@@ -132,7 +134,7 @@ term_prime->e
 post_inc->tk_incremento
 post_inc->tk_decremento
 post_inc->e
-factor->num
+factor->tk_num
 factor->bool
 factor->true
 factor->false
@@ -140,7 +142,7 @@ factor->id post_inc
 factor->tk_incremento id
 factor->tk_decremento id
 factor->tk_par_izq lexpr tk_par_der
-factor->fid tk_par_izq  funct_args tk_par_der
+factor->fid tk_par_izq funct_args tk_par_der
 funct_args->lexpr funct_args_prime
 funct_args->e
 funct_args_prime->tk_coma lexpr funct_args_prime
@@ -156,7 +158,7 @@ stmt->until tk_par_izq lexpr tk_par_der do stmt_block
 stmt->loop stmt_block
 stmt->do stmt_block while tk_par_izq lexpr tk_par_der
 stmt->do stmt_block until tk_par_izq lexpr tk_par_der
-stmt->repeat num tk_puntoycoma stmt_block
+stmt->repeat tk_num tk_dospuntos stmt_block
 stmt->for tk_par_izq lexpr tk_puntoycoma lexpr tk_puntoycoma lexpr tk_par_der do stmt_block
 stmt->next tk_puntoycoma
 stmt->break tk_puntoycoma

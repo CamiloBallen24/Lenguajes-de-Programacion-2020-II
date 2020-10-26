@@ -28,11 +28,11 @@ public class SyntaxAnalyzer {
     
     public SyntaxResponse analyze() throws Exception{
         nextToken();
+        
         try {
             this.processNoTerminal(this.grammar.firstNoTerminal);
         } catch (Exception ex) {
-            System.out.println(ex.toString());
-            return new SyntaxResponse("error", "Hubo un error en el procesador sintáctico");
+            return new SyntaxResponse("error", ex.getMessage());
         }
         return new SyntaxResponse("success","El analisis sintactico ha finalizado correctamente.");
     }
@@ -51,7 +51,7 @@ public class SyntaxAnalyzer {
         if(next_rule == null){
             throwError(no_terminal);
         }
-        
+
         for (GrammarSymbol symbol : next_rule.right_part) {
             if(symbol.equals(this.grammar.epsilon)) break;
             else if(symbol.getClass().equals(GrammarNoTerminal.class)){
@@ -68,19 +68,25 @@ public class SyntaxAnalyzer {
         if(terminal.name.equals(this.current_token.getName())){
             nextToken();
         }else{
-            System.out.println("Error Sintactico, Al emparejar");
             throwError(terminal);
         }
     }
     
     public void nextToken() throws Exception{
         LexerResponse response = lexer.nextToken();
-        if(response.getTypeResponse().equals("token")){
-            this.current_token = response.getToken();
-        }else if(response.getTypeResponse().equals("lexer_end")){
-            this.current_token = response.getToken();
-        }else if(response.getTypeResponse().equals("error")){
-            throw new Exception(response.toString());
+        
+        
+        switch (response.getTypeResponse()) {
+            case "token":
+                this.current_token = response.getToken();
+                break;
+            case "lexer_end":
+                this.current_token = response.getToken();
+                break;
+            case "error":
+                throw new Exception(response.toString());
+            default:
+                break;
         }
     }
     
@@ -92,16 +98,22 @@ public class SyntaxAnalyzer {
     }
     
     private void throwError(GrammarSymbol symbol) throws Exception{
-        String errorMessage = "<"+this.current_token.getRow()+":"+this.current_token.getColumn()+"> Error sintactico: se encontro: '";
-        errorMessage += (this.current_token.isReservedWord()) ? this.current_token.getName(): this.current_token.getLexeme();
-        errorMessage += "'; se esperaba: ";
+        String errorMessage;
+        if(current_token.getName().equals("$")){
+            errorMessage = "<"+this.current_token.getRow()+":"+this.current_token.getColumn()+"> Error sintactico: se encontro final de archivo; se esperaba 'end'.";
+        }
+        else{
+            errorMessage = "<"+this.current_token.getRow()+":"+this.current_token.getColumn()+"> Error sintactico: se encontro: '";
+            errorMessage += (this.current_token.isReservedWord()) ? this.current_token.getName(): this.current_token.getLexeme();
+            errorMessage += "'; se esperaba: ";
         
-        if(symbol.getClass().equals(GrammarTerminal.class)){
-            errorMessage += "'"+ ((GrammarTerminal) symbol).getSymbol() +"'.";
-        }else{
-            ArrayList<String> expectedSymbols = this.getExpectedSymbols((GrammarNoTerminal)symbol);
-            for(int i=0;i<expectedSymbols.size();i++){
-                errorMessage += (i==expectedSymbols.size()-1) ? "'"+expectedSymbols.get(i)+"'." : "'"+expectedSymbols.get(i)+"', ";
+            if(symbol.getClass().equals(GrammarTerminal.class)){
+                errorMessage += "'"+ ((GrammarTerminal) symbol).getSymbol() +"'.";
+            }else{
+                ArrayList<String> expectedSymbols = this.getExpectedSymbols((GrammarNoTerminal)symbol);
+                for(int i=0;i<expectedSymbols.size();i++){
+                    errorMessage += (i==expectedSymbols.size()-1) ? "'"+expectedSymbols.get(i)+"'." : "'"+expectedSymbols.get(i)+"', ";
+                }
             }
         }
         throw new Exception(errorMessage);
