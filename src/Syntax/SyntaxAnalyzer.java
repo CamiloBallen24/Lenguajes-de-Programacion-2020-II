@@ -52,6 +52,15 @@ public class SyntaxAnalyzer {
             throwError(no_terminal);
         }
         
+        
+//        System.out.println(no_terminal.name);
+//        for (GrammarSymbol grammarSymbol : next_rule.right_part) {
+//            System.out.println(grammarSymbol.name);
+//        }
+//        System.out.println("");
+//        System.out.println("");
+//        System.out.println("");
+        
         for (GrammarSymbol symbol : next_rule.right_part) {
             if(symbol.equals(this.grammar.epsilon)) break;
             else if(symbol.getClass().equals(GrammarNoTerminal.class)){
@@ -65,6 +74,12 @@ public class SyntaxAnalyzer {
     
     
     public void matching(GrammarTerminal terminal) throws Exception{
+//        System.out.println("");
+//        System.out.println("");
+//        System.out.println("Emparejar:");
+//        System.out.println(terminal.name);
+//        System.out.println(this.current_token.getName());
+//        System.out.println("");
         if(terminal.name.equals(this.current_token.getName())){
             nextToken();
         }else{

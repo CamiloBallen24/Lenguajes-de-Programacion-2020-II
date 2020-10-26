@@ -1,5 +1,0 @@
-var flag:bool;
-
-flag:=true;
-flag := not (flag and (not(false) or true)) + ;
-end

@@ -1,45 +1,62 @@
 No Terminal Inicial
 prog
 
-
 No terminales
+datatype
 fn_decl_list
-main_prog
-var_decl_global
+var_decl_global_fn
 var_decl
+var_decl_args_prime
+main_prog
+var_decl_global_main
 var_decl_prime
 stmt_block
 stmt_block_prime
-lexpr
-lexpr_prime
+stmt_prime_main
+lexpr_args
+lexpr_args_prime
+nexpr_args
+rexpr_args
+rexpr_args_prime
+simple_expr_args
+simple_expr_args_prime
+term_args
+term_args_prime
+post_inc_args
+factor_args
 lexpr_puntoycoma
 lexpr_puntoycoma_prime
-nexpr
-rexpr
-rexpr_prime
-simple_expr
-simple_expr_prime
-term
-term_prime
-post_inc
-factor
+nexpr_puntoycoma
+rexpr_puntoycoma
+rexpr_puntoycoma_prime
+simple_expr_puntoycoma
+simple_expr_puntoycoma_prime
+term_puntoycoma
+term_puntoycoma_prime
+post_inc_puntoycoma
+factor_puntoycoma
+lexpr_parentesis
+lexpr_parentesis_prime
+nexpr_parentesis
+rexpr_parentesis
+rexpr_parentesis_prime
+simple_expr_parentesis
+simple_expr_parentesis_prime
+term_parentesis
+term_parentesis_prime
+post_inc_parentesis
+factor_parentesis
 funct_args
 funct_args_prime
 stmt
 operation
-datatype
-stmt_prime_main
 
 
 Terminal Epsilon
 e
 
-
-
 Terminal Fin de Cadena
 $
-
-
 
 Terminales
 function~function
@@ -98,18 +115,21 @@ or~or
 not~not
 
 
-
 Reglas
 prog->fn_decl_list main_prog
 datatype->bool
 datatype->num
-fn_decl_list->function fid tk_dospuntos datatype tk_par_izq var_decl tk_par_der var_decl_global stmt_block fn_decl_list
+fn_decl_list->function fid tk_dospuntos datatype tk_par_izq var_decl tk_par_der var_decl_global_fn stmt_block fn_decl_list
 fn_decl_list->e
-main_prog->var_decl_global stmt_prime_main end
-var_decl_global->var id tk_dospuntos datatype var_decl_prime tk_puntoycoma
-var_decl_global->e
-var_decl->id tk_dospuntos datatype var_decl_prime
+var_decl_global_fn->var id tk_dospuntos datatype var_decl_prime tk_puntoycoma
+var_decl_global_fn->e
+var_decl->id tk_dospuntos datatype var_decl_args_prime
 var_decl->e
+var_decl_args_prime->tk_coma id tk_dospuntos datatype var_decl_args_prime
+var_decl_args_prime->e
+main_prog->var_decl_global_main stmt_prime_main end
+var_decl_global_main->var id tk_dospuntos datatype var_decl_prime tk_puntoycoma
+var_decl_global_main->e
 var_decl_prime->tk_coma id tk_dospuntos datatype var_decl_prime
 var_decl_prime->e
 stmt_block->stmt
@@ -118,62 +138,125 @@ stmt_block_prime->stmt stmt_block_prime
 stmt_block_prime->e
 stmt_prime_main->stmt stmt_prime_main
 stmt_prime_main->e
-lexpr->nexpr lexpr_prime
-lexpr_prime->and nexpr lexpr_prime
-lexpr_prime->or nexpr lexpr_prime
-lexpr_prime->e
-lexpr_puntoycoma->nexpr lexpr_puntoycoma_prime
-lexpr_puntoycoma_prime->and nexpr lexpr_puntoycoma_prime
-lexpr_puntoycoma_prime->or nexpr lexpr_puntoycoma_prime
+lexpr_args->nexpr_args lexpr_args_prime
+lexpr_args_prime->and nexpr_args lexpr_args_prime
+lexpr_args_prime->or nexpr_args lexpr_args_prime
+lexpr_args_prime->e
+nexpr_args->not tk_par_izq lexpr_parentesis tk_par_der
+nexpr_args->rexpr_args
+rexpr_args->simple_expr_args rexpr_args_prime
+rexpr_args_prime->tk_menor simple_expr_args
+rexpr_args_prime->tk_igualdad simple_expr_args
+rexpr_args_prime->tk_menor_igual simple_expr_args
+rexpr_args_prime->tk_mayor simple_expr_args
+rexpr_args_prime->tk_mayor_igual simple_expr_args
+rexpr_args_prime->tk_diferente simple_expr_args
+rexpr_args_prime->e
+simple_expr_args->term_args simple_expr_args_prime
+simple_expr_args_prime->tk_mas term_args simple_expr_args_prime
+simple_expr_args_prime->tk_menos term_args simple_expr_args_prime
+simple_expr_args_prime->e 
+term_args->factor_args term_args_prime
+term_args_prime->tk_mul factor_args term_args_prime
+term_args_prime->tk_div factor_args term_args_prime
+term_args_prime->tk_mod factor_args term_args_prime
+term_args_prime->e
+post_inc_args->tk_incremento
+post_inc_args->tk_decremento
+post_inc_args->e
+factor_args->tk_num
+factor_args->true
+factor_args->false
+factor_args->id post_inc_args
+factor_args->tk_incremento id
+factor_args->tk_decremento id
+factor_args->tk_par_izq lexpr_parentesis tk_par_der
+factor_args->fid tk_par_izq funct_args tk_par_der
+lexpr_puntoycoma->nexpr_puntoycoma lexpr_puntoycoma_prime 
+lexpr_puntoycoma_prime->and nexpr_puntoycoma lexpr_puntoycoma_prime
+lexpr_puntoycoma_prime->or nexpr_puntoycoma lexpr_puntoycoma_prime
 lexpr_puntoycoma_prime->e
-nexpr->not tk_par_izq lexpr tk_par_der
-nexpr->rexpr
-rexpr->simple_expr rexpr_prime
-rexpr_prime->tk_menor simple_expr
-rexpr_prime->tk_igualdad simple_expr
-rexpr_prime->tk_menor_igual simple_expr
-rexpr_prime->tk_mayor simple_expr
-rexpr_prime->tk_mayor_igual simple_expr
-rexpr_prime->tk_diferente simple_expr
-rexpr_prime->e
-simple_expr->term simple_expr_prime
-simple_expr_prime->tk_mas term simple_expr_prime
-simple_expr_prime->tk_menos term simple_expr_prime
-simple_expr_prime->e
-term->factor term_prime
-term_prime->tk_mul factor term_prime
-term_prime->tk_div factor term_prime
-term_prime->tk_mod factor term_prime
-term_prime->e
-post_inc->tk_incremento
-post_inc->tk_decremento
-post_inc->e
-factor->tk_num
-factor->bool
-factor->true
-factor->false
-factor->id post_inc
-factor->tk_incremento id
-factor->tk_decremento id
-factor->tk_par_izq lexpr tk_par_der
-factor->fid tk_par_izq funct_args tk_par_der
-funct_args->lexpr funct_args_prime
+nexpr_puntoycoma->not tk_par_izq lexpr_parentesis tk_par_der
+nexpr_puntoycoma->rexpr_puntoycoma
+rexpr_puntoycoma->simple_expr_puntoycoma rexpr_puntoycoma_prime
+rexpr_puntoycoma_prime->tk_menor simple_expr_puntoycoma
+rexpr_puntoycoma_prime->tk_igualdad simple_expr_puntoycoma
+rexpr_puntoycoma_prime->tk_menor_igual simple_expr_puntoycoma
+rexpr_puntoycoma_prime->tk_mayor simple_expr_puntoycoma
+rexpr_puntoycoma_prime->tk_mayor_igual simple_expr_puntoycoma
+rexpr_puntoycoma_prime->tk_diferente simple_expr_puntoycoma
+rexpr_puntoycoma_prime->e
+simple_expr_puntoycoma->term_puntoycoma simple_expr_puntoycoma_prime
+simple_expr_puntoycoma_prime->tk_mas term_puntoycoma simple_expr_puntoycoma_prime
+simple_expr_puntoycoma_prime->tk_menos term_puntoycoma simple_expr_puntoycoma_prime
+simple_expr_puntoycoma_prime->e 
+term_puntoycoma->factor_puntoycoma term_puntoycoma_prime
+term_puntoycoma_prime->tk_mul factor_puntoycoma term_puntoycoma_prime
+term_puntoycoma_prime->tk_div factor_puntoycoma term_puntoycoma_prime
+term_puntoycoma_prime->tk_mod factor_puntoycoma term_puntoycoma_prime
+term_puntoycoma_prime->e
+post_inc_puntoycoma->tk_incremento
+post_inc_puntoycoma->tk_decremento
+post_inc_puntoycoma->e
+factor_puntoycoma->tk_num
+factor_puntoycoma->true
+factor_puntoycoma->false
+factor_puntoycoma->id post_inc_puntoycoma
+factor_puntoycoma->tk_incremento id
+factor_puntoycoma->tk_decremento id
+factor_puntoycoma->tk_par_izq lexpr_parentesis tk_par_der
+factor_puntoycoma->fid tk_par_izq funct_args tk_par_der
+lexpr_parentesis->nexpr_parentesis lexpr_parentesis_prime 
+lexpr_parentesis_prime->and nexpr_parentesis lexpr_parentesis_prime
+lexpr_parentesis_prime->or nexpr_parentesis lexpr_parentesis_prime
+lexpr_parentesis_prime->e
+nexpr_parentesis->not tk_par_izq lexpr_parentesis tk_par_der
+nexpr_parentesis->rexpr_parentesis
+rexpr_parentesis->simple_expr_parentesis rexpr_parentesis_prime
+rexpr_parentesis_prime->tk_menor simple_expr_parentesis
+rexpr_parentesis_prime->tk_igualdad simple_expr_parentesis
+rexpr_parentesis_prime->tk_menor_igual simple_expr_parentesis
+rexpr_parentesis_prime->tk_mayor simple_expr_parentesis
+rexpr_parentesis_prime->tk_mayor_igual simple_expr_parentesis
+rexpr_parentesis_prime->tk_diferente simple_expr_parentesis
+rexpr_parentesis_prime->e
+simple_expr_parentesis->term_parentesis simple_expr_parentesis_prime
+simple_expr_parentesis_prime->tk_mas term_parentesis simple_expr_parentesis_prime
+simple_expr_parentesis_prime->tk_menos term_parentesis simple_expr_parentesis_prime
+simple_expr_parentesis_prime->e 
+term_parentesis->factor_parentesis term_parentesis_prime
+term_parentesis_prime->tk_mul factor_parentesis term_parentesis_prime
+term_parentesis_prime->tk_div factor_parentesis term_parentesis_prime
+term_parentesis_prime->tk_mod factor_parentesis term_parentesis_prime
+term_parentesis_prime->e
+post_inc_parentesis->tk_incremento
+post_inc_parentesis->tk_decremento
+post_inc_parentesis->e
+factor_parentesis->tk_num
+factor_parentesis->true
+factor_parentesis->false
+factor_parentesis->id post_inc_parentesis
+factor_parentesis->tk_incremento id
+factor_parentesis->tk_decremento id
+factor_parentesis->tk_par_izq lexpr_parentesis tk_par_der
+factor_parentesis->fid tk_par_izq funct_args tk_par_der
+funct_args->lexpr_args funct_args_prime
 funct_args->e
-funct_args_prime->tk_coma lexpr funct_args_prime
+funct_args_prime->tk_coma lexpr_args funct_args_prime
 funct_args_prime->e
-stmt->print lexpr tk_puntoycoma
+stmt->print lexpr_puntoycoma tk_puntoycoma
 stmt->input id tk_puntoycoma
-stmt->when tk_par_izq lexpr tk_par_der do stmt_block
-stmt->if tk_par_izq lexpr tk_par_der do stmt_block else stmt_block
-stmt->unless tk_par_izq lexpr tk_par_der do stmt_block
-stmt->while tk_par_izq lexpr tk_par_der do stmt_block
-stmt->return lexpr tk_puntoycoma
-stmt->until tk_par_izq lexpr tk_par_der do stmt_block
+stmt->when tk_par_izq lexpr_parentesis tk_par_der do stmt_block
+stmt->if tk_par_izq lexpr_parentesis tk_par_der do stmt_block else stmt_block
+stmt->unless tk_par_izq lexpr_parentesis tk_par_der do stmt_block
+stmt->while tk_par_izq lexpr_parentesis tk_par_der do stmt_block
+stmt->return lexpr_puntoycoma tk_puntoycoma
+stmt->until tk_par_izq lexpr_parentesis tk_par_der do stmt_block
 stmt->loop stmt_block
-stmt->do stmt_block while tk_par_izq lexpr tk_par_der
-stmt->do stmt_block until tk_par_izq lexpr tk_par_der
+stmt->do stmt_block while tk_par_izq lexpr_parentesis tk_par_der
+stmt->do stmt_block until tk_par_izq lexpr_parentesis tk_par_der
 stmt->repeat tk_num tk_dospuntos stmt_block
-stmt->for tk_par_izq lexpr tk_puntoycoma lexpr tk_puntoycoma lexpr tk_par_der do stmt_block
+stmt->for tk_par_izq lexpr_puntoycoma tk_puntoycoma lexpr_puntoycoma tk_puntoycoma lexpr_parentesis tk_par_der do stmt_block
 stmt->next tk_puntoycoma
 stmt->break tk_puntoycoma
 stmt->tk_incremento id tk_puntoycoma
