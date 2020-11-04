@@ -57,7 +57,7 @@ factor: NUM
       | (TK_INCREMENTO | TK_DECREMENTO)? ID
       | ID
       | TK_PARENTESIS_IZQUIERDO lexpr TK_PARENTESIS_DERECHO
-      | FID TK_PARENTESIS_IZQUIERDO lexpr (TK_COMA lexpr)* TK_PARENTESIS_DERECHO
+      | FID TK_PARENTESIS_IZQUIERDO (lexpr* (TK_COMA lexpr)*)? TK_PARENTESIS_DERECHO
       ;
 
 
@@ -116,9 +116,9 @@ TK_MODULO                   :   '%';
 BOOL            : 'true'
                 | 'false';
 
-FID             : '@'[a-zA-Z][a-zA-Z0-9_]+;
+FID             : '@'[a-zA-Z][a-zA-Z0-9_]*;
 
-ID              : [a-zA-Z_][a-zA-Z0-9_]+;
+ID              : [a-zA-Z_][a-zA-Z0-9_]*;
 
 NUM             : [0-9]+
                 | [0-9]+'.'[0-9]+;
