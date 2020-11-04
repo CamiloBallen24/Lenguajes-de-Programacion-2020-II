@@ -5,6 +5,7 @@ import Syntax.Reader.GrammarReader;
 import Syntax.SyntaxAnalyzer;
 
 
+
 import java.io.FileWriter;
 import java.io.IOException;
 
@@ -36,7 +37,6 @@ public class Main {
             e.printStackTrace();
         }
         
-
 
         Lexer lexerBCC = new Lexer("src/Files/codigo.txt");
         GrammarReader grammar_reader = new GrammarReader("src//Files//gramatica.txt");

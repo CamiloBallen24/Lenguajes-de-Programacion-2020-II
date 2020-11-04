@@ -11,6 +11,7 @@ import java.util.Scanner;
  * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
  * Camilo Andres Gil Ballen - cgilb@unal.edu.co
 */
+
 public class BCCGraphReader {
     enum lectura{Estados,Conexiones,Referencias,Error}
     
