@@ -5,7 +5,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
-
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
 public class BCCGraphReader {
     enum lectura{Estados,Conexiones,Referencias,Error}
     

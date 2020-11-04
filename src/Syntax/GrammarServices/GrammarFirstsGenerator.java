@@ -8,7 +8,12 @@ import Syntax.Models.GrammarTerminal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
 public class GrammarFirstsGenerator {
     
     //Se asegura que existan los primeros para todos y cada uno de los No terminales en la gramatica 
@@ -26,7 +31,7 @@ public class GrammarFirstsGenerator {
     public static HashSet<GrammarTerminal> findFirsts(Grammar grammar, GrammarNoTerminal no_terminal){
         
         //Obtiene todos las reglas asociadas a un no terminal
-        ArrayList<GrammarRule> rules_no_terminal = GrammarTools.getRulesByNoTerminal(grammar, no_terminal.name);
+        ArrayList<GrammarRule> rules_no_terminal = GrammarTools.getRulesByNoTerminal(grammar, no_terminal);
         
         //Conjunto donde se guardaran los primeros, el set evita que se repitan
         HashSet<GrammarTerminal> firsts_no_terminal = new HashSet<>();
