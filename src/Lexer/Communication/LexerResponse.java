@@ -27,6 +27,11 @@ public class LexerResponse {
         this.type_response = "token";
     }
 
+    public LexerResponse(Token token, String type_response) {
+        this.token = token;
+        this.type_response = type_response;
+    }
+
     public LexerResponse(String type_response) {
         this.type_response = type_response;
     }

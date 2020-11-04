@@ -5,6 +5,12 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Scanner;
+/**
+ * Autores - Practica #01:
+ * Julian David Acosta Bello   - jdacostabe@unal.edu.co
+ * Andres Felipe Castillo Sopo - acastillos@unal.edu.co
+ * Camilo Andres Gil Ballen - cgilb@unal.edu.co
+*/
 
 public class BCCGraphReader {
     enum lectura{Estados,Conexiones,Referencias,Error}
@@ -20,14 +26,14 @@ public class BCCGraphReader {
         this.conexiones  = new ArrayList<>();
         this.referencias = new Hashtable<>();
         
-        this.url_file = "src/prueba.txt";
+        this.url_file = "src//Files//lexemas.txt";
         
         this.readerFile();
     }
     
     private void readerFile(){
        try{
-            Scanner lector = new Scanner(new File("src//Files//prueba.txt"));
+            Scanner lector = new Scanner(new File(this.url_file));
             lectura leyendo = lectura.Error;
             while(lector.hasNextLine()){
                 String line = lector.nextLine();
