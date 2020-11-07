@@ -1,0 +1,18 @@
+function @min:num (x:num, y:num)
+var menor:num, flag:bool;
+  {
+  when ((x < y) == true) do return x;
+  return y;
+  }
+
+function @max:num (a:num, b:num, c:num) var d:num, e:bool;
+  {
+    return 4;
+  }
+
+function @asignar:num (x:num, y:num)
+  x := y;
+
+print @max(2,3,4);
+
+end
