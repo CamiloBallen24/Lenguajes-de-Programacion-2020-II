@@ -16,7 +16,11 @@ public class Main {
             // Crear el objeto correspondiente al analizador sintáctico que se alimenta a partir del buffer de tokens
             BCCParser parser = new BCCParser(tokens);
             ParseTree tree = parser.prog(); // Iniciar el analisis sintáctico en la regla inicial: r
-            System.out.println(tree.toStringTree(parser)); // imprime el arbol al estilo LISP
+
+            Interprete<Object> loader = new Interprete<>();
+            loader.visit(tree);
+
+            //System.out.println(tree.toStringTree(parser)); // imprime el arbol al estilo LISP
         } catch (Exception e){
             System.err.println("Error (Test): " + e);
         }
