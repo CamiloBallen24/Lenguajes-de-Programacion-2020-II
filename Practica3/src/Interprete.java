@@ -34,11 +34,11 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         visitChildren(ctx);
 
 
-        System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
-        for (Map.Entry mapElement : actualScope.entrySet()) {
-            Variable value = (Variable) mapElement.getValue();
-            System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
-        }
+//        System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
+//        for (Map.Entry mapElement : actualScope.entrySet()) {
+//            Variable value = (Variable) mapElement.getValue();
+//            System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
+//        }
 
 
         return null;
@@ -57,7 +57,9 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         return (T) ctx.getText();
     }
 
-    @Override public T visitStmt_block(BCCParser.Stmt_blockContext ctx) { return visitChildren(ctx); }
+    @Override public T visitStmt_block(BCCParser.Stmt_blockContext ctx) {
+        return visitChildren(ctx);
+    }
 
     @Override public T visitPrint(BCCParser.PrintContext ctx) {
         String a = visitLexpr(ctx.lexpr()).toString();
@@ -103,27 +105,116 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         return null;
     }
 
-    @Override public T visitWhen(BCCParser.WhenContext ctx) { return visitChildren(ctx); }
+    @Override public T visitWhen(BCCParser.WhenContext ctx) {
+        String expr = visitLexpr(ctx.lexpr()).toString();
+        if(isBool(expr)){
+            if(toBool(expr)){
+                visit(ctx.stmt_block());
+            }
+        }
+        return null;
+    }
 
-    @Override public T visitIf(BCCParser.IfContext ctx) { return visitChildren(ctx); }
+    @Override public T visitIf(BCCParser.IfContext ctx) {
+        String expr = visitLexpr(ctx.lexpr()).toString();
+        if(isBool(expr)){
+            if(toBool(expr)){
+                visit(ctx.stmt_block(0));
+            }
+            else{
+                visit(ctx.stmt_block(1));
+            }
+        }
+        return null;
+    }
 
-    @Override public T visitUnless(BCCParser.UnlessContext ctx) { return visitChildren(ctx); }
+    @Override public T visitUnless(BCCParser.UnlessContext ctx) {
+        String expr = visitLexpr(ctx.lexpr()).toString();
+        if(isBool(expr)){
+            if(!toBool(expr)){
+                visit(ctx.stmt_block());
+            }
+        }
+        return null;
+    }
 
-    @Override public T visitWhile(BCCParser.WhileContext ctx) { return visitChildren(ctx); }
+    @Override public T visitWhile(BCCParser.WhileContext ctx) {
+        String expr = visitLexpr(ctx.lexpr()).toString();
+        if(isBool(expr)){
+            while(toBool(visitLexpr(ctx.lexpr()).toString())){
+                visit(ctx.stmt_block());
+            }
+        }
+        return visitChildren(ctx);
+    }
 
-    @Override public T visitReturn(BCCParser.ReturnContext ctx) { return visitChildren(ctx); }
+    @Override public T visitReturn(BCCParser.ReturnContext ctx) {
+        return (T) visitLexpr(ctx.lexpr()).toString();
+    }
 
-    @Override public T visitUntil(BCCParser.UntilContext ctx) { return visitChildren(ctx); }
+    @Override public T visitUntil(BCCParser.UntilContext ctx) {
+        String expr = visitLexpr(ctx.lexpr()).toString();
+        if(isBool(expr)){
+            while(!toBool(visitLexpr(ctx.lexpr()).toString())){
+                visit(ctx.stmt_block());
+            }
+        }
+        return visitChildren(ctx);
+    }
 
-    @Override public T visitLoop(BCCParser.LoopContext ctx) { return visitChildren(ctx); }
+    @Override public T visitLoop(BCCParser.LoopContext ctx) {
+        while(true){
+            visit(ctx.stmt_block());
+        }
+    }
 
-    @Override public T visitDoWhile(BCCParser.DoWhileContext ctx) { return visitChildren(ctx); }
+    @Override public T visitDoWhile(BCCParser.DoWhileContext ctx) {
+        String expr = visitLexpr(ctx.lexpr()).toString();
+        if(isBool(expr)){
+            do{
+                visit(ctx.stmt_block());
+            }
+            while(toBool(visitLexpr(ctx.lexpr()).toString()));
+        }
+        return null;
+    }
 
-    @Override public T visitDoUntil(BCCParser.DoUntilContext ctx) { return visitChildren(ctx); }
+    @Override public T visitDoUntil(BCCParser.DoUntilContext ctx) {
+        String expr = visitLexpr(ctx.lexpr()).toString();
+        if(isBool(expr)){
+            do{
+                visit(ctx.stmt_block());
+            }
+            while(!toBool(visitLexpr(ctx.lexpr()).toString()));
+        }
+        return visitChildren(ctx);
+    }
 
-    @Override public T visitRepeat(BCCParser.RepeatContext ctx) { return visitChildren(ctx); }
+    @Override public T visitRepeat(BCCParser.RepeatContext ctx) {
+        String expr = ctx.TK_NUM().getText();
+        if(isNum(expr)){
+            for (int i = 0; i < toNum(expr); i++) {
+                visit(ctx.stmt_block());
+            }
 
-    @Override public T visitFor(BCCParser.ForContext ctx) { return visitChildren(ctx); }
+        }
+        return visitChildren(ctx);
+    }
+
+    @Override public T visitFor(BCCParser.ForContext ctx) {
+        String expr_init = visitLexpr(ctx.lexpr(0)).toString();
+        String expr_end = visitLexpr(ctx.lexpr(1)).toString();
+        String expr_step = visitLexpr(ctx.lexpr(2)).toString();
+        if(isNum(expr_init) && isNum(expr_end) && isNum(expr_step)){
+            for (double i = toNum(expr_init); i < toNum(expr_end); i = i + toNum(expr_step)) {
+                visit(ctx.stmt_block());
+            }
+
+        }
+        return visitChildren(ctx);
+
+
+    }
 
     @Override public T visitNext(BCCParser.NextContext ctx) { return visitChildren(ctx); }
 
@@ -216,6 +307,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
     }
 
     @Override public T visitNexpr(BCCParser.NexprContext ctx) {
+
         if (ctx.TK_NOT() == null){
             return visitRexpr(ctx.rexpr());
         }
@@ -226,7 +318,6 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
             return null;
         }
-
     }
 
     @Override public T visitRexpr(BCCParser.RexprContext ctx) {
@@ -274,6 +365,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) visit(ctx.simple_expr(0)).toString();
         }
 
+
     }
 
     @Override public T visitRexpr_operator(BCCParser.Rexpr_operatorContext ctx) {
@@ -287,7 +379,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
     }
 
     @Override public T visitSimple_expr(BCCParser.Simple_exprContext ctx) {
-        //Term inicial
+//        Term inicial
         String term_0 = visit(ctx.term(0)).toString();
 
         if(isNum(term_0)){
@@ -312,6 +404,8 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             //Asegurarse que sea solo 1
             return (T) term_0;
         }
+
+
 
     }
 
@@ -352,6 +446,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             //Asegurarse que sea solo 1
             return (T) factor_0;
         }
+
     }
 
     @Override public T visitTerm_operator(BCCParser.Term_operatorContext ctx) {
@@ -461,25 +556,25 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         //Se obtiene la función llamada
         BCCParser.Fn_decl_listContext functionCtx = functions.get(ctx.FID().toString());
-
-        //Si la función es null, se tira un error
+//
+//        //Si la función es null, se tira un error
         if(functionCtx == null) twrowError("The function was not declared");
-
-        //Se añade un nuevo scope
+//
+//        //Se añade un nuevo scope
         scopes.add(new HashMap<String,Variable>());
         HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
-
-        //Se pasan variables a la función (Se verifica que el número de variables esperado y el número recibido sea el mismo)
-        //Ademas se hace la verficación de que el número de valores pasados sea el mismo número de parametros esperados
+//
+//        //Se pasan variables a la función (Se verifica que el número de variables esperado y el número recibido sea el mismo)
+//        //Ademas se hace la verficación de que el número de valores pasados sea el mismo número de parametros esperados
         if(ctx.lexpr() != null && functionCtx.parametros != null && functionCtx.parametros.ID().size() == ctx.lexpr().size()){
-
-            //Se resuelven los parámetros pasados (Variables a valores, operaciones, etc) y
-            //si los tipos de datos coinciden (En orden), se guardan en el nuevo scope
+//
+//            //Se resuelven los parámetros pasados (Variables a valores, operaciones, etc) y
+//            //si los tipos de datos coinciden (En orden), se guardan en el nuevo scope
             for(int i=0; i<functionCtx.parametros.ID().size(); i++){
                 Object parameterResolved = visitChildren(ctx.lexpr(i));                                                 //REVISAR CUANDO SE TERMINE LEXPR//
                 String receivedDataType = "num";                                                                        //REVISAR CUANDO SE TERMINE LEXPR//
                 String expectedDataType = visitData_type(functionCtx.parametros.data_type(i)).toString();
-
+//
                 if(receivedDataType.equals(expectedDataType)) {
                     if(actualScope.get(functionCtx.parametros.ID(i).toString())!=null){
                         twrowError("There's a variable name repeated");
@@ -492,29 +587,38 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 }
             }
         }else if(ctx.lexpr() != null || functionCtx.parametros != null) twrowError("The number of parameters passed doesn't match the number of parameters expected");
-
-
-        //Se añaden las variables declaradas en la funcion al scope (Si las hay)
+//
+//
+//        //Se añaden las variables declaradas en la funcion al scope (Si las hay)
         if(functionCtx.variables != null){
             for(int i=0; i<functionCtx.variables.ID().size() ; i++){
                 actualScope.put(functionCtx.variables.ID(i).toString(), new Variable(functionCtx.variables.ID(i).toString(), visitData_type(functionCtx.variables.data_type(i)).toString()));
             }
         }
-
-        //System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
-        //for (Map.Entry mapElement : actualScope.entrySet()) {
-        //    Variable value = (Variable) mapElement.getValue();
-        //    System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
-        //}
-
+//
+//        //System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
+//        //for (Map.Entry mapElement : actualScope.entrySet()) {
+//        //    Variable value = (Variable) mapElement.getValue();
+//        //    System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
+//        //}
+//
         //Se realizan las operaciones de la funcion
-        T functionExecution = visitChildren(functionCtx.stmt_block());
+        T functionExecution = null;
+        for (int i = 0; i < functionCtx.stmt_block().stmt().size(); i++) {
+            if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                functionExecution = visitReturn((BCCParser.ReturnContext) functionCtx.stmt_block().stmt(i));
+            }
+            visit(functionCtx.stmt_block().stmt(i));
+        }
+
 
         //Se elimina el scope de la función
         scopes.remove(scopes.size()-1);
 
         //Se retorna lo devuelto luego de la ejecución de la función
         return functionExecution;
+
+
     }
 
     private void twrowError(String msg){

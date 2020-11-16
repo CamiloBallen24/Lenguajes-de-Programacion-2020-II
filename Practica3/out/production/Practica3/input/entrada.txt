@@ -1,2 +1,13 @@
-print (2/1*10001 > 3*12) and true;
+
+function @max:num ()
+  {
+    return 4;
+  }
+
+
+until(10<2) do {
+    print 2;
+}
+
+
 end
