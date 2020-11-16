@@ -1,4 +1,5 @@
-// Generated from D:/Documents/Julian/Unal/2020-2/Lenguajes de Programación/ANTRL test/grammar\BCC.g4 by ANTLR 4.8
+// Generated from D:/Repositorios/Lenguajes-de-Programacion-2020-II/Practica3/grammar\BCC.g4 by ANTLR 4.8
+package grammar;
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;

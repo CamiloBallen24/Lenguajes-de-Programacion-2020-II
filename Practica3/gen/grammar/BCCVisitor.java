@@ -1,4 +1,5 @@
-// Generated from D:/Documents/Julian/Unal/2020-2/Lenguajes de Programación/ANTRL test/grammar\BCC.g4 by ANTLR 4.8
+// Generated from D:/Repositorios/Lenguajes-de-Programacion-2020-II/Practica3/grammar\BCC.g4 by ANTLR 4.8
+package grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -239,17 +240,35 @@ public interface BCCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitRexpr(BCCParser.RexprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link BCCParser#rexpr_operator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRexpr_operator(BCCParser.Rexpr_operatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link BCCParser#simple_expr}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSimple_expr(BCCParser.Simple_exprContext ctx);
 	/**
+	 * Visit a parse tree produced by {@link BCCParser#simple_expr_operator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSimple_expr_operator(BCCParser.Simple_expr_operatorContext ctx);
+	/**
 	 * Visit a parse tree produced by {@link BCCParser#term}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitTerm(BCCParser.TermContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BCCParser#term_operator}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitTerm_operator(BCCParser.Term_operatorContext ctx);
 	/**
 	 * Visit a parse tree produced by the {@code num}
 	 * labeled alternative in {@link BCCParser#factor}.

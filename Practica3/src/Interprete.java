@@ -1,8 +1,13 @@
+import grammar.BCCBaseVisitor;
+import grammar.BCCParser;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 
-public class Interprete<T> extends BCCBaseVisitor<T>{
+
+public class Interprete<T> extends BCCBaseVisitor<T> {
 
     HashMap<String, BCCParser.Fn_decl_listContext> functions = new HashMap<>();
     ArrayList<HashMap<String, Variable>> scopes = new ArrayList<HashMap<String, Variable>>(){ {add(new HashMap<>());} };
@@ -18,9 +23,35 @@ public class Interprete<T> extends BCCBaseVisitor<T>{
         return null;
     }
 
-    @Override public T visitMain_prog(BCCParser.Main_progContext ctx) { return visitChildren(ctx); }
+    @Override public T visitMain_prog(BCCParser.Main_progContext ctx) {
+        //Se añade un nuevo scope
+        scopes.add(new HashMap<String,Variable>());
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
 
-    @Override public T visitVar_decl(BCCParser.Var_declContext ctx) { return visitChildren(ctx); }
+        if(ctx.TK_VAR() != null){
+            visitVar_decl(ctx.var_decl());
+        }
+        visitChildren(ctx);
+
+
+        System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
+        for (Map.Entry mapElement : actualScope.entrySet()) {
+            Variable value = (Variable) mapElement.getValue();
+            System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
+        }
+
+
+        return null;
+
+    }
+
+    @Override public T visitVar_decl(BCCParser.Var_declContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+        for (int i = 0; i < ctx.ID().size(); i++) {
+            actualScope.put(ctx.ID(i).getText(), new Variable( ctx.ID(i).getText(), null, visitData_type(ctx.data_type(i)).toString()));
+        }
+        return null;
+    }
 
     @Override public T visitData_type(BCCParser.Data_typeContext ctx) {
         return (T) ctx.getText();
@@ -29,11 +60,48 @@ public class Interprete<T> extends BCCBaseVisitor<T>{
     @Override public T visitStmt_block(BCCParser.Stmt_blockContext ctx) { return visitChildren(ctx); }
 
     @Override public T visitPrint(BCCParser.PrintContext ctx) {
-        System.out.println("PRINT DEL LENGUAJE: "+visitChildren(ctx));
+        String a = visitLexpr(ctx.lexpr()).toString();
+        System.out.println(a);
         return null;
     }
 
-    @Override public T visitInput(BCCParser.InputContext ctx) { return visitChildren(ctx); }
+    @Override public T visitInput(BCCParser.InputContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            Scanner in = new Scanner(System.in);
+            String input = in.nextLine();
+
+            if(var.getDataType().toString().equals("num")){
+                //verificar que sea un numero o tirar error
+                if (isNum(input)) {
+                    Variable new_var = new Variable(var.getName(), toNum(input), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Valor no valido");
+                }
+            }
+
+            if(var.getDataType().toString().equals("bool")) {
+                if(isBool(input)){
+                    Variable new_var = new Variable(var.getName(), toBool(input), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Valor no valido");
+                }
+            }
+
+        }
+        else{
+            twrowError("This variable don't exist");
+        }
+        return null;
+    }
 
     @Override public T visitWhen(BCCParser.WhenContext ctx) { return visitChildren(ctx); }
 
@@ -61,7 +129,47 @@ public class Interprete<T> extends BCCBaseVisitor<T>{
 
     @Override public T visitBreak(BCCParser.BreakContext ctx) { return visitChildren(ctx); }
 
-    @Override public T visitAsignacion(BCCParser.AsignacionContext ctx) { return visitChildren(ctx); }
+    @Override public T visitAsignacion(BCCParser.AsignacionContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            String value = visitLexpr(ctx.lexpr()).toString();
+
+            if (var.getDataType().toString().equals("num")){
+                if(isNum(value)){
+                    Variable new_var = new Variable(var.getName(), toNum(value), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Valor no valido");
+                    return null;
+                }
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                if(isBool(value)) {
+                    Variable new_var = new Variable(var.getName(), toBool(value), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Valor no valido");
+                    return null;
+                }
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("This variable don't exist");
+            return null;
+        }
+
+
+    }
 
     @Override public T visitSumaIgual(BCCParser.SumaIgualContext ctx) { return visitChildren(ctx); }
 
@@ -81,29 +189,273 @@ public class Interprete<T> extends BCCBaseVisitor<T>{
 
     @Override public T visitPreDecremento(BCCParser.PreDecrementoContext ctx) { return visitChildren(ctx); }
 
-    @Override public T visitLexpr(BCCParser.LexprContext ctx) { return visitChildren(ctx); }
+    @Override public T visitLexpr(BCCParser.LexprContext ctx) {
+        String  nexpr_inital = visitNexpr(ctx.nexpr(0)).toString();
 
-    @Override public T visitNexpr(BCCParser.NexprContext ctx) { return visitChildren(ctx); }
+        if(ctx.TK_AND().size()>0){
+            if(!isBool(nexpr_inital)){ twrowError("Esta variable no es voleana");}
+            Boolean lexpr = toBool(nexpr_inital);
+            for (int i = 1; i < ctx.TK_AND().size() ; i++) {
+                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("Esta variable no es voleana");}
+                lexpr = lexpr && toBool(visitNexpr(ctx.nexpr(i)).toString());
+            }
+            return (T) Boolean.toString(lexpr);
 
-    @Override public T visitRexpr(BCCParser.RexprContext ctx) { return visitChildren(ctx); }
 
-    @Override public T visitSimple_expr(BCCParser.Simple_exprContext ctx) { return visitChildren(ctx); }
+        }
+        if(ctx.TK_OR().size()>0){
+            if(!isBool(nexpr_inital)){ twrowError("Esta variable no es voleana");}
+            Boolean lexpr = toBool(nexpr_inital);
+            for (int i = 1; i < ctx.TK_OR().size()+1 ; i++) {
+                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("Esta variable no es voleana");}
+                lexpr = lexpr || toBool(visitNexpr(ctx.nexpr(i)).toString());
+            }
+            return (T) Boolean.toString(lexpr);
+        }
+        return (T) nexpr_inital;
+    }
 
-    @Override public T visitTerm(BCCParser.TermContext ctx) { return visitChildren(ctx); }
+    @Override public T visitNexpr(BCCParser.NexprContext ctx) {
+        if (ctx.TK_NOT() == null){
+            return visitRexpr(ctx.rexpr());
+        }
+        else{
+            String value = visitLexpr(ctx.lexpr()).toString();
+            if(isBool(value)){
+                return (T) Boolean.toString(!toBool(value));
+            }
+            return null;
+        }
+
+    }
+
+    @Override public T visitRexpr(BCCParser.RexprContext ctx) {
+
+        if(ctx.simple_expr().size()==2){
+            String simple_expr_0 = visit(ctx.simple_expr(0)).toString();
+            String simple_expr_1 = visit(ctx.simple_expr(1)).toString();
+
+            if(isNum(simple_expr_0) && isNum(simple_expr_1)){}
+            switch (visitRexpr_operator(ctx.rexpr_operator()).toString()){
+                case (">"):
+                    return (T) Boolean.toString(toNum(simple_expr_0) > toNum(simple_expr_1));
+
+                case ("<"):
+                    return (T) Boolean.toString(toNum(simple_expr_0) < toNum(simple_expr_1));
+
+                case (">="):
+                    return (T) Boolean.toString(toNum(simple_expr_0) >= toNum(simple_expr_1));
+
+                case ("<="):
+                    return (T) Boolean.toString(toNum(simple_expr_0) <= toNum(simple_expr_1));
+
+                case ("=="):
+                    return (T) Boolean.toString(toNum(simple_expr_0) == toNum(simple_expr_1));
+
+                case ("!="):
+                    return (T) Boolean.toString(toNum(simple_expr_0) != toNum(simple_expr_1));
+            }
+
+            if(isBool(simple_expr_0) && isBool(simple_expr_1)){
+                switch (visitRexpr_operator(ctx.rexpr_operator()).toString()){
+                    case ("!="):
+                        return (T) Boolean.toString(toBool(simple_expr_0) != toBool(simple_expr_1));
+
+                    case ("=="):
+                        return (T) Boolean.toString(toBool(simple_expr_0) == toBool(simple_expr_1));
+
+                }
+            }
+
+
+            return null;
+        }
+        else{
+            return (T) visit(ctx.simple_expr(0)).toString();
+        }
+
+    }
+
+    @Override public T visitRexpr_operator(BCCParser.Rexpr_operatorContext ctx) {
+        if(ctx.TK_MAYOR() != null){ return (T) ctx.TK_MAYOR().getText();}
+        if(ctx.TK_MENOR() != null){ return (T) ctx.TK_MENOR().getText();}
+        if(ctx.TK_IGUAL() != null){ return (T) ctx.TK_IGUAL().getText();}
+        if(ctx.TK_DIFERENTE() != null){ return (T) ctx.TK_DIFERENTE().getText();}
+        if(ctx.TK_MAYOR_IGUAL() != null){ return (T) ctx.TK_MAYOR_IGUAL().getText();}
+        if(ctx.TK_MENOR_IGUAL() != null){ return (T) ctx.TK_MENOR_IGUAL().getText();}
+        return null;
+    }
+
+    @Override public T visitSimple_expr(BCCParser.Simple_exprContext ctx) {
+        //Term inicial
+        String term_0 = visit(ctx.term(0)).toString();
+
+        if(isNum(term_0)){
+            Double simple_expr = toNum(term_0);
+
+            for (int i = 1; i < ctx.term().size(); i++) {
+
+                if(!isNum(visit(ctx.term(i)).toString())){
+                    twrowError("Esta variable no es de tipo num");
+                }
+                if(visitSimple_expr_operator(ctx.simple_expr_operator(i-1)).toString().equals("+")){
+                    simple_expr = simple_expr + toNum(visit(ctx.term(i)).toString());
+                }
+                if(visitSimple_expr_operator(ctx.simple_expr_operator(i-1)).toString().equals("-")){
+                    simple_expr = simple_expr - toNum(visit(ctx.term(i)).toString());
+                }
+            }
+
+            return (T) simple_expr;
+        }
+        else{
+            //Asegurarse que sea solo 1
+            return (T) term_0;
+        }
+
+    }
+
+    @Override public T visitSimple_expr_operator(BCCParser.Simple_expr_operatorContext ctx) {
+        if(ctx.TK_RESTA() != null){ return (T) ctx.TK_RESTA().getText();}
+        if(ctx.TK_SUMA() != null){ return (T) ctx.TK_SUMA().getText();}
+        return null;
+    }
+
+    @Override public T visitTerm(BCCParser.TermContext ctx) {
+        //Factor inicial
+        String factor_0 = visit(ctx.initialfactor).toString();
+
+
+        if(isNum(factor_0)){
+            Double term = toNum(factor_0);
+
+            for (int i = 1; i < ctx.factor().size(); i++) {
+
+                if(!isNum(visit(ctx.factor(i)).toString())){
+                    twrowError("Esta variable no es de tipo num");
+                }
+                if(visitTerm_operator(ctx.term_operator(i-1)).toString().equals("*")){
+                    term = term * toNum(visit(ctx.factor(i)).toString());
+                }
+
+                if(visitTerm_operator(ctx.term_operator(i-1)).toString().equals("/")){
+                    term = term / toNum(visit(ctx.factor(i)).toString());
+                }
+                if(visitTerm_operator(ctx.term_operator(i-1)).toString().equals("%")){
+                    term = term % toNum(visit(ctx.factor(i)).toString());
+                }
+
+            }
+            return (T) term;
+        }
+        else{
+            //Asegurarse que sea solo 1
+            return (T) factor_0;
+        }
+    }
+
+    @Override public T visitTerm_operator(BCCParser.Term_operatorContext ctx) {
+        if(ctx.TK_PRODUCTO() != null){ return (T) ctx.TK_PRODUCTO().getText();}
+        if(ctx.TK_DIVISION() != null){ return (T) ctx.TK_DIVISION().getText();}
+        if(ctx.TK_MODULO() != null){ return (T) ctx.TK_MODULO().getText();}
+        return null;
+    }
 
     @Override public T visitNum(BCCParser.NumContext ctx) {
         return (T) ctx.getText();
     }
 
-    @Override public T visitBool(BCCParser.BoolContext ctx) { return visitChildren(ctx); }
+    @Override public T visitBool(BCCParser.BoolContext ctx) {
+        return (T) ctx.getText();
+    }
 
-    @Override public T visitPostFactor(BCCParser.PostFactorContext ctx) { return visitChildren(ctx); }
+    @Override public T visitPostFactor(BCCParser.PostFactorContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
 
-    @Override public T visitPreFactor(BCCParser.PreFactorContext ctx) { return visitChildren(ctx); }
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
 
-    @Override public T visitVariable(BCCParser.VariableContext ctx) { return visitChildren(ctx); }
+            if (var.getValue() == null) {
+                twrowError("Esta variable no esta inicializada");
+            }
 
-    @Override public T visitParentesisFactor(BCCParser.ParentesisFactorContext ctx) { return visitChildren(ctx); }
+            //verificar que sea un numero o tirar error
+            if(var.getDataType().toString().equals("num")){
+                if (ctx.TK_DECREMENTO() != null){
+                    Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString())-1, var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                if (ctx.TK_INCREMENTO() != null){
+                    Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString())+1, var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+
+                return (T) toNum(var.getValue().toString());
+            }
+            else {
+                twrowError("Esta variable no es de tipo num");
+                return null;
+            }
+        }
+        else{
+            twrowError("This variable don't exist");
+            return null;
+        }
+    }
+
+    @Override public T visitPreFactor(BCCParser.PreFactorContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            if (var.getValue() == null) {
+                twrowError("Esta variable no esta inicializada");
+            }
+
+            //verificar que sea un numero o tirar error
+            if(var.getDataType().toString().equals("num")){
+                if (ctx.TK_DECREMENTO() != null){
+                    Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString())-1, var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                if (ctx.TK_INCREMENTO() != null){
+                    Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString())+1, var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                return (T) toNum(actualScope.get(ctx.ID().getText()).getValue().toString());
+            }
+            else {
+                twrowError("Esta variable no es de tipo num");
+                return null;
+            }
+        }
+        else{
+            twrowError("This variable don't exist");
+            return null;
+        }
+    }
+
+    @Override public T visitVariable(BCCParser.VariableContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+            return (T) Double.valueOf(var.getValue().toString());
+        }
+        else{
+            twrowError("This variable don't exist");
+            return null;
+        }
+    }
+
+    @Override public T visitParentesisFactor(BCCParser.ParentesisFactorContext ctx) {
+        T lexprEvaluation = visitLexpr(ctx.lexpr());
+        return lexprEvaluation;
+    }
 
     @Override public T visitLlamadoFunct(BCCParser.LlamadoFunctContext ctx) {
 
@@ -149,11 +501,11 @@ public class Interprete<T> extends BCCBaseVisitor<T>{
             }
         }
 
-        System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
-        for (Map.Entry mapElement : actualScope.entrySet()) {
-            Variable value = (Variable) mapElement.getValue();
-            System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
-        }
+        //System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
+        //for (Map.Entry mapElement : actualScope.entrySet()) {
+        //    Variable value = (Variable) mapElement.getValue();
+        //    System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
+        //}
 
         //Se realizan las operaciones de la funcion
         T functionExecution = visitChildren(functionCtx.stmt_block());
@@ -167,5 +519,41 @@ public class Interprete<T> extends BCCBaseVisitor<T>{
 
     private void twrowError(String msg){
         System.out.println(msg);
+    }
+
+    private boolean isNum(String expresion){
+        try {
+            Double.valueOf(expresion);
+            return true;
+        }
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    private Double toNum(String expresion){
+        return Double.parseDouble(expresion);
+    }
+
+    private boolean isBool(String expresion){
+        return true;
+    }
+
+    private Boolean toBool(String expresion){
+        if(expresion.equals("true")){
+            return true;
+        }
+        if(expresion.equals("false")){
+            return false;
+        }
+        return false;
+    }
+
+    private boolean isTrue(String expresion){
+        return true;
+    }
+
+    private boolean isFalse(String expresion){
+        return true;
     }
 }
