@@ -1,5 +1,6 @@
 import grammar.BCCBaseVisitor;
 import grammar.BCCParser;
+import org.antlr.v4.runtime.RuleContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -31,7 +32,21 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         if(ctx.TK_VAR() != null){
             visitVar_decl(ctx.var_decl());
         }
-        visitChildren(ctx);
+        for (int i = 0; i < ctx.stmt().size(); i++) {
+            if (ctx.stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                twrowError("por que pedo esto esta aqui");
+                return null;
+            }
+            if (ctx.stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                twrowError("por que pedo esto esta aqui");
+                return null;
+            }
+            if (ctx.stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                twrowError("por que pedo esto esta aqui");
+                return null;
+            }
+            visit(ctx.stmt(i));
+        }
 
 
 //        System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
@@ -109,7 +124,21 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         String expr = visitLexpr(ctx.lexpr()).toString();
         if(isBool(expr)){
             if(toBool(expr)){
-                visit(ctx.stmt_block());
+                for (int i = 0; i < ctx.stmt_block().stmt().size(); i++) {
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                        return visitNext((BCCParser.NextContext) ctx.stmt_block().stmt(i));
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                        return visitBreak((BCCParser.BreakContext) ctx.stmt_block().stmt(i));
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(i));
+                    }
+                    T stmt_return = visit(ctx.stmt_block().stmt(i));
+                    if(stmt_return!=null) {
+                        return stmt_return;
+                    }
+                }
             }
         }
         return null;
@@ -119,10 +148,38 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         String expr = visitLexpr(ctx.lexpr()).toString();
         if(isBool(expr)){
             if(toBool(expr)){
-                visit(ctx.stmt_block(0));
+                for (int i = 0; i < ctx.stmt_block(0).stmt().size(); i++) {
+                    if (ctx.stmt_block(0).stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                        return visitNext((BCCParser.NextContext) ctx.stmt_block(0).stmt(i));
+                    }
+                    if (ctx.stmt_block(0).stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                        return visitBreak((BCCParser.BreakContext) ctx.stmt_block(0).stmt(i));
+                    }
+                    if (ctx.stmt_block(0).stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block(0).stmt(i));
+                    }
+                    T stmt_return = visit(ctx.stmt_block(0).stmt(i));
+                    if(stmt_return!=null) {
+                        return stmt_return;
+                    }
+                }
             }
             else{
-                visit(ctx.stmt_block(1));
+                for (int i = 0; i < ctx.stmt_block(1).stmt().size(); i++) {
+                    if (ctx.stmt_block(1).stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                        return visitNext((BCCParser.NextContext) ctx.stmt_block(1).stmt(i));
+                    }
+                    if (ctx.stmt_block(1).stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                        return visitBreak((BCCParser.BreakContext) ctx.stmt_block(1).stmt(i));
+                    }
+                    if (ctx.stmt_block(1).stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block(1).stmt(i));
+                    }
+                    T stmt_return = visit(ctx.stmt_block(1).stmt(i));
+                    if(stmt_return!=null) {
+                        return stmt_return;
+                    }
+                }
             }
         }
         return null;
@@ -132,7 +189,21 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         String expr = visitLexpr(ctx.lexpr()).toString();
         if(isBool(expr)){
             if(!toBool(expr)){
-                visit(ctx.stmt_block());
+                for (int i = 0; i < ctx.stmt_block().stmt().size(); i++) {
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                        return visitNext((BCCParser.NextContext) ctx.stmt_block().stmt(i));
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                        return visitBreak((BCCParser.BreakContext) ctx.stmt_block().stmt(i));
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(i));
+                    }
+                    T stmt_return = visit(ctx.stmt_block().stmt(i));
+                    if(stmt_return!=null) {
+                        return stmt_return;
+                    }
+                }
             }
         }
         return null;
@@ -142,21 +213,68 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         String expr = visitLexpr(ctx.lexpr()).toString();
         if(isBool(expr)){
             while(toBool(visitLexpr(ctx.lexpr()).toString())){
-                visit(ctx.stmt_block());
+                for (int i = 0; i < ctx.stmt_block().stmt().size(); i++) {
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                        break;
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                        return null;
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(i));
+                    }
+                    T stmt_return = visit(ctx.stmt_block().stmt(i));
+                    if(stmt_return!=null) {
+                        if(stmt_return.toString().equals("break")) return null;
+                        else if(stmt_return.toString().equals("next")) break;
+                        else return stmt_return;
+                    }
+                }
             }
         }
         return visitChildren(ctx);
     }
 
     @Override public T visitReturn(BCCParser.ReturnContext ctx) {
-        return (T) visitLexpr(ctx.lexpr()).toString();
+        Boolean isInFuntion = false;
+        RuleContext parent = ctx.parent;
+        while (!isInFuntion && !parent.getClass().equals(BCCParser.ProgContext.class)){
+            if (parent.getClass().equals(BCCParser.Fn_decl_listContext.class))
+                isInFuntion = true;
+            else
+                parent =  parent.parent;
+        }
+        if (isInFuntion){
+            return (T) visitLexpr(ctx.lexpr()).toString();
+        }
+        else{
+            twrowError("por que pedo esto esta aqui");
+            return null;
+        }
+
     }
 
     @Override public T visitUntil(BCCParser.UntilContext ctx) {
         String expr = visitLexpr(ctx.lexpr()).toString();
         if(isBool(expr)){
             while(!toBool(visitLexpr(ctx.lexpr()).toString())){
-                visit(ctx.stmt_block());
+                for (int i = 0; i < ctx.stmt_block().stmt().size(); i++) {
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                        break;
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                        return null;
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(i));
+                    }
+                    T stmt_return = visit(ctx.stmt_block().stmt(i));
+                    if(stmt_return!=null) {
+                        if(stmt_return.toString().equals("break")) return null;
+                        else if(stmt_return.toString().equals("next")) break;
+                        else return stmt_return;
+                    }
+                }
             }
         }
         return visitChildren(ctx);
@@ -164,7 +282,23 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
     @Override public T visitLoop(BCCParser.LoopContext ctx) {
         while(true){
-            visit(ctx.stmt_block());
+            for (int i = 0; i < ctx.stmt_block().stmt().size(); i++) {
+                if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                    break;
+                }
+                if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                    return null;
+                }
+                if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                    return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(i));
+                }
+                T stmt_return = visit(ctx.stmt_block().stmt(i));
+                if(stmt_return!=null) {
+                    if(stmt_return.toString().equals("break")) return null;
+                    else if(stmt_return.toString().equals("next")) break;
+                    else return stmt_return;
+                }
+            }
         }
     }
 
@@ -172,7 +306,23 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         String expr = visitLexpr(ctx.lexpr()).toString();
         if(isBool(expr)){
             do{
-                visit(ctx.stmt_block());
+                for (int i = 0; i < ctx.stmt_block().stmt().size(); i++) {
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                        break;
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                        return null;
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(i));
+                    }
+                    T stmt_return = visit(ctx.stmt_block().stmt(i));
+                    if(stmt_return!=null) {
+                        if(stmt_return.toString().equals("break")) return null;
+                        else if(stmt_return.toString().equals("next")) break;
+                        else return stmt_return;
+                    }
+                }
             }
             while(toBool(visitLexpr(ctx.lexpr()).toString()));
         }
@@ -183,7 +333,23 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         String expr = visitLexpr(ctx.lexpr()).toString();
         if(isBool(expr)){
             do{
-                visit(ctx.stmt_block());
+                for (int i = 0; i < ctx.stmt_block().stmt().size(); i++) {
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                        break;
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                        return null;
+                    }
+                    if (ctx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(i));
+                    }
+                    T stmt_return = visit(ctx.stmt_block().stmt(i));
+                    if(stmt_return!=null) {
+                        if(stmt_return.toString().equals("break")) return null;
+                        else if(stmt_return.toString().equals("next")) break;
+                        else return stmt_return;
+                    }
+                }
             }
             while(!toBool(visitLexpr(ctx.lexpr()).toString()));
         }
@@ -194,7 +360,23 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         String expr = ctx.TK_NUM().getText();
         if(isNum(expr)){
             for (int i = 0; i < toNum(expr); i++) {
-                visit(ctx.stmt_block());
+                for (int j = 0; j < ctx.stmt_block().stmt().size(); j++) {
+                    if (ctx.stmt_block().stmt(j).getClass().equals(BCCParser.NextContext.class)){
+                        break;
+                    }
+                    if (ctx.stmt_block().stmt(j).getClass().equals(BCCParser.BreakContext.class)){
+                        return null;
+                    }
+                    if (ctx.stmt_block().stmt(j).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(j));
+                    }
+                    T stmt_return = visit(ctx.stmt_block().stmt(j));
+                    if(stmt_return!=null) {
+                        if(stmt_return.toString().equals("break")) return null;
+                        else if(stmt_return.toString().equals("next")) break;
+                        else return stmt_return;
+                    }
+                }
             }
 
         }
@@ -207,7 +389,23 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         String expr_step = visitLexpr(ctx.lexpr(2)).toString();
         if(isNum(expr_init) && isNum(expr_end) && isNum(expr_step)){
             for (double i = toNum(expr_init); i < toNum(expr_end); i = i + toNum(expr_step)) {
-                visit(ctx.stmt_block());
+                for (int j = 0; j < ctx.stmt_block().stmt().size(); j++) {
+                    if (ctx.stmt_block().stmt(j).getClass().equals(BCCParser.NextContext.class)){
+                        break;
+                    }
+                    if (ctx.stmt_block().stmt(j).getClass().equals(BCCParser.BreakContext.class)){
+                        return null;
+                    }
+                    if (ctx.stmt_block().stmt(j).getClass().equals(BCCParser.ReturnContext.class)){
+                        return visitReturn((BCCParser.ReturnContext) ctx.stmt_block().stmt(j));
+                    }
+                    T stmt_return = visit(ctx.stmt_block().stmt(j));
+                    if(stmt_return!=null) {
+                        if(stmt_return.toString().equals("break")) return null;
+                        else if(stmt_return.toString().equals("next")) break;
+                        else return stmt_return;
+                    }
+                }
             }
 
         }
@@ -216,9 +414,53 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
     }
 
-    @Override public T visitNext(BCCParser.NextContext ctx) { return visitChildren(ctx); }
+    @Override public T visitNext(BCCParser.NextContext ctx) {
+        Boolean isInLoop = false;
+        RuleContext parent = ctx.parent;
+        while (!isInLoop && !parent.getClass().equals(BCCParser.ProgContext.class)){
+            if (parent.getClass().equals(BCCParser.WhileContext.class) ||
+                    parent.getClass().equals(BCCParser.LoopContext.class) ||
+                    parent.getClass().equals(BCCParser.ForContext.class) ||
+                    parent.getClass().equals(BCCParser.UntilContext.class) ||
+                    parent.getClass().equals(BCCParser.RepeatContext.class) ||
+                    parent.getClass().equals(BCCParser.DoWhileContext.class) ||
+                    parent.getClass().equals(BCCParser.DoUntilContext.class))
+                isInLoop = true;
+            else
+                parent =  parent.parent;
+        }
+        if (isInLoop){
+            return (T) ctx.TK_NEXT().getText();
+        }
+        else{
+            twrowError("por que pedo esto esta aqui");
+            return null;
+        }
+    }
 
-    @Override public T visitBreak(BCCParser.BreakContext ctx) { return visitChildren(ctx); }
+    @Override public T visitBreak(BCCParser.BreakContext ctx) {
+        Boolean isInLoop = false;
+        RuleContext parent = ctx.parent;
+        while (!isInLoop && !parent.getClass().equals(BCCParser.ProgContext.class)){
+            if (parent.getClass().equals(BCCParser.WhileContext.class) ||
+                parent.getClass().equals(BCCParser.LoopContext.class) ||
+                parent.getClass().equals(BCCParser.ForContext.class) ||
+                parent.getClass().equals(BCCParser.UntilContext.class) ||
+                parent.getClass().equals(BCCParser.RepeatContext.class) ||
+                parent.getClass().equals(BCCParser.DoWhileContext.class) ||
+                parent.getClass().equals(BCCParser.DoUntilContext.class))
+                isInLoop = true;
+            else
+                parent =  parent.parent;
+        }
+        if (isInLoop){
+            return (T) ctx.TK_BREAK().getText();
+        }
+        else{
+            twrowError("por que pedo esto esta aqui");
+            return null;
+        }
+    }
 
     @Override public T visitAsignacion(BCCParser.AsignacionContext ctx) {
         HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
@@ -326,27 +568,27 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             String simple_expr_0 = visit(ctx.simple_expr(0)).toString();
             String simple_expr_1 = visit(ctx.simple_expr(1)).toString();
 
-            if(isNum(simple_expr_0) && isNum(simple_expr_1)){}
-            switch (visitRexpr_operator(ctx.rexpr_operator()).toString()){
-                case (">"):
-                    return (T) Boolean.toString(toNum(simple_expr_0) > toNum(simple_expr_1));
+            if(isNum(simple_expr_0) && isNum(simple_expr_1)) {
+                switch (visitRexpr_operator(ctx.rexpr_operator()).toString()) {
+                    case (">"):
+                        return (T) Boolean.toString(toNum(simple_expr_0) > toNum(simple_expr_1));
 
-                case ("<"):
-                    return (T) Boolean.toString(toNum(simple_expr_0) < toNum(simple_expr_1));
+                    case ("<"):
+                        return (T) Boolean.toString(toNum(simple_expr_0) < toNum(simple_expr_1));
 
-                case (">="):
-                    return (T) Boolean.toString(toNum(simple_expr_0) >= toNum(simple_expr_1));
+                    case (">="):
+                        return (T) Boolean.toString(toNum(simple_expr_0) >= toNum(simple_expr_1));
 
-                case ("<="):
-                    return (T) Boolean.toString(toNum(simple_expr_0) <= toNum(simple_expr_1));
+                    case ("<="):
+                        return (T) Boolean.toString(toNum(simple_expr_0) <= toNum(simple_expr_1));
 
-                case ("=="):
-                    return (T) Boolean.toString(toNum(simple_expr_0) == toNum(simple_expr_1));
+                    case ("=="):
+                        return (T) Boolean.toString(toNum(simple_expr_0) == toNum(simple_expr_1));
 
-                case ("!="):
-                    return (T) Boolean.toString(toNum(simple_expr_0) != toNum(simple_expr_1));
+                    case ("!="):
+                        return (T) Boolean.toString(toNum(simple_expr_0) != toNum(simple_expr_1));
+                }
             }
-
             if(isBool(simple_expr_0) && isBool(simple_expr_1)){
                 switch (visitRexpr_operator(ctx.rexpr_operator()).toString()){
                     case ("!="):
@@ -571,8 +813,8 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 //            //Se resuelven los parámetros pasados (Variables a valores, operaciones, etc) y
 //            //si los tipos de datos coinciden (En orden), se guardan en el nuevo scope
             for(int i=0; i<functionCtx.parametros.ID().size(); i++){
-                Object parameterResolved = visitChildren(ctx.lexpr(i));                                                 //REVISAR CUANDO SE TERMINE LEXPR//
-                String receivedDataType = "num";                                                                        //REVISAR CUANDO SE TERMINE LEXPR//
+                String parameterResolved = visitLexpr(ctx.lexpr(i)).toString();                                                 //REVISAR CUANDO SE TERMINE LEXPR//
+                String receivedDataType = isNum(parameterResolved)?"num":"bool";                                                //REVISAR CUANDO SE TERMINE LEXPR//
                 String expectedDataType = visitData_type(functionCtx.parametros.data_type(i)).toString();
 //
                 if(receivedDataType.equals(expectedDataType)) {
@@ -605,10 +847,23 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         //Se realizan las operaciones de la funcion
         T functionExecution = null;
         for (int i = 0; i < functionCtx.stmt_block().stmt().size(); i++) {
+            if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
+                twrowError("por que pedo esto esta aqui");
+                return null;
+            }
+            if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
+                twrowError("por que pedo esto esta aqui");
+                return null;
+            }
             if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
                 functionExecution = visitReturn((BCCParser.ReturnContext) functionCtx.stmt_block().stmt(i));
+                break;
             }
-            visit(functionCtx.stmt_block().stmt(i));
+            T stmt_return = visit(functionCtx.stmt_block().stmt(i));
+            if(stmt_return!=null){
+                functionExecution = stmt_return;
+                break;
+            };
         }
 
 
@@ -640,7 +895,13 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
     }
 
     private boolean isBool(String expresion){
-        return true;
+        if(expresion.equals("true")){
+            return true;
+        }
+        if(expresion.equals("false")){
+            return true;
+        }
+        return false;
     }
 
     private Boolean toBool(String expresion){

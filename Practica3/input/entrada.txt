@@ -1,13 +1,17 @@
-
-function @max:num ()
-  {
-    return 4;
-  }
-
-
-until(10<2) do {
-    print 2;
+function @min:num (x:num, y:num)
+{
+    when ((x < y) == true) do return x;
+    return y;
 }
 
+while(true)do{
+    print 2;
+    if(2>1) do{
+        next;
+    }
+    else {
+        next;
+    }
 
+}
 end
