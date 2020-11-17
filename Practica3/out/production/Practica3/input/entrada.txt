@@ -1,11 +1,22 @@
-function @mayor_5:bool (n:num)
-   return n>5;
-
-for(0;15;1) do{
-    if(@mayor_5(21)) do
-        print 10101;
-    else
-        print 0;
+function @fibonacci:num ()
+    var x:num, siguiente:num, actual:num, temporal:num;
+{
+    siguiente:= 1;
+    actual:= 0;
+    temporal:= 0;
+    x:= 1;
+    while ( x <= 5 ) do {
+        print actual;
+        temporal:= actual;
+        actual:= siguiente;
+        siguiente+= temporal;
+        x++;
+    }
+    print actual;
+    return actual;
 }
+
+var result:num;
+result:= @fibonacci();
 
 end

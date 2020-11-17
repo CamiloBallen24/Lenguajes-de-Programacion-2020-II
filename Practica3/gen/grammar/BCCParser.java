@@ -823,8 +823,8 @@ public class BCCParser extends Parser {
 	}
 	public static class RepeatContext extends StmtContext {
 		public TerminalNode TK_REPEAT() { return getToken(BCCParser.TK_REPEAT, 0); }
-		public TerminalNode TK_NUM() { return getToken(BCCParser.TK_NUM, 0); }
-		public TerminalNode TK_PUNTO_Y_COMA() { return getToken(BCCParser.TK_PUNTO_Y_COMA, 0); }
+		public TerminalNode NUM() { return getToken(BCCParser.NUM, 0); }
+		public TerminalNode TK_DOS_PUNTOS() { return getToken(BCCParser.TK_DOS_PUNTOS, 0); }
 		public Stmt_blockContext stmt_block() {
 			return getRuleContext(Stmt_blockContext.class,0);
 		}
@@ -1366,9 +1366,9 @@ public class BCCParser extends Parser {
 				setState(160);
 				match(TK_REPEAT);
 				setState(161);
-				match(TK_NUM);
+				match(NUM);
 				setState(162);
-				match(TK_PUNTO_Y_COMA);
+				match(TK_DOS_PUNTOS);
 				setState(163);
 				stmt_block();
 				}
@@ -2443,7 +2443,7 @@ public class BCCParser extends Parser {
 		"\u0098\u0099\5\20\t\2\u0099\u009a\7\f\2\2\u009a\u00e0\3\2\2\2\u009b\u009c"+
 		"\7\22\2\2\u009c\u009d\5\f\7\2\u009d\u009e\7\30\2\2\u009e\u009f\7\13\2"+
 		"\2\u009f\u00a0\5\20\t\2\u00a0\u00a1\7\f\2\2\u00a1\u00e0\3\2\2\2\u00a2"+
-		"\u00a3\7\31\2\2\u00a3\u00a4\7\4\2\2\u00a4\u00a5\7\b\2\2\u00a5\u00e0\5"+
+		"\u00a3\7\31\2\2\u00a3\u00a4\7\67\2\2\u00a4\u00a5\7\6\2\2\u00a5\u00e0\5"+
 		"\f\7\2\u00a6\u00a7\7\37\2\2\u00a7\u00a8\7\13\2\2\u00a8\u00a9\5\20\t\2"+
 		"\u00a9\u00aa\7\b\2\2\u00aa\u00ab\5\20\t\2\u00ab\u00ac\7\b\2\2\u00ac\u00ad"+
 		"\5\20\t\2\u00ad\u00ae\7\f\2\2\u00ae\u00af\7\22\2\2\u00af\u00b0\5\f\7\2"+

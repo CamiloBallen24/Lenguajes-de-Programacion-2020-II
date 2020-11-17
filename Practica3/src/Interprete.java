@@ -277,7 +277,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 }
             }
         }
-        return visitChildren(ctx);
+        return null;
     }
 
     @Override public T visitLoop(BCCParser.LoopContext ctx) {
@@ -353,11 +353,11 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
             while(!toBool(visitLexpr(ctx.lexpr()).toString()));
         }
-        return visitChildren(ctx);
+        return null;
     }
 
     @Override public T visitRepeat(BCCParser.RepeatContext ctx) {
-        String expr = ctx.TK_NUM().getText();
+        String expr = ctx.NUM().getText();
         if(isNum(expr)){
             for (int i = 0; i < toNum(expr); i++) {
                 for (int j = 0; j < ctx.stmt_block().stmt().size(); j++) {
@@ -380,7 +380,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
 
         }
-        return visitChildren(ctx);
+        return null;
     }
 
     @Override public T visitFor(BCCParser.ForContext ctx) {
@@ -1136,7 +1136,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
 
 
-        }else if(ctx.lexpr() != null || functionCtx.parametros != null) twrowError("El numero de parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
+        }else if(ctx.lexpr() != null && functionCtx.parametros != null) twrowError("El numero de parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
         scopes.add(actualScope);
         //
 //

@@ -25,7 +25,7 @@ stmt: TK_PRINT lexpr TK_PUNTO_Y_COMA                                            
 	| TK_LOOP stmt_block                                                                                                            #loop
 	| TK_DO stmt_block TK_WHILE TK_PARENTESIS_IZQUIERDO lexpr TK_PARENTESIS_DERECHO                                                 #doWhile
 	| TK_DO stmt_block TK_UNTIL TK_PARENTESIS_IZQUIERDO lexpr TK_PARENTESIS_DERECHO                                                 #doUntil
-	| TK_REPEAT TK_NUM TK_PUNTO_Y_COMA stmt_block                                                                                   #repeat
+	| TK_REPEAT NUM TK_DOS_PUNTOS stmt_block                                                                                        #repeat
     | TK_FOR TK_PARENTESIS_IZQUIERDO lexpr TK_PUNTO_Y_COMA lexpr TK_PUNTO_Y_COMA lexpr TK_PARENTESIS_DERECHO TK_DO stmt_block       #for
     | TK_NEXT TK_PUNTO_Y_COMA                                                                                                       #next
     | TK_BREAK TK_PUNTO_Y_COMA                                                                                                      #break
