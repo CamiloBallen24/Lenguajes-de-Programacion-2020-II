@@ -34,15 +34,15 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         }
         for (int i = 0; i < ctx.stmt().size(); i++) {
             if (ctx.stmt(i).getClass().equals(BCCParser.NextContext.class)){
-                twrowError("por que pedo esto esta aqui");
+                twrowError("La palabra clave next debe estar dentro de un comando de iteracion");
                 return null;
             }
             if (ctx.stmt(i).getClass().equals(BCCParser.BreakContext.class)){
-                twrowError("por que pedo esto esta aqui");
+                twrowError("La palabra clave break debe estar dentro de un comando de iteracion");
                 return null;
             }
             if (ctx.stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
-                twrowError("por que pedo esto esta aqui");
+                twrowError("La palabra clave return debe estar dentro de una funcion");
                 return null;
             }
             visit(ctx.stmt(i));
@@ -99,7 +99,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Valor no valido");
+                    twrowError("Se esperaba que ingresara un dato de tipo num");
                 }
             }
 
@@ -109,13 +109,13 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Valor no valido");
+                    twrowError("Se esperaba que ingresara un dato de tipo bool");
                 }
             }
 
         }
         else{
-            twrowError("This variable don't exist");
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
         }
         return null;
     }
@@ -248,7 +248,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) visitLexpr(ctx.lexpr()).toString();
         }
         else{
-            twrowError("por que pedo esto esta aqui");
+            twrowError("La palabra clave return debe estar dentro de una funcion");
             return null;
         }
 
@@ -433,7 +433,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) ctx.TK_NEXT().getText();
         }
         else{
-            twrowError("por que pedo esto esta aqui");
+            twrowError("La palabra clave next debe estar dentro de un comando de iteracion");
             return null;
         }
     }
@@ -457,7 +457,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) ctx.TK_BREAK().getText();
         }
         else{
-            twrowError("por que pedo esto esta aqui");
+            twrowError("La palabra clave break debe estar dentro de un comando de iteracion");
             return null;
         }
     }
@@ -477,7 +477,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Valor no valido");
+                    twrowError("Tipo de dato incongruente se esperaba num y se encontro bool en variable '" + var.getName() + "'");
                     return null;
                 }
             }
@@ -488,8 +488,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Valor no valido");
-                    return null;
+                    twrowError("Tipo de dato incongruente se esperaba bool y se encontro num en variable '" + var.getName() + "'");
                 }
             }
 
@@ -497,39 +496,343 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("This variable don't exist");
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
 
 
     }
 
-    @Override public T visitSumaIgual(BCCParser.SumaIgualContext ctx) { return visitChildren(ctx); }
+    @Override public T visitSumaIgual(BCCParser.SumaIgualContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
 
-    @Override public T visitRestaIgual(BCCParser.RestaIgualContext ctx) { return visitChildren(ctx); }
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
 
-    @Override public T visitProductoIgual(BCCParser.ProductoIgualContext ctx) { return visitChildren(ctx); }
+            String value = visitLexpr(ctx.lexpr()).toString();
 
-    @Override public T visitDivisionIgual(BCCParser.DivisionIgualContext ctx) { return visitChildren(ctx); }
+            if(var.getValue() == null) {
+                return null;
+            }
 
-    @Override public T visitModuloIgual(BCCParser.ModuloIgualContext ctx) { return visitChildren(ctx); }
+            if (var.getDataType().toString().equals("num")){
+                if(isNum(value)){
+                    Variable new_var = new Variable(var.getName(), toNum(value) + toNum(var.getValue().toString()), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    return null;
+                }
+            }
 
-    @Override public T visitPostIncremento(BCCParser.PostIncrementoContext ctx) { return visitChildren(ctx); }
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer una suma con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
 
-    @Override public T visitPostDecremento(BCCParser.PostDecrementoContext ctx) { return visitChildren(ctx); }
+            return null;
 
-    @Override public T visitPreIncremento(BCCParser.PreIncrementoContext ctx) { return visitChildren(ctx); }
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
 
-    @Override public T visitPreDecremento(BCCParser.PreDecrementoContext ctx) { return visitChildren(ctx); }
+    @Override public T visitRestaIgual(BCCParser.RestaIgualContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            String value = visitLexpr(ctx.lexpr()).toString();
+
+            if(var.getValue() == null) {
+                return null;
+            }
+
+            if (var.getDataType().toString().equals("num")){
+                if(isNum(value)){
+                    Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) - toNum(value), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    return null;
+                }
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer una resta con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
+
+    @Override public T visitProductoIgual(BCCParser.ProductoIgualContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            String value = visitLexpr(ctx.lexpr()).toString();
+
+            if(var.getValue() == null) {
+                return null;
+            }
+
+            if (var.getDataType().toString().equals("num")){
+                if(isNum(value)){
+                    Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) * toNum(value), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    return null;
+                }
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer una multiplicacion con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
+
+    @Override public T visitDivisionIgual(BCCParser.DivisionIgualContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            String value = visitLexpr(ctx.lexpr()).toString();
+
+            if(var.getValue() == null) {
+                return null;
+            }
+
+            if (var.getDataType().toString().equals("num")){
+
+                if(isNum(value)){
+                    if(toNum(value) == 0){
+                        twrowError("No se puede dividir por 0");
+                        return  null;
+                    }
+                    Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) / toNum(value), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    return null;
+                }
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer una division con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
+
+    @Override public T visitModuloIgual(BCCParser.ModuloIgualContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            String value = visitLexpr(ctx.lexpr()).toString();
+
+            if(var.getValue() == null) {
+                return null;
+            }
+
+            if (var.getDataType().toString().equals("num")){
+
+                if(isNum(value)){
+                    if(toNum(value) == 0){
+                        twrowError("No se puede hacer modulo por 0");
+                        return  null;
+                    }
+                    Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) % toNum(value), var.getDataType().toString());
+                    actualScope.put(var.getName(), new_var);
+                }
+                else{
+                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    return null;
+                }
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer modulo con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
+
+    @Override public T visitPostIncremento(BCCParser.PostIncrementoContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            if(var.getValue() == null) {
+                return null;
+            }
+
+            if (var.getDataType().toString().equals("num")){
+                Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) + 1, var.getDataType().toString());
+                actualScope.put(var.getName(), new_var);
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer incremento a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
+
+    @Override public T visitPostDecremento(BCCParser.PostDecrementoContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            if(var.getValue() == null) {
+                return null;
+            }
+
+            if (var.getDataType().toString().equals("num")){
+                Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) - 1, var.getDataType().toString());
+                actualScope.put(var.getName(), new_var);
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer decremento a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
+
+    @Override public T visitPreIncremento(BCCParser.PreIncrementoContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            if(var.getValue() == null) {
+                return null;
+            }
+
+            if (var.getDataType().toString().equals("num")){
+                Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) + 1, var.getDataType().toString());
+                actualScope.put(var.getName(), new_var);
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer incremento a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
+
+    @Override public T visitPreDecremento(BCCParser.PreDecrementoContext ctx) {
+        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+
+        //Existe la variable?
+        if (actualScope.get(ctx.ID().getText()) != null){
+            Variable var = actualScope.get(ctx.ID().getText());
+
+            if(var.getValue() == null) {
+                return null;
+            }
+
+            if (var.getDataType().toString().equals("num")){
+                Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) - 1, var.getDataType().toString());
+                actualScope.put(var.getName(), new_var);
+            }
+
+            if (var.getDataType().toString().equals("bool")){
+                twrowError("No se puede hacer decremento a un dato de tipo bool en variable '" + var.getName() + "'");
+                return null;
+            }
+
+            return null;
+
+        }
+        else{
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            return null;
+        }
+    }
 
     @Override public T visitLexpr(BCCParser.LexprContext ctx) {
         String  nexpr_inital = visitNexpr(ctx.nexpr(0)).toString();
 
         if(ctx.TK_AND().size()>0){
-            if(!isBool(nexpr_inital)){ twrowError("Esta variable no es voleana");}
+            if(!isBool(nexpr_inital)){
+                twrowError("El dato inicial no es booleano");
+            }
             Boolean lexpr = toBool(nexpr_inital);
-            for (int i = 1; i < ctx.TK_AND().size() ; i++) {
-                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("Esta variable no es voleana");}
+            for (int i = 0; i < ctx.TK_AND().size() ; i++) {
+                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("2Esta variable no es voleana");}
                 lexpr = lexpr && toBool(visitNexpr(ctx.nexpr(i)).toString());
             }
             return (T) Boolean.toString(lexpr);
@@ -537,10 +840,10 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         if(ctx.TK_OR().size()>0){
-            if(!isBool(nexpr_inital)){ twrowError("Esta variable no es voleana");}
+            if(!isBool(nexpr_inital)){ twrowError("3Esta variable no es voleana");}
             Boolean lexpr = toBool(nexpr_inital);
             for (int i = 1; i < ctx.TK_OR().size()+1 ; i++) {
-                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("Esta variable no es voleana");}
+                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("4Esta variable no es voleana");}
                 lexpr = lexpr || toBool(visitNexpr(ctx.nexpr(i)).toString());
             }
             return (T) Boolean.toString(lexpr);
@@ -583,7 +886,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                         return (T) Boolean.toString(toNum(simple_expr_0) <= toNum(simple_expr_1));
 
                     case ("=="):
-                        return (T) Boolean.toString(toNum(simple_expr_0) == toNum(simple_expr_1));
+                        return (T) Boolean.toString(toNum(simple_expr_0).equals(toNum(simple_expr_1)));
 
                     case ("!="):
                         return (T) Boolean.toString(toNum(simple_expr_0) != toNum(simple_expr_1));
@@ -630,7 +933,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             for (int i = 1; i < ctx.term().size(); i++) {
 
                 if(!isNum(visit(ctx.term(i)).toString())){
-                    twrowError("Esta variable no es de tipo num");
+                    twrowError("No se pueden hacer operaciones entre datos  de tipo num y bool");
                 }
                 if(visitSimple_expr_operator(ctx.simple_expr_operator(i-1)).toString().equals("+")){
                     simple_expr = simple_expr + toNum(visit(ctx.term(i)).toString());
@@ -668,7 +971,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             for (int i = 1; i < ctx.factor().size(); i++) {
 
                 if(!isNum(visit(ctx.factor(i)).toString())){
-                    twrowError("Esta variable no es de tipo num");
+                    twrowError("No se pueden hacer operaciones entre datos  de tipo num y bool");
                 }
                 if(visitTerm_operator(ctx.term_operator(i-1)).toString().equals("*")){
                     term = term * toNum(visit(ctx.factor(i)).toString());
@@ -714,7 +1017,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             Variable var = actualScope.get(ctx.ID().getText());
 
             if (var.getValue() == null) {
-                twrowError("Esta variable no esta inicializada");
+                twrowError("La variable '" + var.getName() + "' no esta inicializada");
             }
 
             //verificar que sea un numero o tirar error
@@ -731,12 +1034,12 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 return (T) toNum(var.getValue().toString());
             }
             else {
-                twrowError("Esta variable no es de tipo num");
+                twrowError("La variable '" + var.getName() + "' no es de tipo num");
                 return null;
             }
         }
         else{
-            twrowError("This variable don't exist");
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -765,12 +1068,12 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 return (T) toNum(actualScope.get(ctx.ID().getText()).getValue().toString());
             }
             else {
-                twrowError("Esta variable no es de tipo num");
+                twrowError("No se puede operar una variable de tipo bool");
                 return null;
             }
         }
         else{
-            twrowError("This variable don't exist");
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -784,7 +1087,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) Double.valueOf(var.getValue().toString());
         }
         else{
-            twrowError("This variable don't exist");
+            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -800,7 +1103,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         BCCParser.Fn_decl_listContext functionCtx = functions.get(ctx.FID().toString());
 //
 //        //Si la función es null, se tira un error
-        if(functionCtx == null) twrowError("The function was not declared");
+        if(functionCtx == null) twrowError("La funcion '" + ctx.FID().toString() + "' no ha sido declarada");
 //
 //        //Se añade un nuevo scope
         scopes.add(new HashMap<String,Variable>());
@@ -819,16 +1122,16 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 //
                 if(receivedDataType.equals(expectedDataType)) {
                     if(actualScope.get(functionCtx.parametros.ID(i).toString())!=null){
-                        twrowError("There's a variable name repeated");
+                        twrowError("Nombre de variable repetida en '" + ctx.FID().toString() + "'");
                         break;
                     }
                     actualScope.put(functionCtx.parametros.ID(i).toString(), new Variable(functionCtx.parametros.ID(i).toString(), parameterResolved, expectedDataType));
                 }else {
-                    twrowError("A parameter passed didn't matched the datatype expected");
+                    twrowError("Uno o varios tipos de datos de los parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
                     break;
                 }
             }
-        }else if(ctx.lexpr() != null || functionCtx.parametros != null) twrowError("The number of parameters passed doesn't match the number of parameters expected");
+        }else if(ctx.lexpr() != null || functionCtx.parametros != null) twrowError("El numero de parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
 //
 //
 //        //Se añaden las variables declaradas en la funcion al scope (Si las hay)
@@ -848,11 +1151,11 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         T functionExecution = null;
         for (int i = 0; i < functionCtx.stmt_block().stmt().size(); i++) {
             if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
-                twrowError("por que pedo esto esta aqui");
+                twrowError("La palabra clave next debe estar dentro de un comando de iteracion");
                 return null;
             }
             if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
-                twrowError("por que pedo esto esta aqui");
+                twrowError("La palabra clave break debe estar dentro de un comando de iteracion");
                 return null;
             }
             if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){

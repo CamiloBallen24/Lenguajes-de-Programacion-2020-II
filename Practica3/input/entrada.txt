@@ -1,17 +1,13 @@
-function @min:num (x:num, y:num)
+var z:bool;
+z := false;
+
+if (true and 412) do
 {
-    when ((x < y) == true) do return x;
-    return y;
+print 1;
+}
+else
+{
+print 2;
 }
 
-while(true)do{
-    print 2;
-    if(2>1) do{
-        next;
-    }
-    else {
-        next;
-    }
-
-}
 end
