@@ -33,15 +33,15 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         }
         for (int i = 0; i < ctx.stmt().size(); i++) {
             if (ctx.stmt(i).getClass().equals(BCCParser.NextContext.class)){
-                twrowError("La palabra clave next debe estar dentro de un comando de iteracion");
+                twrowError("En <" + ctx.stmt(i).start.getLine() +"," + ctx.stmt(i).start.getCharPositionInLine() + "> la palabra reservada next debe estar dentro de un comando de iteracion");
                 return null;
             }
             if (ctx.stmt(i).getClass().equals(BCCParser.BreakContext.class)){
-                twrowError("La palabra clave break debe estar dentro de un comando de iteracion");
+                twrowError("En <" + ctx.stmt(i).start.getLine() +"," + ctx.stmt(i).start.getCharPositionInLine() + "> la palabra reservada break debe estar dentro de un comando de iteracion");
                 return null;
             }
             if (ctx.stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
-                twrowError("La palabra clave return debe estar dentro de una funcion");
+                twrowError("En <" + ctx.stmt(i).start.getLine() +"," + ctx.stmt(i).start.getCharPositionInLine() + "> la palabra reservada return debe estar dentro de una funcion");
                 return null;
             }
             visit(ctx.stmt(i));
@@ -98,7 +98,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Se esperaba que ingresara un dato de tipo num");
+                    twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> se esperaba que ingresara un dato de tipo num");
                 }
             }
 
@@ -108,13 +108,13 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Se esperaba que ingresara un dato de tipo bool");
+                    twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> se esperaba que ingresara un dato de tipo bool");
                 }
             }
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
         }
         return null;
     }
@@ -248,7 +248,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) visitLexpr(ctx.lexpr()).toString();
         }
         else{
-            twrowError("La palabra clave return debe estar dentro de una funcion");
+            twrowError("En <" + ctx.TK_RETURN().getSymbol().getLine() +"," + ctx.TK_RETURN().getSymbol().getCharPositionInLine() + "> la palabra reservada return debe estar dentro de una funcion");
             return null;
         }
 
@@ -433,7 +433,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) ctx.TK_NEXT().getText();
         }
         else{
-            twrowError("La palabra clave next debe estar dentro de un comando de iteracion");
+            twrowError("En <" + ctx.TK_NEXT().getSymbol().getLine() +"," + ctx.TK_NEXT().getSymbol().getCharPositionInLine() + "> la palabra reservada next debe estar dentro de un comando de iteracion");
             return null;
         }
     }
@@ -457,7 +457,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) ctx.TK_BREAK().getText();
         }
         else{
-            twrowError("La palabra clave break debe estar dentro de un comando de iteracion");
+            twrowError("En <" + ctx.TK_BREAK().getSymbol().getLine() +"," + ctx.TK_BREAK().getSymbol().getCharPositionInLine() + "> la palabra reservada break debe estar dentro de un comando de iteracion");
             return null;
 
         }
@@ -478,7 +478,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Tipo de dato incongruente se esperaba num y se encontro bool en variable '" + var.getName() + "'");
+                    twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> tipo de dato incongruente se esperaba num y se encontro bool en variable '" + var.getName() + "'");
                     return null;
                 }
             }
@@ -489,7 +489,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Tipo de dato incongruente se esperaba bool y se encontro num en variable '" + var.getName() + "'");
+                    twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> tipo de dato incongruente se esperaba bool y se encontro num en variable '" + var.getName() + "'");
                 }
             }
 
@@ -497,7 +497,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
 
@@ -523,13 +523,13 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    twrowError("En <" + ctx.lexpr().start.getLine() +"," + ctx.lexpr().start.getCharPositionInLine() + "> se esperaba un dato de tipo num y se recibio un bool");
                     return null;
                 }
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer una suma con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer una suma con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -537,7 +537,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -561,13 +561,13 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    twrowError("En <" + ctx.lexpr().start.getLine() +"," + ctx.lexpr().start.getCharPositionInLine() + "> se esperaba un dato de tipo num y se recibio un bool");
                     return null;
                 }
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer una resta con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer una resta con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -575,7 +575,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -599,13 +599,13 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    twrowError("En <" + ctx.lexpr().start.getLine() +"," + ctx.lexpr().start.getCharPositionInLine() + "> se esperaba un dato de tipo num y se recibio un bool");
                     return null;
                 }
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer una multiplicacion con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer una multiplicacion con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -613,7 +613,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -635,20 +635,20 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
                 if(isNum(value)){
                     if(toNum(value) == 0){
-                        twrowError("No se puede dividir por 0");
+                        twrowError("En <" + ctx.lexpr().start.getLine() +"," + ctx.lexpr().start.getCharPositionInLine() + "> no se puede dividir por 0");
                         return  null;
                     }
                     Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) / toNum(value), var.getDataType().toString());
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    twrowError("En <" + ctx.lexpr().start.getLine() +"," + ctx.lexpr().start.getCharPositionInLine() + "> se esperaba un dato de tipo num y se recibio un bool");
                     return null;
                 }
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer una division con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer una division con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -656,7 +656,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -678,20 +678,20 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
                 if(isNum(value)){
                     if(toNum(value) == 0){
-                        twrowError("No se puede hacer modulo por 0");
+                        twrowError("En <" + ctx.lexpr().start.getLine() +"," + ctx.lexpr().start.getCharPositionInLine() + "> no se puede hacer modulo por 0");
                         return  null;
                     }
                     Variable new_var = new Variable(var.getName(), toNum(var.getValue().toString()) % toNum(value), var.getDataType().toString());
                     actualScope.put(var.getName(), new_var);
                 }
                 else{
-                    twrowError("Se esperaba un dato de tipo num y se recibio un bool");
+                    twrowError("En <" + ctx.lexpr().start.getLine() +"," + ctx.lexpr().start.getCharPositionInLine() + "> se esperaba un dato de tipo num y se recibio un bool");
                     return null;
                 }
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer modulo con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer modulo con asignacion a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -699,7 +699,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -721,7 +721,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer incremento a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer incremento a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -729,7 +729,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -751,7 +751,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer decremento a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer decremento a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -759,7 +759,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -781,7 +781,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer incremento a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer incremento a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -789,7 +789,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -811,7 +811,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
 
             if (var.getDataType().toString().equals("bool")){
-                twrowError("No se puede hacer decremento a un dato de tipo bool en variable '" + var.getName() + "'");
+                twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> no se puede hacer decremento a un dato de tipo bool en variable '" + var.getName() + "'");
                 return null;
             }
 
@@ -819,7 +819,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.ID().getSymbol().getLine() +"," + ctx.ID().getSymbol().getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -829,11 +829,11 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         if(ctx.TK_AND().size()>0){
             if(!isBool(nexpr_inital)){
-                twrowError("El dato inicial no es booleano");
+                twrowError("En <" + ctx.nexpr(0).start.getLine() +"," + ctx.nexpr(0).start.getCharPositionInLine() + "> la variable '" + ctx.nexpr(0).getText() + "' no es de tipo bool");
             }
             Boolean lexpr = toBool(nexpr_inital);
             for (int i = 1; i < ctx.TK_AND().size()+1; i++) {
-                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("2Esta variable no es voleana");}
+                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("En <" + ctx.nexpr(i).start.getLine() +"," + ctx.nexpr(i).start.getCharPositionInLine() + "> la variable '" + ctx.nexpr(i).getText() + "' no es de tipo bool");}
                 lexpr = lexpr && toBool(visitNexpr(ctx.nexpr(i)).toString());
             }
             return (T) Boolean.toString(lexpr);
@@ -841,10 +841,10 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
         if(ctx.TK_OR().size()>0){
-            if(!isBool(nexpr_inital)){ twrowError("3Esta variable no es voleana");}
+            if(!isBool(nexpr_inital)){ twrowError("En <" + ctx.nexpr(0).start.getLine() +"," + ctx.nexpr(0).start.getCharPositionInLine() + "> la variable '" + ctx.nexpr(0).getText() + "' no es de tipo bool");}
             Boolean lexpr = toBool(nexpr_inital);
             for (int i = 1; i < ctx.TK_OR().size()+1 ; i++) {
-                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("4Esta variable no es voleana");}
+                if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("En <" + ctx.nexpr(i).start.getLine() +"," + ctx.nexpr(i).start.getCharPositionInLine() + "> la variable '" + ctx.nexpr(i).getText() + "' no es de tipo bool");}
                 lexpr = lexpr || toBool(visitNexpr(ctx.nexpr(i)).toString());
             }
             return (T) Boolean.toString(lexpr);
@@ -935,7 +935,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             for (int i = 1; i < ctx.term().size(); i++) {
 
                 if(!isNum(visit(ctx.term(i)).toString())){
-                    twrowError("No se pueden hacer operaciones entre datos  de tipo num y bool");
+                    twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> no se pueden hacer operaciones entre datos  de tipo num y bool");
                 }
                 if(visitSimple_expr_operator(ctx.simple_expr_operator(i-1)).toString().equals("+")){
                     simple_expr = simple_expr + toNum(visit(ctx.term(i)).toString());
@@ -973,7 +973,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             for (int i = 1; i < ctx.factor().size(); i++) {
 
                 if(!isNum(visit(ctx.factor(i)).toString())){
-                    twrowError("No se pueden hacer operaciones entre datos  de tipo num y bool");
+                    twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> no se pueden hacer operaciones entre datos  de tipo num y bool");
                 }
                 if(visitTerm_operator(ctx.term_operator(i-1)).toString().equals("*")){
                     term = term * toNum(visit(ctx.factor(i)).toString());
@@ -1019,7 +1019,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             Variable var = actualScope.get(ctx.ID().getText());
 
             if (var.getValue() == null) {
-                twrowError("La variable '" + var.getName() + "' no esta inicializada");
+                twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> la variable '" + var.getName() + "' no ha sido inicializada");
             }
 
             //verificar que sea un numero o tirar error
@@ -1036,12 +1036,12 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 return (T) toNum(var.getValue().toString());
             }
             else {
-                twrowError("La variable '" + var.getName() + "' no es de tipo num");
+                twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> la variable '" + var.getName() + "' no es de tipo num");
                 return null;
             }
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -1054,7 +1054,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             Variable var = actualScope.get(ctx.ID().getText());
 
             if (var.getValue() == null) {
-                twrowError("Esta variable no esta inicializada");
+                twrowError("En <" + ctx.stop.getLine() +"," + ctx.stop.getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no ha sido inicializada");
             }
 
             //verificar que sea un numero o tirar error
@@ -1070,12 +1070,12 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 return (T) toNum(actualScope.get(ctx.ID().getText()).getValue().toString());
             }
             else {
-                twrowError("No se puede operar una variable de tipo bool");
+                twrowError("En <" + ctx.stop.getLine() +"," + ctx.stop.getCharPositionInLine() + "> no se puede operar una variable de tipo bool");
                 return null;
             }
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.stop.getLine() +"," + ctx.stop.getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -1089,7 +1089,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             return (T) var.getValue().toString();
         }
         else{
-            twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
+            twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> la variable '" + ctx.ID().getText() + "' no esta definida");
             return null;
         }
     }
@@ -1105,42 +1105,42 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         BCCParser.Fn_decl_listContext functionCtx = functions.get(ctx.FID().toString());
 //
 //        //Si la función es null, se tira un error
-        if(functionCtx == null) twrowError("La funcion '" + ctx.FID().toString() + "' no ha sido declarada");
+        if(functionCtx == null) twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> la funcion '" + ctx.FID().toString() + "' no ha sido declarada");
 //
 //        //Se añade un nuevo scope
         HashMap<String, Variable> actualScope = new HashMap<String,Variable>();
 
-//
-//        //Se pasan variables a la función (Se verifica que el número de variables esperado y el número recibido sea el mismo)
-//        //Ademas se hace la verficación de que el número de valores pasados sea el mismo número de parametros esperados
+
+        //Se pasan variables a la función (Se verifica que el número de variables esperado y el número recibido sea el mismo)
+        //Ademas se hace la verficación de que el número de valores pasados sea el mismo número de parametros esperados
         if(ctx.lexpr() != null && functionCtx.parametros != null && functionCtx.parametros.ID().size() == ctx.lexpr().size()){
-//
-//            //Se resuelven los parámetros pasados (Variables a valores, operaciones, etc) y
-//            //si los tipos de datos coinciden (En orden), se guardan en el nuevo scope
+
+            //Se resuelven los parámetros pasados (Variables a valores, operaciones, etc) y
+            //si los tipos de datos coinciden (En orden), se guardan en el nuevo scope
             for(int i=0; i<functionCtx.parametros.ID().size(); i++){
 
                 String parameterResolved = visitLexpr(ctx.lexpr(i)).toString();                                                 //REVISAR CUANDO SE TERMINE LEXPR//
                 String receivedDataType = isNum(parameterResolved)?"num":"bool";                                                //REVISAR CUANDO SE TERMINE LEXPR//
                 String expectedDataType = visitData_type(functionCtx.parametros.data_type(i)).toString();
-//
+
                 if(receivedDataType.equals(expectedDataType)) {
                     if(actualScope.get(functionCtx.parametros.ID(i).toString())!=null){
-                        twrowError("Nombre de variable repetida en '" + ctx.FID().toString() + "'");
+                        twrowError("En <" + functionCtx.parametros.start.getLine() +"," + functionCtx.parametros.start.getCharPositionInLine() + "> nombre de variable repetida para la definicion de '" + ctx.FID().toString() + "'");
                         break;
                     }
                     actualScope.put(functionCtx.parametros.ID(i).toString(), new Variable(functionCtx.parametros.ID(i).toString(), parameterResolved, expectedDataType));
                 }else {
-                    twrowError("Uno o varios tipos de datos de los parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
+                    twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> uno o varios tipos de datos de los parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
                     break;
                 }
             }
 
 
-        }else if(ctx.lexpr() != null && functionCtx.parametros != null) twrowError("El numero de parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
+        }else if(ctx.lexpr() != null && functionCtx.parametros != null) twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> el numero de parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
         scopes.add(actualScope);
-        //
-//
-//        //Se añaden las variables declaradas en la funcion al scope (Si las hay)
+
+
+        //Se añaden las variables declaradas en la funcion al scope (Si las hay)
         if(functionCtx.variables != null){
             for(int i=0; i<functionCtx.variables.ID().size() ; i++){
                 actualScope.put(functionCtx.variables.ID(i).toString(), new Variable(functionCtx.variables.ID(i).toString(), visitData_type(functionCtx.variables.data_type(i)).toString()));
@@ -1157,11 +1157,11 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         T functionExecution = null;
         for (int i = 0; i < functionCtx.stmt_block().stmt().size(); i++) {
             if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.NextContext.class)){
-                twrowError("La palabra clave next debe estar dentro de un comando de iteracion");
+                twrowError("En <" + functionCtx.stmt_block().stmt(i).start.getLine() +"," + functionCtx.stmt_block().stmt(i).start.getCharPositionInLine() +"> la palabra reservada next debe estar dentro de un comando de iteracion");
                 return null;
             }
             if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.BreakContext.class)){
-                twrowError("La palabra clave break debe estar dentro de un comando de iteracion");
+                twrowError("En <" + functionCtx.stmt_block().stmt(i).start.getLine() +"," + functionCtx.stmt_block().stmt(i).start.getCharPositionInLine() +"> la palabra reservada break debe estar dentro de un comando de iteracion");
                 return null;
             }
             if (functionCtx.stmt_block().stmt(i).getClass().equals(BCCParser.ReturnContext.class)){
