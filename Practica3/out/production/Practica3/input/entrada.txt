@@ -1,13 +1,11 @@
-var z:bool;
-z := false;
+function @mayor_5:bool (n:num)
+   return n>5;
 
-if (true and 412) do
-{
-print 1;
-}
-else
-{
-print 2;
+for(0;15;1) do{
+    if(@mayor_5(21)) do
+        print 10101;
+    else
+        print 0;
 }
 
 end

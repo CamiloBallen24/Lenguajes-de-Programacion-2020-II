@@ -60,8 +60,8 @@ term_operator: (TK_PRODUCTO | TK_DIVISION | TK_MODULO);
 
 factor: NUM                                                                             #num
       | BOOL                                                                            #bool
-      | ID (TK_INCREMENTO | TK_DECREMENTO)?                                             #postFactor
-      | (TK_INCREMENTO | TK_DECREMENTO)? ID                                             #preFactor
+      | ID (TK_INCREMENTO | TK_DECREMENTO)                                             #postFactor
+      | (TK_INCREMENTO | TK_DECREMENTO) ID                                             #preFactor
       | ID                                                                              #variable
       | TK_PARENTESIS_IZQUIERDO lexpr TK_PARENTESIS_DERECHO                             #parentesisFactor
       | FID TK_PARENTESIS_IZQUIERDO (lexpr (TK_COMA lexpr)*)? TK_PARENTESIS_DERECHO     #llamadoFunct
@@ -130,5 +130,6 @@ ID              : [a-zA-Z_][a-zA-Z0-9_]*;
 NUM             : [0-9]+
                 | [0-9]+'.'[0-9]+;
 
+COMMENT         : '#' ~[\r\n]* -> skip ;
 
 ESP : [ \t\r\n]+ -> skip ;

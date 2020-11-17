@@ -4,7 +4,6 @@ import org.antlr.v4.runtime.RuleContext;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 
@@ -230,9 +229,10 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                         else return stmt_return;
                     }
                 }
+
             }
         }
-        return visitChildren(ctx);
+        return null;
     }
 
     @Override public T visitReturn(BCCParser.ReturnContext ctx) {
@@ -459,6 +459,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         else{
             twrowError("La palabra clave break debe estar dentro de un comando de iteracion");
             return null;
+
         }
     }
 
@@ -831,7 +832,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 twrowError("El dato inicial no es booleano");
             }
             Boolean lexpr = toBool(nexpr_inital);
-            for (int i = 0; i < ctx.TK_AND().size() ; i++) {
+            for (int i = 1; i < ctx.TK_AND().size()+1; i++) {
                 if(!isBool(visitNexpr(ctx.nexpr(i)).toString())){ twrowError("2Esta variable no es voleana");}
                 lexpr = lexpr && toBool(visitNexpr(ctx.nexpr(i)).toString());
             }
@@ -893,6 +894,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 }
             }
             if(isBool(simple_expr_0) && isBool(simple_expr_1)){
+
                 switch (visitRexpr_operator(ctx.rexpr_operator()).toString()){
                     case ("!="):
                         return (T) Boolean.toString(toBool(simple_expr_0) != toBool(simple_expr_1));
@@ -1084,7 +1086,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         //Existe la variable?
         if (actualScope.get(ctx.ID().getText()) != null){
             Variable var = actualScope.get(ctx.ID().getText());
-            return (T) Double.valueOf(var.getValue().toString());
+            return (T) var.getValue().toString();
         }
         else{
             twrowError("La variable '" + ctx.ID().getText() + "' no esta definida");
@@ -1106,8 +1108,8 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
         if(functionCtx == null) twrowError("La funcion '" + ctx.FID().toString() + "' no ha sido declarada");
 //
 //        //Se añade un nuevo scope
-        scopes.add(new HashMap<String,Variable>());
-        HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);
+        HashMap<String, Variable> actualScope = new HashMap<String,Variable>();
+
 //
 //        //Se pasan variables a la función (Se verifica que el número de variables esperado y el número recibido sea el mismo)
 //        //Ademas se hace la verficación de que el número de valores pasados sea el mismo número de parametros esperados
@@ -1116,6 +1118,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 //            //Se resuelven los parámetros pasados (Variables a valores, operaciones, etc) y
 //            //si los tipos de datos coinciden (En orden), se guardan en el nuevo scope
             for(int i=0; i<functionCtx.parametros.ID().size(); i++){
+
                 String parameterResolved = visitLexpr(ctx.lexpr(i)).toString();                                                 //REVISAR CUANDO SE TERMINE LEXPR//
                 String receivedDataType = isNum(parameterResolved)?"num":"bool";                                                //REVISAR CUANDO SE TERMINE LEXPR//
                 String expectedDataType = visitData_type(functionCtx.parametros.data_type(i)).toString();
@@ -1131,8 +1134,11 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                     break;
                 }
             }
+
+
         }else if(ctx.lexpr() != null || functionCtx.parametros != null) twrowError("El numero de parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
-//
+        scopes.add(actualScope);
+        //
 //
 //        //Se añaden las variables declaradas en la funcion al scope (Si las hay)
         if(functionCtx.variables != null){
@@ -1140,13 +1146,13 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                 actualScope.put(functionCtx.variables.ID(i).toString(), new Variable(functionCtx.variables.ID(i).toString(), visitData_type(functionCtx.variables.data_type(i)).toString()));
             }
         }
-//
-//        //System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
-//        //for (Map.Entry mapElement : actualScope.entrySet()) {
-//        //    Variable value = (Variable) mapElement.getValue();
-//        //    System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
-//        //}
-//
+
+//        System.out.println("\n VARIABLES GUARDADAS EN EL SCOPE ");
+//        for (Map.Entry mapElement : actualScope.entrySet()) {
+//            Variable value = (Variable) mapElement.getValue();
+//            System.out.println(value.getName()+" "+value.getValue()+" "+value.getDataType()+" ");
+//        }
+
         //Se realizan las operaciones de la funcion
         T functionExecution = null;
         for (int i = 0; i < functionCtx.stmt_block().stmt().size(); i++) {
@@ -1180,7 +1186,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
     }
 
     private void twrowError(String msg){
-        System.out.println(msg);
+        throw new RuntimeException(msg);
     }
 
     private boolean isNum(String expresion){
