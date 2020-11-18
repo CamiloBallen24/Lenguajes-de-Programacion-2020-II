@@ -1,4 +1,4 @@
-// Generated from D:/Repositorios/Lenguajes-de-Programacion-2020-II/Practica3/grammar\BCC.g4 by ANTLR 4.8
+// Generated from D:/Documents/Julian/Unal/2020-2/Lenguajes de Programación/Lenguajes-de-Programacion-2020-II/Practica3/grammar\BCC.g4 by ANTLR 4.8
 package grammar;
 import org.antlr.v4.runtime.tree.ParseTreeListener;
 
@@ -248,122 +248,220 @@ public interface BCCListener extends ParseTreeListener {
 	 */
 	void exitBreak(BCCParser.BreakContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code asignacion}
+	 * Enter a parse tree produced by the {@code asignacionStmt}
 	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterAsignacionStmt(BCCParser.AsignacionStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code asignacionStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitAsignacionStmt(BCCParser.AsignacionStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code sumaIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterSumaIgualStmt(BCCParser.SumaIgualStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code sumaIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitSumaIgualStmt(BCCParser.SumaIgualStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code restaIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterRestaIgualStmt(BCCParser.RestaIgualStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code restaIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitRestaIgualStmt(BCCParser.RestaIgualStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code productoIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterProductoIgualStmt(BCCParser.ProductoIgualStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code productoIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitProductoIgualStmt(BCCParser.ProductoIgualStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code divisionIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterDivisionIgualStmt(BCCParser.DivisionIgualStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code divisionIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitDivisionIgualStmt(BCCParser.DivisionIgualStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code postIncrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostIncrementoStmt(BCCParser.PostIncrementoStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code postIncrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostIncrementoStmt(BCCParser.PostIncrementoStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code postDecrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterPostDecrementoStmt(BCCParser.PostDecrementoStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code postDecrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitPostDecrementoStmt(BCCParser.PostDecrementoStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code preIncrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterPreIncrementoStmt(BCCParser.PreIncrementoStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code preIncrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitPreIncrementoStmt(BCCParser.PreIncrementoStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code preDecrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void enterPreDecrementoStmt(BCCParser.PreDecrementoStmtContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code preDecrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 */
+	void exitPreDecrementoStmt(BCCParser.PreDecrementoStmtContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BCCParser#for_edit}.
+	 * @param ctx the parse tree
+	 */
+	void enterFor_edit(BCCParser.For_editContext ctx);
+	/**
+	 * Exit a parse tree produced by {@link BCCParser#for_edit}.
+	 * @param ctx the parse tree
+	 */
+	void exitFor_edit(BCCParser.For_editContext ctx);
+	/**
+	 * Enter a parse tree produced by {@link BCCParser#asignacion}.
 	 * @param ctx the parse tree
 	 */
 	void enterAsignacion(BCCParser.AsignacionContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code asignacion}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#asignacion}.
 	 * @param ctx the parse tree
 	 */
 	void exitAsignacion(BCCParser.AsignacionContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code sumaIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#sumaIgual}.
 	 * @param ctx the parse tree
 	 */
 	void enterSumaIgual(BCCParser.SumaIgualContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code sumaIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#sumaIgual}.
 	 * @param ctx the parse tree
 	 */
 	void exitSumaIgual(BCCParser.SumaIgualContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code restaIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#restaIgual}.
 	 * @param ctx the parse tree
 	 */
 	void enterRestaIgual(BCCParser.RestaIgualContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code restaIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#restaIgual}.
 	 * @param ctx the parse tree
 	 */
 	void exitRestaIgual(BCCParser.RestaIgualContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code productoIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#productoIgual}.
 	 * @param ctx the parse tree
 	 */
 	void enterProductoIgual(BCCParser.ProductoIgualContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code productoIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#productoIgual}.
 	 * @param ctx the parse tree
 	 */
 	void exitProductoIgual(BCCParser.ProductoIgualContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code divisionIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#divisionIgual}.
 	 * @param ctx the parse tree
 	 */
 	void enterDivisionIgual(BCCParser.DivisionIgualContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code divisionIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#divisionIgual}.
 	 * @param ctx the parse tree
 	 */
 	void exitDivisionIgual(BCCParser.DivisionIgualContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code moduloIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#moduloIgual}.
 	 * @param ctx the parse tree
 	 */
 	void enterModuloIgual(BCCParser.ModuloIgualContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code moduloIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#moduloIgual}.
 	 * @param ctx the parse tree
 	 */
 	void exitModuloIgual(BCCParser.ModuloIgualContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code postIncremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#postIncremento}.
 	 * @param ctx the parse tree
 	 */
 	void enterPostIncremento(BCCParser.PostIncrementoContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code postIncremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#postIncremento}.
 	 * @param ctx the parse tree
 	 */
 	void exitPostIncremento(BCCParser.PostIncrementoContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code postDecremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#postDecremento}.
 	 * @param ctx the parse tree
 	 */
 	void enterPostDecremento(BCCParser.PostDecrementoContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code postDecremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#postDecremento}.
 	 * @param ctx the parse tree
 	 */
 	void exitPostDecremento(BCCParser.PostDecrementoContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code preIncremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#preIncremento}.
 	 * @param ctx the parse tree
 	 */
 	void enterPreIncremento(BCCParser.PreIncrementoContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code preIncremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#preIncremento}.
 	 * @param ctx the parse tree
 	 */
 	void exitPreIncremento(BCCParser.PreIncrementoContext ctx);
 	/**
-	 * Enter a parse tree produced by the {@code preDecremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Enter a parse tree produced by {@link BCCParser#preDecremento}.
 	 * @param ctx the parse tree
 	 */
 	void enterPreDecremento(BCCParser.PreDecrementoContext ctx);
 	/**
-	 * Exit a parse tree produced by the {@code preDecremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Exit a parse tree produced by {@link BCCParser#preDecremento}.
 	 * @param ctx the parse tree
 	 */
 	void exitPreDecremento(BCCParser.PreDecrementoContext ctx);

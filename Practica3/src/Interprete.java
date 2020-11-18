@@ -384,11 +384,11 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
     }
 
     @Override public T visitFor(BCCParser.ForContext ctx) {
-        String expr_init = visitLexpr(ctx.lexpr(0)).toString();
-        String expr_end = visitLexpr(ctx.lexpr(1)).toString();
-        String expr_step = visitLexpr(ctx.lexpr(2)).toString();
-        if(isNum(expr_init) && isNum(expr_end) && isNum(expr_step)){
-            for (double i = toNum(expr_init); i < toNum(expr_end); i = i + toNum(expr_step)) {
+        visitAsignacion(ctx.asignacion());
+        String expr = visitLexpr(ctx.lexpr()).toString();
+
+        if(isBool(expr)){
+            while (toBool(expr)){
                 for (int j = 0; j < ctx.stmt_block().stmt().size(); j++) {
                     if (ctx.stmt_block().stmt(j).getClass().equals(BCCParser.NextContext.class)){
                         break;
@@ -406,11 +406,13 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
                         else return stmt_return;
                     }
                 }
+                visitFor_edit(ctx.for_edit());
+                expr = visitLexpr(ctx.lexpr()).toString();
             }
 
         }
-        return visitChildren(ctx);
 
+        return null;
 
     }
 
@@ -462,6 +464,24 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 
         }
     }
+
+    @Override public T visitAsignacionStmt(BCCParser.AsignacionStmtContext ctx) { return visitChildren(ctx); }
+
+    @Override public T visitSumaIgualStmt(BCCParser.SumaIgualStmtContext ctx) { return visitChildren(ctx); }
+
+    @Override public T visitRestaIgualStmt(BCCParser.RestaIgualStmtContext ctx) { return visitChildren(ctx); }
+
+    @Override public T visitProductoIgualStmt(BCCParser.ProductoIgualStmtContext ctx) { return visitChildren(ctx); }
+
+    @Override public T visitDivisionIgualStmt(BCCParser.DivisionIgualStmtContext ctx) { return visitChildren(ctx); }
+
+    @Override public T visitPostIncrementoStmt(BCCParser.PostIncrementoStmtContext ctx) { return visitChildren(ctx); }
+
+    @Override public T visitPostDecrementoStmt(BCCParser.PostDecrementoStmtContext ctx) { return visitChildren(ctx); }
+
+    @Override public T visitPreIncrementoStmt(BCCParser.PreIncrementoStmtContext ctx) { return visitChildren(ctx); }
+
+    @Override public T visitPreDecrementoStmt(BCCParser.PreDecrementoStmtContext ctx) { return visitChildren(ctx); }
 
     @Override public T visitAsignacion(BCCParser.AsignacionContext ctx) {
         HashMap<String, Variable> actualScope = scopes.get(scopes.size()-1);

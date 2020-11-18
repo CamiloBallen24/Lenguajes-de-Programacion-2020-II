@@ -12,7 +12,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://G:/My Drive/UNIVERSIDAD NACIONAL/8-SEMESTRE/LENGUAJES DE PROGRAMACION/Practicas/Practica #03/Codigos/antlr-4.8-complete.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../ANTLR/antlr-4.8-complete.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />

@@ -26,20 +26,43 @@ stmt: TK_PRINT lexpr TK_PUNTO_Y_COMA                                            
 	| TK_DO stmt_block TK_WHILE TK_PARENTESIS_IZQUIERDO lexpr TK_PARENTESIS_DERECHO                                                 #doWhile
 	| TK_DO stmt_block TK_UNTIL TK_PARENTESIS_IZQUIERDO lexpr TK_PARENTESIS_DERECHO                                                 #doUntil
 	| TK_REPEAT NUM TK_DOS_PUNTOS stmt_block                                                                                        #repeat
-    | TK_FOR TK_PARENTESIS_IZQUIERDO lexpr TK_PUNTO_Y_COMA lexpr TK_PUNTO_Y_COMA lexpr TK_PARENTESIS_DERECHO TK_DO stmt_block       #for
+| TK_FOR TK_PARENTESIS_IZQUIERDO asignacion TK_PUNTO_Y_COMA lexpr TK_PUNTO_Y_COMA for_edit TK_PARENTESIS_DERECHO TK_DO stmt_block   #for
     | TK_NEXT TK_PUNTO_Y_COMA                                                                                                       #next
     | TK_BREAK TK_PUNTO_Y_COMA                                                                                                      #break
-    | ID TK_ASIGNACION lexpr TK_PUNTO_Y_COMA                                                                                        #asignacion
-    | ID TK_SUMA_IGUAL lexpr TK_PUNTO_Y_COMA                                                                                        #sumaIgual
-    | ID TK_RESTA_IGUAL lexpr TK_PUNTO_Y_COMA                                                                                       #restaIgual
-    | ID TK_PRODUCTO_IGUAL lexpr TK_PUNTO_Y_COMA                                                                                    #productoIgual
-    | ID TK_DIVISION_IGUAL lexpr TK_PUNTO_Y_COMA                                                                                    #divisionIgual
-    | ID TK_MODULO_IGUAL lexpr TK_PUNTO_Y_COMA                                                                                      #moduloIgual
-    | ID TK_INCREMENTO TK_PUNTO_Y_COMA                                                                                              #postIncremento
-    | ID TK_DECREMENTO TK_PUNTO_Y_COMA                                                                                              #postDecremento
-    | TK_INCREMENTO ID TK_PUNTO_Y_COMA                                                                                              #preIncremento
-    | TK_DECREMENTO ID TK_PUNTO_Y_COMA                                                                                              #preDecremento
+    | asignacion TK_PUNTO_Y_COMA                                                                                                    #asignacionStmt
+    | sumaIgual TK_PUNTO_Y_COMA                                                                                                     #sumaIgualStmt
+    | restaIgual TK_PUNTO_Y_COMA                                                                                                    #restaIgualStmt
+    | productoIgual TK_PUNTO_Y_COMA                                                                                                 #productoIgualStmt
+    | divisionIgual TK_PUNTO_Y_COMA                                                                                                 #divisionIgualStmt
+    | moduloIgual TK_PUNTO_Y_COMA                                                                                                   #divisionIgualStmt
+    | postIncremento TK_PUNTO_Y_COMA                                                                                                #postIncrementoStmt
+    | postDecremento TK_PUNTO_Y_COMA                                                                                                #postDecrementoStmt
+    | preIncremento TK_PUNTO_Y_COMA                                                                                                 #preIncrementoStmt
+    | preDecremento TK_PUNTO_Y_COMA                                                                                                 #preDecrementoStmt
     ;
+
+for_edit:       asignacion
+            |   sumaIgual
+            |   restaIgual
+            |   productoIgual
+            |   divisionIgual
+            |   moduloIgual
+            |   postIncremento
+            |   postDecremento
+            |   preIncremento
+            |   preDecremento
+            ;
+
+asignacion:         ID TK_ASIGNACION lexpr ;
+sumaIgual:          ID TK_SUMA_IGUAL lexpr ;
+restaIgual:         ID TK_RESTA_IGUAL lexpr ;
+productoIgual:      ID TK_PRODUCTO_IGUAL lexpr ;
+divisionIgual:      ID TK_DIVISION_IGUAL lexpr ;
+moduloIgual:        ID TK_MODULO_IGUAL lexpr ;
+postIncremento:     ID TK_INCREMENTO ;
+postDecremento:     ID TK_DECREMENTO ;
+preIncremento:      TK_INCREMENTO ID ;
+preDecremento:      TK_DECREMENTO ID ;
 
 lexpr: nexpr ( (TK_AND nexpr)* | (TK_OR nexpr)* )?;
 

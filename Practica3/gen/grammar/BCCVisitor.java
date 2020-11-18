@@ -1,4 +1,4 @@
-// Generated from D:/Repositorios/Lenguajes-de-Programacion-2020-II/Practica3/grammar\BCC.g4 by ANTLR 4.8
+// Generated from D:/Documents/Julian/Unal/2020-2/Lenguajes de Programación/Lenguajes-de-Programacion-2020-II/Practica3/grammar\BCC.g4 by ANTLR 4.8
 package grammar;
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
@@ -152,71 +152,130 @@ public interface BCCVisitor<T> extends ParseTreeVisitor<T> {
 	 */
 	T visitBreak(BCCParser.BreakContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code asignacion}
+	 * Visit a parse tree produced by the {@code asignacionStmt}
 	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAsignacionStmt(BCCParser.AsignacionStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code sumaIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitSumaIgualStmt(BCCParser.SumaIgualStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code restaIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitRestaIgualStmt(BCCParser.RestaIgualStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code productoIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitProductoIgualStmt(BCCParser.ProductoIgualStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code divisionIgualStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitDivisionIgualStmt(BCCParser.DivisionIgualStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code postIncrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPostIncrementoStmt(BCCParser.PostIncrementoStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code postDecrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPostDecrementoStmt(BCCParser.PostDecrementoStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code preIncrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPreIncrementoStmt(BCCParser.PreIncrementoStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code preDecrementoStmt}
+	 * labeled alternative in {@link BCCParser#stmt}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitPreDecrementoStmt(BCCParser.PreDecrementoStmtContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BCCParser#for_edit}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFor_edit(BCCParser.For_editContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link BCCParser#asignacion}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitAsignacion(BCCParser.AsignacionContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code sumaIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#sumaIgual}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitSumaIgual(BCCParser.SumaIgualContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code restaIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#restaIgual}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitRestaIgual(BCCParser.RestaIgualContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code productoIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#productoIgual}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitProductoIgual(BCCParser.ProductoIgualContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code divisionIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#divisionIgual}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitDivisionIgual(BCCParser.DivisionIgualContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code moduloIgual}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#moduloIgual}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitModuloIgual(BCCParser.ModuloIgualContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code postIncremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#postIncremento}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPostIncremento(BCCParser.PostIncrementoContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code postDecremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#postDecremento}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPostDecremento(BCCParser.PostDecrementoContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code preIncremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#preIncremento}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
 	T visitPreIncremento(BCCParser.PreIncrementoContext ctx);
 	/**
-	 * Visit a parse tree produced by the {@code preDecremento}
-	 * labeled alternative in {@link BCCParser#stmt}.
+	 * Visit a parse tree produced by {@link BCCParser#preDecremento}.
 	 * @param ctx the parse tree
 	 * @return the visitor result
 	 */
