@@ -1130,10 +1130,9 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
 //        //Se añade un nuevo scope
         HashMap<String, Variable> actualScope = new HashMap<String,Variable>();
 
-
         //Se pasan variables a la función (Se verifica que el número de variables esperado y el número recibido sea el mismo)
         //Ademas se hace la verficación de que el número de valores pasados sea el mismo número de parametros esperados
-        if(ctx.lexpr() != null && functionCtx.parametros != null && functionCtx.parametros.ID().size() == ctx.lexpr().size()){
+        if(!ctx.lexpr().isEmpty() && functionCtx.parametros != null && functionCtx.parametros.ID().size() == ctx.lexpr().size()){
 
             //Se resuelven los parámetros pasados (Variables a valores, operaciones, etc) y
             //si los tipos de datos coinciden (En orden), se guardan en el nuevo scope
@@ -1156,7 +1155,7 @@ public class Interprete<T> extends BCCBaseVisitor<T> {
             }
 
 
-        }else if(ctx.lexpr() != null && functionCtx.parametros != null) twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> el numero de parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
+        }else if((!ctx.lexpr().isEmpty() && functionCtx.parametros == null) || (ctx.lexpr().isEmpty() && functionCtx.parametros != null) || (functionCtx.parametros.ID().size() != ctx.lexpr().size())) twrowError("En <" + ctx.start.getLine() +"," + ctx.start.getCharPositionInLine() + "> el numero de parametros en el llamado a '" +  ctx.FID().toString() + "' no coinciden con los definidos");
         scopes.add(actualScope);
 
 

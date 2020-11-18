@@ -1,6 +1,10 @@
-var i:num;
-for(i:=0;i<4;i++) do{
-    print i;
+function @prueba:num (y:num,z:num,x:num) var x:num; {
+    x:=3;
+    return x;
 }
+var result:num;
+result := @prueba(3,4,5);
+
+print result;
 
 end
